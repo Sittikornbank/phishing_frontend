@@ -147,8 +147,16 @@ const LoginPage = () => {
         <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
           <LoginIllustrationWrapper>
             <LoginIllustration
+              sx={{
+                width: '50%',
+                margin: 'auto',
+                display: 'block',
+                animation: 'beat .7s infinite alternate',
+                '@keyframes beat': { to: { transform: 'scale(1.4)' } }
+              }}
               alt='login-illustration'
-              src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
+              // src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
+              src={`/images/pages/Logo.png`}
             />
           </LoginIllustrationWrapper>
           <FooterIllustrationsV2 />
@@ -252,14 +260,14 @@ const LoginPage = () => {
               <TypographyStyled variant='h5'>Welcome to {themeConfig.templateName}! 👋🏻</TypographyStyled>
               <Typography variant='body2'>Please sign-in to your account and start the adventure</Typography>
             </Box>
-            <Alert icon={false} sx={{ py: 3, mb: 6, ...bgColors.primaryLight, '& .MuiAlert-message': { p: 0 } }}>
+            {/* <Alert icon={false} sx={{ py: 3, mb: 6, ...bgColors.primaryLight, '& .MuiAlert-message': { p: 0 } }}>
               <Typography variant='caption' sx={{ mb: 2, display: 'block', color: 'primary.main' }}>
                 Admin: <strong>admin@materio.com</strong> / Pass: <strong>admin</strong>
               </Typography>
               <Typography variant='caption' sx={{ display: 'block', color: 'primary.main' }}>
                 Client: <strong>client@materio.com</strong> / Pass: <strong>client</strong>
               </Typography>
-            </Alert>
+            </Alert> */}
             <form noValidate autoComplete='off' onSubmit={handleSubmit(onSubmit)}>
               <FormControl fullWidth sx={{ mb: 4 }}>
                 <Controller
@@ -337,7 +345,7 @@ const LoginPage = () => {
                   <LinkStyled href='/register'>Create an account</LinkStyled>
                 </Typography>
               </Box>
-              <Divider sx={{ my: theme => `${theme.spacing(5)} !important` }}>or</Divider>
+              {/* <Divider sx={{ my: theme => `${theme.spacing(5)} !important` }}>or</Divider>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <IconButton href='/' component={Link} sx={{ color: '#497ce2' }} onClick={e => e.preventDefault()}>
                   <Icon icon='mdi:facebook' />
@@ -356,7 +364,7 @@ const LoginPage = () => {
                 <IconButton href='/' component={Link} sx={{ color: '#db4437' }} onClick={e => e.preventDefault()}>
                   <Icon icon='mdi:google' />
                 </IconButton>
-              </Box>
+              </Box> */}
             </form>
           </BoxWrapper>
         </Box>

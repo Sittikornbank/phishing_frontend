@@ -212,9 +212,8 @@ const Register = () => {
               <Typography variant='body2'>Make your app management easy and fun!</Typography>
             </Box>
             <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <TextField autoFocus fullWidth sx={{ mb: 4 }} label='Username' placeholder='johndoe' />
-              <TextField fullWidth label='Email' sx={{ mb: 4 }} placeholder='user@email.com' />
-              <FormControl fullWidth>
+              <TextField autoFocus fullWidth sx={{ mb: 4 }} label='Username' />
+              <FormControl fullWidth sx={{ mb: 6 }}>
                 <InputLabel htmlFor='auth-login-v2-password'>Password</InputLabel>
                 <OutlinedInput
                   label='Password'
@@ -233,6 +232,29 @@ const Register = () => {
                   }
                 />
               </FormControl>
+              <FormControl fullWidth sx={{ mb: 6 }}>
+                <InputLabel htmlFor='auth-login-v2-password'>Confirm Password</InputLabel>
+                <OutlinedInput
+                  label='Confirm Password'
+                  id='auth-login-v2-password'
+                  type={showPassword ? 'text' : 'password'}
+                  endAdornment={
+                    <InputAdornment position='end'>
+                      <IconButton
+                        edge='end'
+                        onMouseDown={e => e.preventDefault()}
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} />
+                      </IconButton>
+                    </InputAdornment>
+                  }
+                />
+              </FormControl>
+              <TextField autoFocus fullWidth sx={{ mb: 4 }} label='E-Mail' />
+              <TextField autoFocus fullWidth sx={{ mb: 4 }} label='Firstname' />
+              <TextField autoFocus fullWidth sx={{ mb: 4 }} label='Lastname' />
+              <TextField autoFocus fullWidth sx={{ mb: 4 }} label='Telephone' />
               <FormControlLabel
                 control={<Checkbox />}
                 sx={{ mb: 4, mt: 1.5, '& .MuiFormControlLabel-label': { fontSize: '0.875rem' } }}

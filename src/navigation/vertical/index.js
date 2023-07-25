@@ -1,6 +1,56 @@
 const navigation = () => {
   return [
     {
+      title: 'Dashboard',
+      icon: 'mdi:home',
+      action: 'read',
+      subject: 'dashboard-page',
+      path: '/dashboards'
+    },
+    {
+      title: 'Campaigns',
+      icon: 'mdi:email-outline',
+      path: '/apps/email'
+    },
+    {
+      title: 'User & Groups',
+      icon: 'mdi:user-group',
+      path: '/apps/email'
+    },
+    {
+      title: 'Templeate',
+      icon: 'mdi:email-outline',
+      path: '/apps/email'
+    },
+    {
+      title: 'Email Templeate',
+      icon: 'mdi:email-outline',
+      path: '/apps/email'
+    },
+    {
+      title: 'Landing Page',
+      icon: 'mdi:email-outline',
+      path: '/apps/email'
+    },
+    {
+      title: 'Sending Page',
+      icon: 'mdi:email-outline',
+      path: '/apps/email'
+    },
+    {
+      title: 'Account Settings',
+      icon: 'mdi:account-badge-outline',
+      path: '/apps/email'
+    },
+    {
+      title: 'User Management',
+      icon: 'mdi:email-outline',
+      path: '/apps/email'
+    },
+    {
+      sectionTitle: 'Component & Page Test'
+    },
+    {
       title: 'Dashboards',
       icon: 'mdi:home-outline',
       badgeContent: 'new',
@@ -460,7 +510,7 @@ const navigation = () => {
         {
           title: 'More',
           path: '/components/more'
-        },
+        }
       ]
     },
     {
@@ -521,7 +571,7 @@ const navigation = () => {
         {
           title: 'Input Mask',
           path: '/forms/form-elements/input-mask'
-        },
+        }
       ]
     },
     {

@@ -36,17 +36,17 @@ const AuthProvider = ({ children }) => {
         await axios
           .get(authConfig.meEndpoint, {
             headers: {
-              Authorization: storedToken
+              Authorization: `Beareer ${storedToken}`
             }
           })
           .then(async response => {
             setLoading(false)
-            setUser({ ...response.data.userData })
+            setUser({ ...response.data })
           })
           .catch(() => {
             localStorage.removeItem('userData')
             localStorage.removeItem('refreshToken')
-            localStorage.removeItem('accessToken')
+            localStorage.removeItem('token')
             setUser(null)
             setLoading(false)
             if (authConfig.onTokenExpiration === 'logout' && !router.pathname.includes('login')) {
@@ -65,12 +65,11 @@ const AuthProvider = ({ children }) => {
     axios
       .post(authConfig.loginEndpoint, params)
       .then(async response => {
-        params.rememberMe
-          ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.accessToken)
-          : null
+        console.log(response)
+        params.rememberMe ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.token) : null
         const returnUrl = router.query.returnUrl
-        setUser({ ...response.data.userData })
-        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.userData)) : null
+        setUser({ ...response.data })
+        params.rememberMe ? window.localStorage.setItem('userData', JSON.stringify(response.data.username)) : null
         const redirectURL = returnUrl && returnUrl !== '/' ? returnUrl : '/'
         router.replace(redirectURL)
       })

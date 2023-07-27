@@ -89,19 +89,19 @@ const GrapDashboards = () => {
       />
       <CardContent>
         <Grid container sx={{ my: [0, 4, 1.625] }}>
-          <Grid item xs={12} sm={4} sx={{ mb: [3, 0] }}>
+          <Grid item xs={12} sm={2.4} sx={{ mb: [3, 0] }}>
             <ReactApexcharts type='donut' height={220} series={[12, 25, 13, 50]} options={options} />
           </Grid>
-          <Grid item xs={12} sm={4} sx={{ mb: [3, 0] }}>
+          <Grid item xs={12} sm={2.4} sx={{ mb: [3, 0] }}>
             <ReactApexcharts type='donut' height={220} series={[12, 25, 13, 50]} options={options} />
           </Grid>
-          <Grid item xs={12} sm={4} sx={{ mb: [3, 0] }}>
+          <Grid item xs={12} sm={2.4} sx={{ mb: [3, 0] }}>
             <ReactApexcharts type='donut' height={220} series={[12, 25, 13, 50]} options={options} />
           </Grid>
-          <Grid item xs={12} sm={6} sx={{ mb: [3, 0] }}>
+          <Grid item xs={12} sm={2.4} sx={{ mb: [3, 0] }}>
             <ReactApexcharts type='donut' height={220} series={[12, 25, 13, 50]} options={options} />
           </Grid>
-          <Grid item xs={12} sm={6} sx={{ mb: [3, 0] }}>
+          <Grid item xs={12} sm={2.4} sx={{ mb: [3, 0] }}>
             <ReactApexcharts type='donut' height={220} series={[12, 25, 13, 50]} options={options} />
           </Grid>
         </Grid>

@@ -39,7 +39,8 @@ const UserDropdown = props => {
   // ** Hooks
   const router = useRouter()
   const { logout } = useAuth()
-
+  const auth = useAuth()
+  console.log(auth)
   // ** Vars
   const { direction } = settings
 
@@ -103,20 +104,10 @@ const UserDropdown = props => {
       >
         <Box sx={{ pt: 2, pb: 3, px: 4 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Badge
-              overlap='circular'
-              badgeContent={<BadgeContentSpan />}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right'
-              }}
-            >
-              <Avatar alt='John Doe' src='/images/avatars/1.png' sx={{ width: '2.5rem', height: '2.5rem' }} />
-            </Badge>
             <Box sx={{ display: 'flex', ml: 3, alignItems: 'flex-start', flexDirection: 'column' }}>
-              <Typography sx={{ fontWeight: 600 }}>John Doe</Typography>
+              <Typography sx={{ fontWeight: 600 }}>{auth.user.email}</Typography>
               <Typography variant='body2' sx={{ fontSize: '0.8rem', color: 'text.disabled' }}>
-                Admin
+                {auth.user.role.toUpperCase()}
               </Typography>
             </Box>
           </Box>

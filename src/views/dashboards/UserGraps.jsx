@@ -74,7 +74,7 @@ const UserGraps = () => {
     },
     plotOptions: {
       bar: {
-        borderRadius: 10,
+        borderRadius: 20,
         columnWidth: '35%',
         endingShape: 'rounded',
         startingShape: 'rounded'

@@ -28,7 +28,7 @@ const MenuItemWrapper = ({ children, option }) => {
           px: 4,
           py: 1.5,
           width: '100%',
-          display: 'flex',
+          // display: 'flex',
           color: 'inherit',
           alignItems: 'center',
           textDecoration: 'none'

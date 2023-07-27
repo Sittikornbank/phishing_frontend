@@ -27,7 +27,7 @@ const GrapDashboards = () => {
     colors: [
       theme.palette.primary.main,
       hexToRGBA(theme.palette.primary.main, 0.7),
-      hexToRGBA(theme.palette.primary.main, 0.5),
+      hexToRGBA(theme.palette.primary.main, 0.8),
       theme.palette.customColors.trackBg
     ],
     stroke: { width: 0 },
@@ -44,13 +44,13 @@ const GrapDashboards = () => {
     },
     plotOptions: {
       pie: {
-        customScale: 0.9,
+        customScale: 0.8,
         donut: {
           size: '70%',
           labels: {
             show: true,
             name: {
-              offsetY: 25,
+              offsetY: 30,
               fontSize: '0.875rem',
               color: theme.palette.text.secondary
             },

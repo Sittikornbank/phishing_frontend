@@ -33,7 +33,7 @@ const navigation = () => {
       path: '/apps/email'
     },
     {
-      title: 'Sending Page',
+      title: 'Sending Profile',
       icon: 'mdi:email-outline',
       path: '/apps/email'
     },

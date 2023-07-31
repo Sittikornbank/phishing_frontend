@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography'
 
 // MUI
 import Grid from '@mui/material/Grid'
+
 function Dashboard() {
   return (
     <>
@@ -33,7 +34,7 @@ function Dashboard() {
 
 Dashboard.acl = {
   action: 'read',
-  subject: 'dashboard-page'
+  subject: 'guest-page'
 }
 
 export default Dashboard

@@ -148,7 +148,7 @@ const LoginPage = () => {
           {/* <LoginIllustrationWrapper> */}
           <LoginIllustration
             sx={{
-              width: '50%',
+              width: '30%',
               margin: 'auto',
               display: 'block',
               animation: 'beat .7s infinite alternate',

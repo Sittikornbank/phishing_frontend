@@ -26,14 +26,15 @@ const GrapDashboards = () => {
     },
     colors: [
       theme.palette.primary.main,
-      hexToRGBA(theme.palette.primary.main, 0.7),
-      hexToRGBA(theme.palette.primary.main, 0.8),
+
+      // hexToRGBA(theme.palette.primary.main, 0.7),
+      // hexToRGBA(theme.palette.primary.main, 0.8),
       theme.palette.customColors.trackBg
     ],
     stroke: { width: 0 },
     legend: { show: false },
     dataLabels: { enabled: false },
-    labels: ['Apparel', 'Electronics', 'FMCG', 'Other Sales'],
+    labels: ['Apparel', 'Electronics'],
     states: {
       hover: {
         filter: { type: 'none' }
@@ -90,19 +91,19 @@ const GrapDashboards = () => {
       <CardContent>
         <Grid container sx={{ my: [0, 4, 1.625] }}>
           <Grid item xs={12} sm={2.4} sx={{ mb: [3, 0] }}>
-            <ReactApexcharts type='donut' height={220} series={[12, 25, 13, 50]} options={options} />
+            <ReactApexcharts type='donut' height={220} series={[12, 25]} options={options} />
           </Grid>
           <Grid item xs={12} sm={2.4} sx={{ mb: [3, 0] }}>
-            <ReactApexcharts type='donut' height={220} series={[12, 25, 13, 50]} options={options} />
+            <ReactApexcharts type='donut' height={220} series={[12, 25]} options={options} />
           </Grid>
           <Grid item xs={12} sm={2.4} sx={{ mb: [3, 0] }}>
-            <ReactApexcharts type='donut' height={220} series={[12, 25, 13, 50]} options={options} />
+            <ReactApexcharts type='donut' height={220} series={[12, 25]} options={options} />
           </Grid>
           <Grid item xs={12} sm={2.4} sx={{ mb: [3, 0] }}>
-            <ReactApexcharts type='donut' height={220} series={[12, 25, 13, 50]} options={options} />
+            <ReactApexcharts type='donut' height={220} series={[12, 25]} options={options} />
           </Grid>
           <Grid item xs={12} sm={2.4} sx={{ mb: [3, 0] }}>
-            <ReactApexcharts type='donut' height={220} series={[12, 25, 13, 50]} options={options} />
+            <ReactApexcharts type='donut' height={220} series={[12, 25]} options={options} />
           </Grid>
         </Grid>
       </CardContent>

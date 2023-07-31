@@ -4,48 +4,50 @@ const navigation = () => {
       title: 'Dashboard',
       icon: 'mdi:home',
       action: 'read',
-      subject: 'dashboard-page',
+      subject: 'guest-page',
       path: '/dashboards'
     },
     {
       title: 'Campaigns',
       icon: 'mdi:email-outline',
-      path: '/apps/email'
+      action: 'read',
+      subject: 'test-page',
+      path: '/campaigns'
     },
     {
       title: 'User & Groups',
       icon: 'mdi:user-group',
-      path: '/apps/email'
+      path: '/user_group'
     },
     {
-      title: 'Templeate',
+      title: 'Template',
       icon: 'mdi:email-outline',
-      path: '/apps/email'
+      path: '/template'
     },
     {
       title: 'Email Templeate',
       icon: 'mdi:email-outline',
-      path: '/apps/email'
+      path: '/email_templeate'
     },
     {
       title: 'Landing Page',
       icon: 'mdi:email-outline',
-      path: '/apps/email'
+      path: '/landingpage'
     },
     {
       title: 'Sending Profile',
       icon: 'mdi:email-outline',
-      path: '/apps/email'
+      path: '/send_profile'
     },
     {
       title: 'Account Settings',
       icon: 'mdi:account-badge-outline',
-      path: '/apps/email'
+      path: '/accountsetting'
     },
     {
       title: 'User Management',
       icon: 'mdi:email-outline',
-      path: '/apps/email'
+      path: '/user_management'
     },
     {
       sectionTitle: 'Component & Page Test'
@@ -623,7 +625,7 @@ const navigation = () => {
     {
       path: '/acl',
       action: 'read',
-      subject: 'acl-page',
+      subject: 'guest-page',
       icon: 'mdi:shield-outline',
       title: 'Access Control'
     },

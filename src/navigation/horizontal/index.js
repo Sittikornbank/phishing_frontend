@@ -42,7 +42,7 @@ const navigation = () => {
     {
       title: 'Account Settings',
       icon: 'mdi:account-badge-outline',
-      path: '/accountsetting'
+      path: '/accountsetting/account'
     },
     {
       title: 'User Management',

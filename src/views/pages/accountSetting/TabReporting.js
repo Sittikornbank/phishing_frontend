@@ -85,7 +85,7 @@ const TabReporting = () => {
         <Card>
           <form>
             <CardContent>
-              <Grid container spacing={5}>
+              <Grid container spacing={3} alignItems={'center'}>
                 <Grid item xs={12} sm={12}>
                   <Typography>Monitor an IMAP account for emails reported by users.</Typography>
                 </Grid>
@@ -95,10 +95,10 @@ const TabReporting = () => {
                     control={<Checkbox onChange={e => handleFormChange('campaign', e.target.value)} name='campaign' />}
                   />
                 </Grid>
-                <Grid item xs={2} sm={2}>
+                <Grid item xs={12} sm={2}>
                   <Typography>IMAP Host:</Typography>
                 </Grid>
-                <Grid item xs={10} sm={10}>
+                <Grid item xs={12} sm={10}>
                   <TextField
                     fullWidth
                     label='Host'
@@ -107,10 +107,10 @@ const TabReporting = () => {
                     onChange={e => handleFormChange('host', e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={2} sm={2}>
+                <Grid item xs={12} sm={2}>
                   <Typography>IMAP Port:</Typography>
                 </Grid>
-                <Grid item xs={10} sm={10}>
+                <Grid item xs={12} sm={10}>
                   <TextField
                     fullWidth
                     label='Port'
@@ -119,10 +119,10 @@ const TabReporting = () => {
                     onChange={e => handleFormChange('port', e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={2} sm={2}>
+                <Grid item xs={12} sm={2}>
                   <Typography>IMAP Username:</Typography>
                 </Grid>
-                <Grid item xs={10} sm={10}>
+                <Grid item xs={12} sm={10}>
                   <TextField
                     fullWidth
                     label='Username'
@@ -131,10 +131,10 @@ const TabReporting = () => {
                     onChange={e => handleFormChange('Username', e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={2} sm={2}>
+                <Grid item xs={12} sm={2}>
                   <Typography>IMAP Password:</Typography>
                 </Grid>
-                <Grid item xs={10} sm={10}>
+                <Grid item xs={12} sm={10}>
                   <TextField
                     fullWidth
                     type='password'
@@ -144,10 +144,10 @@ const TabReporting = () => {
                     onChange={e => handleFormChange('password', e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={2} sm={2}>
+                <Grid item xs={2} sm={2} justifySelf={'start'}>
                   <Typography>Use TLS:</Typography>
                 </Grid>
-                <Grid item xs={10} sm={10}>
+                <Grid item xs={2} sm={2}>
                   <FormControlLabel
                     control={<Checkbox onChange={e => handleFormChange('TLS', e.target.value)} name='TLS' />}
                   />

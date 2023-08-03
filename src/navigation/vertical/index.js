@@ -9,7 +9,7 @@ const navigation = () => {
     },
     {
       title: 'Campaigns',
-      icon: 'mdi:email-outline',
+      icon: 'mdi:megaphone',
       action: 'read',
       subject: 'test-page',
       path: '/campaigns'
@@ -21,7 +21,7 @@ const navigation = () => {
     },
     {
       title: 'Template',
-      icon: 'mdi:email-outline',
+      icon: 'mdi:newspaper',
       path: '/template'
     },
     {
@@ -31,22 +31,22 @@ const navigation = () => {
     },
     {
       title: 'Landing Page',
-      icon: 'mdi:email-outline',
+      icon: 'mdi:book-open-page-variant',
       path: '/landingpage'
     },
     {
       title: 'Sending Profile',
-      icon: 'mdi:email-outline',
+      icon: 'mdi:cube-send',
       path: '/send_profile'
     },
     {
       title: 'Account Settings',
-      icon: 'mdi:account-badge-outline',
+      icon: 'mdi:account-cog',
       path: '/accountsetting/account/'
     },
     {
       title: 'User Management',
-      icon: 'mdi:email-outline',
+      icon: 'mdi:group-add',
       path: '/user_management'
     },
     {

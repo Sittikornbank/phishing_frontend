@@ -20,8 +20,6 @@ import CircularProgress from '@mui/material/CircularProgress'
 import Icon from 'src/@core/components/icon'
 
 // ** Demo Tabs Imports
-
-import TabConnections from 'src/views/pages/account-settings/TabConnections'
 import TabAccount from './TabAccount'
 import TabUi from './TabUi'
 import TabReporting from './TabReporting'
@@ -73,62 +71,59 @@ const Setting = ({ tab, apiPricingPlanData }) => {
   }
 
   return (
-    <Grid container spacing={6}>
-      <Grid item xs={12}>
-        <TabContext value={activeTab}>
-          <Grid container spacing={6}>
-            <Grid item xs={12}>
-              <TabList
-                variant='scrollable'
-                scrollButtons='auto'
-                onChange={handleChange}
-                aria-label='customized tabs example'
-              >
-                <Tab
-                  value='account'
-                  label={
-                    <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                      <Icon icon='mdi:account-outline' />
-                      {!hideText && 'Account Settings'}
-                    </Box>
-                  }
-                />
-                <Tab
-                  value='ui'
-                  label={
-                    <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                      <Icon icon='bi:ui-radios' />
-                      {!hideText && 'UI Settings'}
-                    </Box>
-                  }
-                />
-                <Tab
-                  value='reporting'
-                  label={
-                    <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
-                      <Icon icon='mdi:report-box-outline' />
-                      {!hideText && 'Reporting Settings'}
-                    </Box>
-                  }
-                />
-              </TabList>
-            </Grid>
-            <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(4)} !important` }}>
-              {isLoading ? (
-                <Box sx={{ mt: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
-                  <CircularProgress sx={{ mb: 4 }} />
-                  <Typography>Loading...</Typography>
+    <TabContext value={activeTab}>
+      <Grid container spacing={5}>
+        <Grid item xs={12}>
+          <TabList
+            variant='scrollable'
+            scrollButtons='auto'
+            onChange={handleChange}
+            aria-label='customized tabs example'
+            sx={{ gap: 6 }}
+          >
+            <Tab
+              value='account'
+              label={
+                <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
+                  <Icon icon='mdi:account-outline' />
+                  {!hideText && 'Account Settings'}
                 </Box>
-              ) : (
-                <TabPanel sx={{ p: 0 }} value={activeTab}>
-                  {tabContentList[activeTab]}
-                </TabPanel>
-              )}
-            </Grid>
-          </Grid>
-        </TabContext>
+              }
+            />
+            <Tab
+              value='ui'
+              label={
+                <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
+                  <Icon icon='bi:ui-radios' />
+                  {!hideText && 'UI Settings'}
+                </Box>
+              }
+            />
+            <Tab
+              value='reporting'
+              label={
+                <Box sx={{ display: 'flex', alignItems: 'center', ...(!hideText && { '& svg': { mr: 2 } }) }}>
+                  <Icon icon='mdi:report-box-outline' />
+                  {!hideText && 'Reporting Settings'}
+                </Box>
+              }
+            />
+          </TabList>
+        </Grid>
+        <Grid item xs={12} sx={{ pt: theme => `${theme.spacing(4)} !important` }}>
+          {isLoading ? (
+            <Box sx={{ mt: 6, display: 'flex', alignItems: 'center', flexDirection: 'column' }}>
+              <CircularProgress sx={{ mb: 4 }} />
+              <Typography>Loading...</Typography>
+            </Box>
+          ) : (
+            <TabPanel sx={{ p: 0 }} value={activeTab}>
+              {tabContentList[activeTab]}
+            </TabPanel>
+          )}
+        </Grid>
       </Grid>
-    </Grid>
+    </TabContext>
   )
 }
 

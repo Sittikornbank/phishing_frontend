@@ -17,18 +17,11 @@ import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
 
 const initialData = {
-  state: '',
-  number: '',
-  address: '',
-  zipCode: '',
-  lastName: 'Doe',
-  currency: 'usd',
-  firstName: 'John',
-  language: 'arabic',
-  timezone: 'gmt-12',
-  country: 'australia',
-  email: 'john.doe@example.com',
-  organization: 'ThemeSelection'
+  APIKey: '',
+  username: '',
+  oldPassword: '',
+  NewPassword: '',
+  ConfirmNewPassword: ''
 }
 
 const ImgStyled = styled('img')(({ theme }) => ({

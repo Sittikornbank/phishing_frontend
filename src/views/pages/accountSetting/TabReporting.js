@@ -15,21 +15,20 @@ import { useForm, Controller } from 'react-hook-form'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
-import { Checkbox, FormControlLabel, Typography } from '@mui/material'
+import { Checkbox, FormControlLabel, Tooltip, Typography } from '@mui/material'
 
 const initialData = {
-  state: '',
-  number: '',
-  address: '',
-  zipCode: '',
-  lastName: 'Doe',
-  currency: 'usd',
-  firstName: 'John',
-  language: 'arabic',
-  timezone: 'gmt-12',
-  country: 'australia',
-  email: 'john.doe@example.com',
-  organization: 'ThemeSelection'
+  campaign: '',
+  host: '',
+  port: '',
+  username: '',
+  password: '',
+  TLS: '',
+  folder: '',
+  polling: '',
+  domain: '',
+  certificate: '',
+  campaigns: ''
 }
 
 const ImgStyled = styled('img')(({ theme }) => ({
@@ -64,6 +63,7 @@ const TabReporting = () => {
   const [formData, setFormData] = useState(initialData)
   const [imgSrc, setImgSrc] = useState('/images/avatars/1.png')
   const [secondDialogOpen, setSecondDialogOpen] = useState(false)
+  const [openAdvance, setOpenAdvance] = useState(false)
 
   // ** Hooks
   const {
@@ -76,6 +76,15 @@ const TabReporting = () => {
 
   const handleFormChange = (field, value) => {
     setFormData({ ...formData, [field]: value })
+  }
+
+  const handleOpenAdvance = () => {
+    console.log('openAdvance', openAdvance)
+    if (openAdvance) {
+      setOpenAdvance(false)
+    } else {
+      setOpenAdvance(true)
+    }
   }
 
   return (
@@ -128,7 +137,7 @@ const TabReporting = () => {
                     label='Username'
                     placeholder='username'
                     value={formData.username}
-                    onChange={e => handleFormChange('Username', e.target.value)}
+                    onChange={e => handleFormChange('username', e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={2} sm={2}>
@@ -151,6 +160,89 @@ const TabReporting = () => {
                   <FormControlLabel
                     control={<Checkbox onChange={e => handleFormChange('TLS', e.target.value)} name='TLS' />}
                   />
+                </Grid>
+                {openAdvance && (
+                  <>
+                    <Grid item xs={2} sm={2}>
+                      <Typography>Folder:</Typography>
+                    </Grid>
+                    <Grid item xs={10} sm={10}>
+                      <TextField
+                        fullWidth
+                        label='Folder'
+                        placeholder='Leave blank for default of INBOX.'
+                        value={formData.folder}
+                        onChange={e => handleFormChange('folder', e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={2} sm={2}>
+                      <Tooltip title='How often to check for new emails. 30 seconds minimum.' placement='top-end' arrow>
+                        <Typography>Polling frequency:</Typography>
+                      </Tooltip>
+                    </Grid>
+                    <Grid item xs={10} sm={10}>
+                      <TextField
+                        fullWidth
+                        type='number'
+                        label='Polling frequency'
+                        placeholder='Leave blank for default of every 60 seconds.'
+                        value={formData.polling}
+                        onChange={e => handleFormChange('polling', e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={2} sm={2}>
+                      <Tooltip title='Only check emails reported from the supplied domain.' placement='top-end' arrow>
+                        <Typography>Restrict to domain:</Typography>
+                      </Tooltip>
+                    </Grid>
+                    <Grid item xs={10} sm={10}>
+                      <TextField
+                        fullWidth
+                        label='Restrict to domain'
+                        placeholder='e.g. widgets.com. Leave blank for all domains. '
+                        value={formData.domain}
+                        onChange={e => handleFormChange('domain', e.target.value)}
+                      />
+                    </Grid>
+                    <Grid item xs={2} sm={2}>
+                      <Tooltip
+                        title='Ignore common certificate errors such as self-signed certs (exposes you to MiTM attacks - use carefully!)'
+                        placement='top-end'
+                        arrow
+                      >
+                        <Typography>Ignore Certificate Errors:</Typography>
+                      </Tooltip>
+                    </Grid>
+                    <Grid item xs={10} sm={10}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox
+                            onChange={e => handleFormChange('certificate', e.target.value)}
+                            name='certificate'
+                          />
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={2} sm={2}>
+                      <Tooltip title={`Delete campaign emails after the've been reported.`} placement='top-end' arrow>
+                        <Typography>Delete campaigns emails:</Typography>
+                      </Tooltip>
+                    </Grid>
+                    <Grid item xs={10} sm={10}>
+                      <FormControlLabel
+                        control={
+                          <Checkbox onChange={e => handleFormChange('campaigns', e.target.value)} name='campaigns' />
+                        }
+                      />
+                    </Grid>
+                  </>
+                )}
+                <Grid item xs={12} sm={12}>
+                  <Box textAlign='right'>
+                    <Typography color='primary' sx={{ cursor: 'pointer' }} onClick={() => handleOpenAdvance()}>
+                      Advanced Settings
+                    </Typography>
+                  </Box>
                 </Grid>
 
                 <Grid item xs={12}>

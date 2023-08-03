@@ -31,18 +31,7 @@ import { useForm, Controller } from 'react-hook-form'
 import Icon from 'src/@core/components/icon'
 
 const initialData = {
-  state: '',
-  number: '',
-  address: '',
-  zipCode: '',
-  lastName: 'Doe',
-  currency: 'usd',
-  firstName: 'John',
-  language: 'arabic',
-  timezone: 'gmt-12',
-  country: 'australia',
-  email: 'john.doe@example.com',
-  organization: 'ThemeSelection'
+  campaign: false
 }
 
 const ImgStyled = styled('img')(({ theme }) => ({
@@ -100,7 +89,16 @@ const TabUi = () => {
             <CardContent>
               <Grid container spacing={5}>
                 <Grid item xs={10} sm={10}>
-                  <FormControlLabel label='Show campaign results map' control={<Checkbox name='campaign' />} />
+                  <FormControlLabel
+                    label='Show campaign results map'
+                    control={
+                      <Checkbox
+                        checked={formData.campaign}
+                        onChange={e => handleFormChange('campaign', e.target.checked)}
+                        name='campaign'
+                      />
+                    }
+                  />
                 </Grid>
               </Grid>
             </CardContent>

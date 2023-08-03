@@ -101,7 +101,13 @@ const TabReporting = () => {
                 <Grid item xs={12} sm={12}>
                   <FormControlLabel
                     label='Enable Email Account Monitoring'
-                    control={<Checkbox onChange={e => handleFormChange('campaign', e.target.value)} name='campaign' />}
+                    control={
+                      <Checkbox
+                        checked={formData.campaign}
+                        onChange={e => handleFormChange('campaign', e.target.checked)}
+                        name='campaign'
+                      />
+                    }
                   />
                 </Grid>
                 <Grid item xs={12} sm={2}>
@@ -153,20 +159,26 @@ const TabReporting = () => {
                     onChange={e => handleFormChange('password', e.target.value)}
                   />
                 </Grid>
-                <Grid item xs={2} sm={2} justifySelf={'start'}>
+                <Grid item xs={12} sm={2} justifySelf={'start'}>
                   <Typography>Use TLS:</Typography>
                 </Grid>
-                <Grid item xs={2} sm={2}>
+                <Grid item xs={12} sm={10}>
                   <FormControlLabel
-                    control={<Checkbox onChange={e => handleFormChange('TLS', e.target.value)} name='TLS' />}
+                    control={
+                      <Checkbox
+                        checked={formData.TLS}
+                        onChange={e => handleFormChange('TLS', e.target.checked)}
+                        name='TLS'
+                      />
+                    }
                   />
                 </Grid>
                 {openAdvance && (
                   <>
-                    <Grid item xs={2} sm={2}>
+                    <Grid item xs={12} sm={2}>
                       <Typography>Folder:</Typography>
                     </Grid>
-                    <Grid item xs={10} sm={10}>
+                    <Grid item xs={12} sm={10}>
                       <TextField
                         fullWidth
                         label='Folder'
@@ -175,12 +187,12 @@ const TabReporting = () => {
                         onChange={e => handleFormChange('folder', e.target.value)}
                       />
                     </Grid>
-                    <Grid item xs={2} sm={2}>
+                    <Grid item xs={12} sm={2}>
                       <Tooltip title='How often to check for new emails. 30 seconds minimum.' placement='top-end' arrow>
                         <Typography>Polling frequency:</Typography>
                       </Tooltip>
                     </Grid>
-                    <Grid item xs={10} sm={10}>
+                    <Grid item xs={12} sm={10}>
                       <TextField
                         fullWidth
                         type='number'
@@ -190,12 +202,12 @@ const TabReporting = () => {
                         onChange={e => handleFormChange('polling', e.target.value)}
                       />
                     </Grid>
-                    <Grid item xs={2} sm={2}>
+                    <Grid item xs={12} sm={2}>
                       <Tooltip title='Only check emails reported from the supplied domain.' placement='top-end' arrow>
                         <Typography>Restrict to domain:</Typography>
                       </Tooltip>
                     </Grid>
-                    <Grid item xs={10} sm={10}>
+                    <Grid item xs={12} sm={10}>
                       <TextField
                         fullWidth
                         label='Restrict to domain'
@@ -204,7 +216,7 @@ const TabReporting = () => {
                         onChange={e => handleFormChange('domain', e.target.value)}
                       />
                     </Grid>
-                    <Grid item xs={2} sm={2}>
+                    <Grid item xs={12} sm={2}>
                       <Tooltip
                         title='Ignore common certificate errors such as self-signed certs (exposes you to MiTM attacks - use carefully!)'
                         placement='top-end'
@@ -213,25 +225,30 @@ const TabReporting = () => {
                         <Typography>Ignore Certificate Errors:</Typography>
                       </Tooltip>
                     </Grid>
-                    <Grid item xs={10} sm={10}>
+                    <Grid item xs={12} sm={10}>
                       <FormControlLabel
                         control={
                           <Checkbox
-                            onChange={e => handleFormChange('certificate', e.target.value)}
+                            checked={formData.certificate}
+                            onChange={e => handleFormChange('certificate', e.target.checked)}
                             name='certificate'
                           />
                         }
                       />
                     </Grid>
-                    <Grid item xs={2} sm={2}>
+                    <Grid item xs={12} sm={2}>
                       <Tooltip title={`Delete campaign emails after the've been reported.`} placement='top-end' arrow>
                         <Typography>Delete campaigns emails:</Typography>
                       </Tooltip>
                     </Grid>
-                    <Grid item xs={10} sm={10}>
+                    <Grid item xs={12} sm={10}>
                       <FormControlLabel
                         control={
-                          <Checkbox onChange={e => handleFormChange('campaigns', e.target.value)} name='campaigns' />
+                          <Checkbox
+                            checked={formData.campaigns}
+                            onChange={e => handleFormChange('campaigns', e.target.checked)}
+                            name='campaigns'
+                          />
                         }
                       />
                     </Grid>

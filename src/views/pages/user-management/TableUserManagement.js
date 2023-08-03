@@ -27,33 +27,26 @@ import { Stack } from '@mui/system'
 import DialogAdd from './dialogAdd'
 import DialogEdit from './dialogEdit'
 
-const createData = (name, interface_type, last_modified_date) => {
-  return { name, interface_type, last_modified_date }
+const createData = (user_name, role, last_login) => {
+  return { user_name, role, last_login }
 }
 const now = new Date()
 const currentMonth = now.toLocaleString('default', { month: 'short' })
 
 const rows = [
-  createData('Cupcake', 'SMTP', `13 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Donut', 'SMTP', `20 ${currentMonth} ${now.getFullYear()}`),
-  createData('Eclair', 'SMTP', `1 ${currentMonth} ${now.getFullYear()}`)
+  createData('Cupcake', 'Admin', `13 ${currentMonth} ${now.getFullYear()}`),
+  createData('Donut', 'Guest', `20 ${currentMonth} ${now.getFullYear()}`),
+  createData('Doasdanut', 'Guest', `20 ${currentMonth} ${now.getFullYear()}`),
+  createData('Doasdaaasdnut', 'Guest', `20 ${currentMonth} ${now.getFullYear()}`),
+  createData('Doasdaasdaasdasdnut', 'Guest', `20 ${currentMonth} ${now.getFullYear()}`),
+  createData('Doasdasdasdasdasdasdasdanut', 'Guest', `20 ${currentMonth} ${now.getFullYear()}`),
+  createData('Doasdasdasdasdasdaasdasdsdasdanut', 'Guest', `20 ${currentMonth} ${now.getFullYear()}`),
+  createData('Doasdasdasdasdasdassdgsdasdanut', 'Guest', `20 ${currentMonth} ${now.getFullYear()}`),
+  createData('Doasdasdasdasdasdafghsdasdanut', 'Guest', `20 ${currentMonth} ${now.getFullYear()}`),
+  createData('Doasdasdasdasdasdasdsdfgsghsasdanut', 'Guest', `20 ${currentMonth} ${now.getFullYear()}`),
+  createData('Doasdasdasdasdasdsdfsasdasdanut', 'Guest', `20 ${currentMonth} ${now.getFullYear()}`),
+
+  createData('Eclair', 'Guest', `1 ${currentMonth} ${now.getFullYear()}`)
 ]
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -87,22 +80,22 @@ function stableSort(array, comparator) {
 
 const headCells = [
   {
-    id: 'name',
+    id: 'user_naem',
     numeric: false,
     disablePadding: true,
-    label: 'Name'
+    label: 'User Name'
   },
   {
-    id: 'interface_type',
+    id: 'role',
     numeric: true,
     disablePadding: false,
-    label: 'interface Type'
+    label: 'Role'
   },
   {
-    id: 'last_modified_date',
+    id: 'last_login',
     numeric: true,
     disablePadding: false,
-    label: 'Last Modified Date'
+    label: 'Last Login'
   }
 ]
 function EnhancedTableHead(props) {
@@ -172,7 +165,7 @@ const EnhancedTable = props => {
   const [page, setPage] = useState(0)
   const [order, setOrder] = useState('asc')
   const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [orderBy, setOrderBy] = useState('last_modified_date')
+  const [orderBy, setOrderBy] = useState('last_login')
   const [selected, setSelected] = useState([])
   const [search, setSearch] = useState('')
 
@@ -253,42 +246,32 @@ const EnhancedTable = props => {
                   <TableRow
                     hover
                     tabIndex={-1}
-                    key={row.name}
+                    key={row.user_name}
                     role='checkbox'
                     selected={isItemSelected}
                     aria-checked={isItemSelected}
                   >
                     <TableCell component='th' id={labelId} scope='row' padding='none'>
-                      {row.name}
+                      {row.user_name}
                     </TableCell>
-                    <TableCell align='right'>{row.interface_type}</TableCell>
-                    <TableCell align='right'>{row.last_modified_date}</TableCell>
+                    <TableCell align='right'>{row.role}</TableCell>
+                    <TableCell align='right'>{row.last_login}</TableCell>
                     <TableCell align='right' size='small'>
-                      <Tooltip title='Edit Profile' placement='left-end' arrow>
-                        <Button
-                          size='small'
-                          variant='contained'
-                          sx={{ marginLeft: '4px' }}
-                          onClick={() => handleSetShowEdit(row)}
-                        >
-                          <Icon icon='material-symbols:edit' />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title='Coppy Profile' placement='left-end' arrow>
-                        <Button
-                          size='small'
-                          variant='contained'
-                          sx={{ marginLeft: '4px' }}
-                          onClick={() => handleSetShowCoppy(row)}
-                        >
-                          <Icon icon='uil:copy' />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip title='Delete Profile' placement='left-end' arrow>
-                        <Button color='error' size='small' variant='contained' sx={{ marginLeft: '4px' }}>
-                          <Icon icon='ic:baseline-delete' />
-                        </Button>
-                      </Tooltip>
+                      <Button size='small' variant='contained' sx={{ marginLeft: '4px' }}>
+                        <Icon icon='system-uicons:swap' />
+                      </Button>
+                      <Button
+                        size='small'
+                        variant='contained'
+                        sx={{ marginLeft: '4px' }}
+                        onClick={() => handleSetShowEdit(row)}
+                      >
+                        <Icon icon='material-symbols:edit' />
+                      </Button>
+
+                      <Button color='error' size='small' variant='contained' sx={{ marginLeft: '4px' }}>
+                        <Icon icon='ic:baseline-delete' />
+                      </Button>
                     </TableCell>
                   </TableRow>
                 )

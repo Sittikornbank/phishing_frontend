@@ -136,13 +136,14 @@ const initialData = {
   certificate: ''
 }
 
-const DialogAdd = props => {
+const DialogEdit = props => {
   // ** States
   const { show, setShow, data } = props
 
   if (!show) {
     return null
   }
+
   const [formData, setFormData] = useState(data || initialData)
   const [headers, setHeaders] = useState([])
   const [header, setHeader] = useState('')
@@ -155,6 +156,8 @@ const DialogAdd = props => {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
 
+  console.log('data', data)
+  console.log('formData', formData)
   const handleFormChange = (field, value) => {
     setFormData({ ...formData, [field]: value })
   }
@@ -199,9 +202,9 @@ const DialogAdd = props => {
         open={show}
         maxWidth='md'
         scroll='body'
-        onClose={() => setShow(false)}
+        // onClose={() => setShow(false)}
         TransitionComponent={Transition}
-        onBackdropClick={() => setShow(false)}
+        // onBackdropClick={() => setShow(false)}
       >
         <DialogContent
           sx={{
@@ -220,7 +223,7 @@ const DialogAdd = props => {
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
             <Typography variant='h5' sx={{ mb: 3 }}>
-              New Sending Profile
+              Edit Sending Profile
             </Typography>
           </Box>
           <form>
@@ -449,4 +452,4 @@ const DialogAdd = props => {
   )
 }
 
-export default DialogAdd
+export default DialogEdit

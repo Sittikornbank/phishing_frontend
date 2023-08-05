@@ -165,7 +165,7 @@ const HorizontalNavGroup = props => {
       {/* @ts-ignore */}
       <MainWrapper {...(WrapperCondition ? { onClickAway: handleGroupClose } : { onMouseLeave: handleGroupClose })}>
         <ChildWrapper>
-          <List component='div' sx={{ py: skin === 'bordered' ? 2.625 : 2.75 }}>
+          {/* <List component='div' sx={{ py: skin === 'bordered' ? 2.625 : 2.75 }}>
             <ListItem
               aria-haspopup='true'
               {...(WrapperCondition ? {} : { onMouseEnter: handleGroupOpen })}
@@ -257,7 +257,7 @@ const HorizontalNavGroup = props => {
                 </NavigationMenu>
               </Box>
             </AnimationWrapper>
-          </List>
+          </List> */}
         </ChildWrapper>
       </MainWrapper>
     </CanViewNavGroup>

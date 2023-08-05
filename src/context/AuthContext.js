@@ -65,7 +65,6 @@ const AuthProvider = ({ children }) => {
     axios
       .post(authConfig.loginEndpoint, params)
       .then(async response => {
-        console.log(response)
         params.rememberMe ? window.localStorage.setItem(authConfig.storageTokenKeyName, response.data.token) : null
         const returnUrl = router.query.returnUrl
         setUser({ ...response.data })
@@ -76,6 +75,10 @@ const AuthProvider = ({ children }) => {
       .catch(err => {
         if (errorCallback) errorCallback(err)
       })
+  }
+
+  const handleRegister = (params, errorCallback) => {
+    axios.post(authConfig.registerEndpoint, params).then(async response => {})
   }
 
   const handleLogout = () => {
@@ -91,6 +94,7 @@ const AuthProvider = ({ children }) => {
     setUser,
     setLoading,
     login: handleLogin,
+    register: handleRegister,
     logout: handleLogout
   }
 

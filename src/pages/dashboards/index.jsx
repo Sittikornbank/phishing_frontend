@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import GrapDashboards from 'src/views/dashboards/GrapDashborads'
 import LineChartDashboard from 'src/views/charts/LineChartDashboard'
 import TableStickyHeader from 'src/views/table/mui/TableStickyHeader'
@@ -9,7 +9,31 @@ import Typography from '@mui/material/Typography'
 // MUI
 import Grid from '@mui/material/Grid'
 
+import { useGetOverViewQuery } from 'src/store/apps/dashboards'
+import { useGetCampaignsQuery } from 'src/store/apps/dashboards'
+
+import DashboardTable from 'src/views/table/DashboardTable'
+
 function Dashboard() {
+  const overview = useGetOverViewQuery()
+  const campains = useGetCampaignsQuery()
+  const [chartData, setTabledata] = useState({})
+
+  useEffect(() => {
+    if (!overview.isLoading && overview.error) {
+      if (overview.error) {
+        // router.reload(window.location.pathname)
+      }
+    }
+
+    // if (!overview.isLoading) {
+    //   setTabledata(campains.data)
+    // }
+  }, [overview])
+
+  const campainsData = !campains.isLoading ? campains.data.campaigns : []
+  console.log(campainsData)
+
   return (
     <>
       <Grid container sx={{ my: [0, 4, 1.625] }} spacing={5}>
@@ -27,7 +51,7 @@ function Dashboard() {
       <Typography variant='h3' sx={{ my: 8 }}>
         Recent Campaigns
       </Typography>
-      <TableStickyHeader />
+      <DashboardTable rows={campainsData} isLoading={campains.isLoading} />
     </>
   )
 }

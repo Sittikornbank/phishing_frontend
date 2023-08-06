@@ -9,30 +9,14 @@ import Typography from '@mui/material/Typography'
 // MUI
 import Grid from '@mui/material/Grid'
 
-import { useGetOverViewQuery } from 'src/store/apps/dashboards'
-import { useGetCampaignsQuery } from 'src/store/apps/dashboards'
+import { useGetCampaigns_summaryQuery } from 'src/store/apps/dashboards'
 
 import DashboardTable from 'src/views/table/DashboardTable'
 
 function Dashboard() {
-  const overview = useGetOverViewQuery()
-  const campains = useGetCampaignsQuery()
-  const [chartData, setTabledata] = useState({})
-
-  useEffect(() => {
-    if (!overview.isLoading && overview.error) {
-      if (overview.error) {
-        // router.reload(window.location.pathname)
-      }
-    }
-
-    // if (!overview.isLoading) {
-    //   setTabledata(campains.data)
-    // }
-  }, [overview])
-
-  const campainsData = !campains.isLoading ? campains.data.campaigns : []
-  console.log(campainsData)
+  const campains = useGetCampaigns_summaryQuery()
+  let campainsData = !campains.isLoading ? campains.data?.campains : []
+  console.log(campains)
 
   return (
     <>

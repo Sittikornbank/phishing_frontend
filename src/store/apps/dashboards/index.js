@@ -2,10 +2,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 // Define a service using a base URL and expected endpoints
-export const GetAPI = createApi({
-  reducerPath: 'GetAPI',
+export const GetAPI_summary_port = createApi({
+  reducerPath: 'GetAPI_summary_port',
   baseQuery: fetchBaseQuery({
-    baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}${process.env.NEXT_PUBLIC_USER_PORT}/`,
+    baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_USER_PORT}/`,
     prepareHeaders: (headers, { getState }) => {
       const token = window.localStorage.getItem('token')
       if (token) headers.set('Authorization', `Bearer ${token}`)
@@ -14,10 +14,7 @@ export const GetAPI = createApi({
     }
   }),
   endpoints: builder => ({
-    getOverView: builder.query({
-      query: () => 'campaigns'
-    }),
-    getCampaigns: builder.query({
+    getCampaigns_summary: builder.query({
       query: () => 'campaigns/summary'
     })
   })
@@ -25,4 +22,4 @@ export const GetAPI = createApi({
 
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
-export const { useGetOverViewQuery, useGetCampaignsQuery } = GetAPI
+export const { useGetCampaigns_summaryQuery } = GetAPI_summary_port

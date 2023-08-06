@@ -9,7 +9,7 @@ import email from 'src/store/apps/email'
 import invoice from 'src/store/apps/invoice'
 import calendar from 'src/store/apps/calendar'
 import permissions from 'src/store/apps/permissions'
-import { GetAPI } from 'src/store/apps/dashboards'
+import { GetAPI_summary_port } from 'src/store/apps/dashboards'
 
 export const store = configureStore({
   reducer: {
@@ -19,13 +19,13 @@ export const store = configureStore({
     invoice,
     calendar,
     permissions,
-    GetAPI,
-    [GetAPI.reducerPath]: GetAPI.reducer
+    GetAPI_summary_port,
+    [GetAPI_summary_port.reducerPath]: GetAPI_summary_port.reducer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
       serializableCheck: false
-    }).concat(GetAPI.middleware)
+    }).concat(GetAPI_summary_port.middleware)
 })
 
 setupListeners(store.dispatch)

@@ -25,10 +25,10 @@ const DefaultPalette = (mode, skin, themeColor) => {
     if (skin === 'bordered' && mode === 'light') {
       return whiteColor
     } else if (skin === 'bordered' && mode === 'dark') {
-      return '#312D4B'
+      return '#152238'
     } else if (mode === 'light') {
       return '#F4F5FA'
-    } else return '#28243D'
+    } else return '#000'
   }
 
   return {
@@ -37,10 +37,10 @@ const DefaultPalette = (mode, skin, themeColor) => {
       main: mainColor,
       light: lightColor,
       primaryGradient: primaryGradient(),
-      bodyBg: mode === 'light' ? '#F4F5FA' : '#28243D',
+      bodyBg: mode === 'light' ? '#F4F5FA' : '#000',
       trackBg: mode === 'light' ? '#F0F2F8' : '#474360',
       avatarBg: mode === 'light' ? '#F0EFF0' : '#3F3B59',
-      darkBg: skin === 'bordered' ? '#312D4B' : '#28243D',
+      darkBg: skin === 'bordered' ? '#152238' : '#000',
       lightBg: skin === 'bordered' ? whiteColor : '#F4F5FA',
       tableHeaderBg: mode === 'light' ? '#F9FAFC' : '#3D3759'
     },
@@ -68,9 +68,9 @@ const DefaultPalette = (mode, skin, themeColor) => {
       contrastText: whiteColor
     },
     warning: {
-      light: '#FFCA64',
-      main: '#FFB400',
-      dark: '#E09E00',
+      light: '#FF5C00',
+      main: '#FF5C00',
+      dark: '#FF5C00',
       contrastText: whiteColor
     },
     info: {
@@ -108,7 +108,7 @@ const DefaultPalette = (mode, skin, themeColor) => {
     },
     divider: `rgba(${mainColor}, 0.12)`,
     background: {
-      paper: mode === 'light' ? whiteColor : '#312D4B',
+      paper: mode === 'light' ? whiteColor : '#152238',
       default: defaultBgColor()
     },
     action: {

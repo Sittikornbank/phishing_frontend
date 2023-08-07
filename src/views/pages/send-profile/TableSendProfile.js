@@ -168,6 +168,7 @@ const EnhancedTableToolbar = props => {
 
 const EnhancedTable = props => {
   const { show, setShow, showEdit, setShowEdit, data, setData } = props
+
   // ** States
   const [page, setPage] = useState(0)
   const [order, setOrder] = useState('asc')
@@ -191,10 +192,12 @@ const EnhancedTable = props => {
     }
     setSelected([])
   }
+
   const handleSetShowEdit = event => {
     setData(event)
     setShowEdit(true)
   }
+
   const handleSetShowCoppy = event => {
     setData(event)
     setShow(true)

@@ -35,7 +35,7 @@ function Dashboard() {
       <Typography variant='h3' sx={{ my: 8 }}>
         Recent Campaigns
       </Typography>
-      <DashboardTable rows={campainsData} isLoading={campains.isLoading} />
+      {/* <DashboardTable rows={campainsData} isLoading={campains.isLoading} /> */}
     </>
   )
 }

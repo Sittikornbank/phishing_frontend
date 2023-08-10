@@ -89,8 +89,8 @@ const LineChartDashboard = () => {
   return (
     <Card>
       <CardHeader
-        // title='Balance'
-        // subheader='Commercial networks & enterprises'
+        title='Balance'
+        subheader='Commercial networks & enterprises'
         sx={{
           flexDirection: ['column', 'row'],
           alignItems: ['flex-start', 'center'],

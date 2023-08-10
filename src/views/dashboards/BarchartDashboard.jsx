@@ -66,33 +66,6 @@ const BarChartDashboard = () => {
     }
   }
 
-  const CustomInput = forwardRef((props, ref) => {
-    const startDate = props.start !== null ? format(props.start, 'MM/dd/yyyy') : ''
-    const endDate = props.end !== null ? ` - ${format(props.end, 'MM/dd/yyyy')}` : null
-    const value = `${startDate}${endDate !== null ? endDate : ''}`
-
-    return (
-      <TextField
-        {...props}
-        size='small'
-        value={value}
-        inputRef={ref}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position='start'>
-              <Icon icon='mdi:bell-outline' />
-            </InputAdornment>
-          ),
-          endAdornment: (
-            <InputAdornment position='end'>
-              <Icon icon='mdi:chevron-down' />
-            </InputAdornment>
-          )
-        }}
-      />
-    )
-  })
-
   const handleOnChange = dates => {
     const [start, end] = dates
     setStartDate(start)
@@ -102,31 +75,19 @@ const BarChartDashboard = () => {
   return (
     <Card>
       <CardHeader
-        title='Data Science'
-        subheader='$74,382.72'
+        title='Balance'
+        subheader='Commercial networks & enterprises'
         sx={{
           flexDirection: ['column', 'row'],
           alignItems: ['flex-start', 'center'],
           '& .MuiCardHeader-action': { mb: 0 },
           '& .MuiCardHeader-content': { mb: [2, 0] }
         }}
-        action={
-          <DatePicker
-            selectsRange
-            endDate={endDate}
-            id='apexchart-bar'
-            selected={startDate}
-            startDate={startDate}
-            onChange={handleOnChange}
-            placeholderText='Click to select a date'
-            customInput={<CustomInput start={startDate} end={endDate} />}
-          />
-        }
       />
       <CardContent>
         <ReactApexcharts
           type='bar'
-          height={430}
+          height={485}
           options={options}
           series={[{ data: [700, 350, 480, 600, 210, 550, 150] }]}
         />

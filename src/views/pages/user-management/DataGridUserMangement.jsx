@@ -1,9 +1,7 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** MUI Imports
-import Typography from '@mui/material/Typography'
-import Button from '@mui/material/Button'
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** Custom Components
@@ -16,6 +14,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import CachedIcon from '@mui/icons-material/Cached'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import { useGetUsersAPIQuery } from 'src/store/api'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
@@ -23,78 +22,131 @@ import { getInitials } from 'src/@core/utils/get-initials'
 // ** Data Import
 import { rows } from 'src/@fake-db/table/static-data'
 import { IconButton } from '@mui/material'
+import DialogEdit from './dialogEdit'
 
 const statusObj = {
-  1: { title: 'current', color: 'primary' },
-  2: { title: 'professional', color: 'success' },
-  3: { title: 'rejected', color: 'error' },
-  4: { title: 'resigned', color: 'warning' },
-  5: { title: 'applied', color: 'info' }
+  0: { title: 'Active', color: 'success' },
+  1: { title: 'Locked', color: 'error' }
 }
 
 const escapeRegExp = value => {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
 
-const columns = [
-  {
-    flex: 0.275,
-    minWidth: 290,
-    field: 'username',
-    headerName: 'Username'
-  },
+function ConvertDate(date) {
+  var created_date = new Date(date)
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  var year = created_date.getFullYear()
+  var month = months[created_date.getMonth()]
+  var date = created_date.getDate()
+  var hour = ('0' + created_date.getHours()).slice(-2)
+  var min = ('0' + created_date.getMinutes()).slice(-2)
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min // final date with time, you can use this according your requirement
 
-  {
-    flex: 0.275,
-    minWidth: 290,
-    field: 'role',
-    headerName: 'Role'
-  },
-
-  {
-    flex: 0.275,
-    minWidth: 290,
-    field: 'last_login',
-    headerName: 'Last Login'
-  },
-
-  {
-    flex: 0.275,
-    minWidth: 290,
-    headerName: 'Action',
-    renderCell: ({ row }) => {
-      return (
-        <>
-          <IconButton color='primary'>
-            <CachedIcon sx={{ fontSize: 26 }} />
-          </IconButton>
-          <IconButton color='primary'>
-            <DriveFileRenameOutlineIcon sx={{ fontSize: 26 }} />
-          </IconButton>
-          <IconButton color='primary'>
-            <DeleteForeverIcon sx={{ fontSize: 26 }} />
-          </IconButton>
-        </>
-      )
-    }
-  }
-]
+  return time
+}
 
 const DataGridUserMangement = () => {
+  const columns = [
+    {
+      flex: 0.275,
+      minWidth: 290,
+      field: 'username',
+      headerName: 'Username'
+    },
+
+    {
+      flex: 0.275,
+      minWidth: 80,
+      field: 'role',
+      headerName: 'Role'
+    },
+
+    {
+      flex: 0.275,
+      minWidth: 10,
+      field: 'is_active',
+      headerName: 'Active',
+      renderCell: params => {
+        const dataActive = params.row.is_active ? 0 : 1
+        const status = statusObj[dataActive]
+
+        return (
+          <CustomChip
+            size='small'
+            skin='light'
+            color={status.color}
+            label={status.title}
+            sx={{ '& .MuiChip-label': { textTransform: 'capitalize' } }}
+          />
+        )
+      }
+    },
+
+    {
+      flex: 0.275,
+      minWidth: 250,
+      field: 'last_login',
+      headerName: 'Last Login',
+      renderCell: ({ row }) => (row.last_login ? ConvertDate(row.last_login) : '-')
+    },
+
+    {
+      flex: 0.275,
+      minWidth: 100,
+      headerName: 'Action',
+      renderCell: ({ row }) => {
+        return (
+          <>
+            <IconButton color='primary'>
+              <CachedIcon sx={{ fontSize: 26 }} />
+            </IconButton>
+            <IconButton color='primary' onClick={() => openDialog(row)}>
+              <DriveFileRenameOutlineIcon sx={{ fontSize: 26 }} />
+            </IconButton>
+            <IconButton color='error'>
+              <DeleteForeverIcon sx={{ fontSize: 26 }} />
+            </IconButton>
+          </>
+        )
+      }
+    }
+  ]
+
+  const usersAPI = useGetUsersAPIQuery()
+  let usersData = !usersAPI.isLoading ? usersAPI.data?.users : []
+
   // ** States
-  const [data] = useState(rows)
+  const [data, setData] = useState(usersData)
+  const [dataCurrent, setDataCurrent] = useState({})
   const [searchText, setSearchText] = useState('')
   const [filteredData, setFilteredData] = useState([])
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
+  const [open_Dialog, setOpenDialog] = useState(false)
+
+  const openDialog = data_select => {
+    console.log(data_select)
+    if (!open_Dialog) {
+      setOpenDialog(true)
+      setDataCurrent(data_select)
+    } else {
+      setOpenDialog(false)
+      setDataCurrent({})
+    }
+  }
+
+  useEffect(() => {
+    setData(usersData)
+  })
 
   const handleSearch = searchValue => {
     setSearchText(searchValue)
+
     const searchRegex = new RegExp(escapeRegExp(searchValue), 'i')
 
     const filteredRows = data.filter(row => {
       return Object.keys(row).some(field => {
-        // @ts-ignore
-        return searchRegex.test(row[field].toString())
+        return row[field] ? searchRegex.test(row[field].toString()) : ''
       })
     })
     if (searchValue.length) {
@@ -105,27 +157,31 @@ const DataGridUserMangement = () => {
   }
 
   return (
-    <DataGrid
-      autoHeight
-      disableColumnSelector
-      columns={columns}
-      loading={false}
-      pageSizeOptions={[10, 15, 25, 50]}
-      paginationModel={paginationModel}
-      slots={{ toolbar: QuickSearchToolbar }}
-      onPaginationModelChange={setPaginationModel}
-      rows={filteredData.length ? filteredData : data}
-      slotProps={{
-        baseButton: {
-          variant: 'outlined'
-        },
-        toolbar: {
-          value: searchText,
-          clearSearch: () => handleSearch(''),
-          onChange: event => handleSearch(event.target.value)
-        }
-      }}
-    />
+    <>
+      <DataGrid
+        autoHeight
+        disableColumnSelector
+        columns={columns}
+        loading={usersAPI.isLoading}
+        MenuProps={{ disablePortal: true }}
+        pageSizeOptions={[10, 15, 25, 50]}
+        paginationModel={paginationModel}
+        slots={{ toolbar: QuickSearchToolbar }}
+        onPaginationModelChange={setPaginationModel}
+        rows={filteredData.length ? filteredData : data}
+        slotProps={{
+          baseButton: {
+            variant: 'outlined'
+          },
+          toolbar: {
+            value: searchText,
+            clearSearch: () => handleSearch(''),
+            onChange: event => handleSearch(event.target.value)
+          }
+        }}
+      />
+      <DialogEdit show={open_Dialog} setShow={setOpenDialog} data={dataCurrent} />
+    </>
   )
 }
 

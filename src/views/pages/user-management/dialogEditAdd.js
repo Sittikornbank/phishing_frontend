@@ -43,12 +43,12 @@ const initialData = {
   user_name: '',
   password: '',
   confirm_password: '',
-  set_new_password: true,
+  set_new_password: false,
   account_locked: false,
   role: ''
 }
 
-const DialogAdd = props => {
+const DialogEdit = props => {
   // ** States
   const { show, setShow, data } = props
 
@@ -66,7 +66,6 @@ const DialogAdd = props => {
   const [selected, setSelected] = useState([])
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
-  console.log('Re Render')
 
   const handleFormChange = (field, value) => {
     setFormData({ ...formData, [field]: value })
@@ -74,7 +73,7 @@ const DialogAdd = props => {
 
   return (
     <Card>
-      <Dialog fullWidth open={show} maxWidth='md' scroll='body'>
+      <Dialog fullWidth open={show} maxWidth='lg' scroll='body'>
         <DialogContent
           sx={{
             position: 'relative',
@@ -197,4 +196,4 @@ const DialogAdd = props => {
   )
 }
 
-export default DialogAdd
+export default DialogEdit

@@ -66,7 +66,6 @@ const DialogAdd = props => {
   const [selected, setSelected] = useState([])
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
-  console.log('Re Render')
 
   const handleFormChange = (field, value) => {
     setFormData({ ...formData, [field]: value })

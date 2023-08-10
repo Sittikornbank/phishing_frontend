@@ -20,15 +20,15 @@ const columns = [
     field: 'create_date',
     headerName: 'Created Date',
     renderCell: ({ row }) => (row.create_date ? row.create_date : '-')
-  }
+  },
 
-  // {
-  //   flex: 0.25,
-  //   minWidth: 200,
-  //   field: 'stats',
-  //   headerName: 'Status',
-  //   renderCell: ({ row }) => (row.stats.status ? row.stats.status : '-')
-  // }
+  {
+    flex: 0.25,
+    minWidth: 200,
+    field: 'stats',
+    headerName: 'Status',
+    renderCell: ({ row }) => (row.status ? row.status : '-')
+  }
 
   // {
   //   flex: 0.25,
@@ -62,7 +62,7 @@ const columns = [
 ]
 
 const DashboardTable = ({ rows, isLoading }) => {
-  return <DataGrid columns={columns} rows={rows} autoHeight loading={isLoading} />
+  return <DataGrid columns={columns} rows={rows} loading={isLoading} />
 }
 
 export default DashboardTable

@@ -68,9 +68,9 @@ const DefaultPalette = (mode, skin, themeColor) => {
       contrastText: whiteColor
     },
     warning: {
-      light: '#FF5C00',
+      light: '#ff8f4f',
       main: '#FF5C00',
-      dark: '#FF5C00',
+      dark: '#b34202',
       contrastText: whiteColor
     },
     info: {

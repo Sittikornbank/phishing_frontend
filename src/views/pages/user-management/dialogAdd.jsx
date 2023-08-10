@@ -43,32 +43,24 @@ const initialData = {
   user_name: '',
   password: '',
   confirm_password: '',
-  set_new_password: false,
+  set_new_password: true,
   account_locked: false,
   role: ''
 }
 
-const DialogEdit = props => {
+const DialogAdd = props => {
   // ** States
-  const { show, setShow, data } = props
+  const { show, setShow } = props
 
   if (!show) {
     return null
   }
-  const [formData, setFormData] = useState(data || initialData)
-  const [headers, setHeaders] = useState([])
-  const [header, setHeader] = useState('')
-  const [value, setValue] = useState('')
-  const [page, setPage] = useState(0)
-  const [order, setOrder] = useState('asc')
-  const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [orderBy, setOrderBy] = useState('header')
-  const [selected, setSelected] = useState([])
-  const [search, setSearch] = useState('')
-  const [open, setOpen] = useState(false)
 
-  const handleFormChange = (field, value) => {
-    setFormData({ ...formData, [field]: value })
+  const SubmitUpdateUser = e => {
+    e.preventDefault()
+    const data = new FormData(e.target)
+    const a = Object.fromEntries(data.entries())
+    console.log(a)
   }
 
   return (
@@ -94,106 +86,68 @@ const DialogEdit = props => {
               New Sending Profile
             </Typography>
           </Box>
-          <form>
+          <form onSubmit={SubmitUpdateUser}>
             <CardContent>
               <Grid container spacing={5}>
                 <Grid item xs={12} sm={12}>
                   <Typography>Username:</Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <TextField
-                    fullWidth
-                    placeholder='username'
-                    value={formData.user_name}
-                    onChange={e => handleFormChange('user_name', e.target.value)}
-                  />
+                  <TextField fullWidth name='username' placeholder='username' />
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <Typography>Password:</Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <TextField
-                    fullWidth
-                    type='password'
-                    placeholder='password'
-                    value={formData.password}
-                    onChange={e => handleFormChange('password', e.target.value)}
-                  />
+                  <TextField fullWidth type='password' name='password' placeholder='password' />
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <Typography>Confirm Password:</Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <TextField
-                    fullWidth
-                    type='password'
-                    placeholder='Confirm Password'
-                    value={formData.confirm_password}
-                    onChange={e => handleFormChange('confirm_password', e.target.value)}
-                  />
+                  <TextField fullWidth type='password' name='confirm_password' placeholder='Confirm Password' />
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.set_new_password}
-                        onChange={e => handleFormChange('set_new_password', e.target.checked)}
-                        name='set_new_password'
-                      />
-                    }
+                    control={<Checkbox name='set_new_password' />}
                     label='Require the user to set a new password'
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.account_locked}
-                        onChange={e => handleFormChange('account_locked', e.target.checked)}
-                        name='account_locked'
-                      />
-                    }
-                    label='Account Locked'
-                  />
+                  <FormControlLabel control={<Checkbox name='account_locked' />} label='Account Locked' />
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <FormControl fullWidth>
                     <InputLabel id='demo-simple-select-label'>Role</InputLabel>
-                    <Select
-                      labelId='demo-simple-select-label'
-                      id='demo-simple-select'
-                      value={formData.role}
-                      label='Role'
-                      onChange={e => handleFormChange('role', e.target.value)}
-                    >
-                      <MenuItem value={'Superadmin'}>Superadmin</MenuItem>
-                      <MenuItem value={'Admin'}>admin</MenuItem>
-                      <MenuItem value={'Auditor'}>Auditor</MenuItem>
-                      <MenuItem value={'Paid'}>Paid</MenuItem>
-                      <MenuItem value={'Guest'}>Guest</MenuItem>
+                    <Select labelId='demo-simple-select-label' id='demo-simple-select' label='Role' name='role'>
+                      <MenuItem value={'superadmin'}>Superadmin</MenuItem>
+                      <MenuItem value={'admin'}>admin</MenuItem>
+                      <MenuItem value={'auditor'}>Auditor</MenuItem>
+                      <MenuItem value={'paid'}>Paid</MenuItem>
+                      <MenuItem value={'guest'}>Guest</MenuItem>
                     </Select>
                   </FormControl>
                 </Grid>
               </Grid>
             </CardContent>
+            <DialogActions
+              sx={{
+                px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+                pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+              }}
+            >
+              <Button variant='outlined' color='secondary' onClick={() => setShow(false)}>
+                Cancel
+              </Button>
+              <Button variant='contained' type='submit' sx={{ mr: 1 }}>
+                Save Profile
+              </Button>
+            </DialogActions>
           </form>
         </DialogContent>
-        <DialogActions
-          sx={{
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-          }}
-        >
-          <Button variant='outlined' color='secondary' onClick={() => setShow(false)}>
-            Cancel
-          </Button>
-          <Button variant='contained' sx={{ mr: 1 }} onClick={() => setShow(false)}>
-            Save Profile
-          </Button>
-        </DialogActions>
       </Dialog>
     </Card>
   )
 }
 
-export default DialogEdit
+export default DialogAdd

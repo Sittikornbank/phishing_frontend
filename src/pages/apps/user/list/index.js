@@ -36,7 +36,7 @@ import CardStatisticsHorizontal from 'src/@core/components/card-statistics/card-
 import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Actions Imports
-import { fetchData, deleteUser } from 'src/store/apps/user'
+import { fetchData, deleteUser } from 'src/store/apps/users'
 
 // ** Third Party Components
 import axios from 'axios'

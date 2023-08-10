@@ -24,8 +24,8 @@ import TablePagination from '@mui/material/TablePagination'
 import Icon from 'src/@core/components/icon'
 import { Button, TextField } from '@mui/material'
 import { Stack } from '@mui/system'
-import DialogAdd from './dialogAdd'
-import DialogEdit from './dialogEdit'
+import DialogAdd from './dialogEdit'
+import DialogEdit from './dialogEditAdd'
 
 const createData = (user_name, role, last_login) => {
   return { user_name, role, last_login }
@@ -161,6 +161,7 @@ const EnhancedTableToolbar = props => {
 
 const EnhancedTable = props => {
   const { show, setShow, showEdit, setShowEdit, data, setData } = props
+
   // ** States
   const [page, setPage] = useState(0)
   const [order, setOrder] = useState('asc')
@@ -184,10 +185,12 @@ const EnhancedTable = props => {
     }
     setSelected([])
   }
+
   const handleSetShowEdit = event => {
     setData(event)
     setShowEdit(true)
   }
+
   const handleSetShowCoppy = event => {
     setData(event)
     setShow(true)

@@ -69,6 +69,20 @@ export const GetAPI_users_port = createApi({
   })
 })
 
+export const GetAPI_template_port = createApi({
+  reducerPath: 'GetAPI_users',
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/`,
+    prepareHeaders: (headers, { getState }) => {
+      const token = window.localStorage.getItem('token')
+      if (token) headers.set('Authorization', `Bearer ${token}`)
+
+      return headers
+    }
+  }),
+  endpoints: builder => ({})
+})
+
 export const {
   useGetCampaigns_summaryQuery,
   useGetOverViewsQuery,

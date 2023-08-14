@@ -20,13 +20,15 @@ function calPercentage(a, total) {
   return (a / total) * 100
 }
 
+function reducePercentage() {}
+
 const GrapDashboards = props => {
   const { dataGrap } = props
 
   // ** Hook
   const theme = useTheme()
 
-  const options = (color, text) => ({
+  const options = (color, text, data = 0, total = 0) => ({
     stroke: { lineCap: 'round' },
     labels: [text ? text : 'Comments'],
     colors: [color ? color : theme.palette.primary.main],
@@ -51,16 +53,10 @@ const GrapDashboards = props => {
             label: text ? text : 'Comments',
             fontSize: '1.125rem',
             color: theme.palette.text.primary,
+            dataTotal: [data, total],
+
             formatter: function (w) {
-              const totalValue =
-                w.globals.seriesTotals.reduce((a, b) => {
-                  return a + b
-                }, 0) / w.globals.series.length
-              if (totalValue % 1 === 0) {
-                return totalValue + '%'
-              } else {
-                return totalValue.toFixed(2) + '%'
-              }
+              return `${this.dataTotal[0]} / ${this.dataTotal[1]}`
             }
           }
         }
@@ -89,7 +85,7 @@ const GrapDashboards = props => {
               type='radialBar'
               height={240}
               series={[calPercentage(dataGrap.sent, dataGrap.total)]}
-              options={options('#38f205', 'Sent')}
+              options={options('#38f205', 'Sent', dataGrap.sent, dataGrap.total)}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} sx={{ mb: [3, 0] }}>
@@ -97,7 +93,7 @@ const GrapDashboards = props => {
               type='radialBar'
               height={240}
               series={[calPercentage(dataGrap.open, dataGrap.total)]}
-              options={options('#fcd75b', 'Open')}
+              options={options('#fcd75b', 'Open', dataGrap.open, dataGrap.total)}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} sx={{ mb: [3, 0] }}>
@@ -105,7 +101,7 @@ const GrapDashboards = props => {
               type='radialBar'
               height={240}
               series={[calPercentage(dataGrap.click, dataGrap.total)]}
-              options={options('#ff9d1c', 'Click')}
+              options={options('#ff9d1c', 'Click', dataGrap.click, dataGrap.total)}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} sx={{ mb: [3, 0] }}>
@@ -113,7 +109,7 @@ const GrapDashboards = props => {
               type='radialBar'
               height={240}
               series={[calPercentage(dataGrap.submit, dataGrap.total)]}
-              options={options('#8d42f5', 'Submit')}
+              options={options('#8d42f5', 'Submit', dataGrap.submit, dataGrap.total)}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} sx={{ mb: [3, 0] }}>
@@ -121,7 +117,7 @@ const GrapDashboards = props => {
               type='radialBar'
               height={240}
               series={[calPercentage(dataGrap.report, dataGrap.total)]}
-              options={options('#0565ff', 'Report')}
+              options={options('#0565ff', 'Report', dataGrap.report, dataGrap.total)}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} sx={{ mb: [3, 0] }}>
@@ -129,7 +125,7 @@ const GrapDashboards = props => {
               type='radialBar'
               height={240}
               series={[calPercentage(dataGrap.fail, dataGrap.total)]}
-              options={options('#ff241c', 'Failed')}
+              options={options('#ff241c', 'Failed', dataGrap.fail, dataGrap.total)}
             />
           </Grid>
         </Grid>

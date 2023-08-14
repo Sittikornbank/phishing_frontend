@@ -48,7 +48,7 @@ const DashboardTable = ({ rows, isLoading }) => {
     {
       flex: 0.1,
       field: 'name',
-      minWidth: 80,
+      minWidth: 150,
       headerName: 'Name'
     },
     {
@@ -109,7 +109,7 @@ const DashboardTable = ({ rows, isLoading }) => {
 
     {
       flex: 0.275,
-      minWidth: 10,
+      minWidth: 120,
       field: 'status',
       headerName: 'Status',
       renderCell: params => {

@@ -25,6 +25,8 @@ function reducePercentage() {}
 const GrapDashboards = props => {
   const { dataGrap } = props
 
+  console.log(dataGrap)
+
   // ** Hook
   const theme = useTheme()
 

@@ -120,8 +120,8 @@ const DashboardTable = ({ rows, isLoading }) => {
           <CustomChip
             size='small'
             skin='light'
-            color={status.color}
-            label={status.title}
+            color={status?.color}
+            label={status?.title}
             sx={{ '& .MuiChip-label': { textTransform: 'capitalize' } }}
           />
         )

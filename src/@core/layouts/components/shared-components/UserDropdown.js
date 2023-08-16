@@ -41,6 +41,7 @@ const UserDropdown = props => {
   const { logout } = useAuth()
   const auth = useAuth()
   console.log(auth)
+
   // ** Vars
   const { direction } = settings
 
@@ -91,7 +92,7 @@ const UserDropdown = props => {
           alt='John Doe'
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
-          src='/images/avatars/1.png'
+          src='https://cdn-icons-png.flaticon.com/512/552/552721.png'
         />
       </Badge>
       <Menu

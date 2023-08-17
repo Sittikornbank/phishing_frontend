@@ -62,19 +62,10 @@ const DashboardTable = ({ rows, isLoading }) => {
     {
       flex: 0.25,
       minWidth: 5,
-      field: 'click',
-      headerName: 'Clicked',
-      renderCell: ({ row }) => (row.stats.click != '' ? row.stats.click : '-')
+      field: 'sent',
+      headerName: 'Sent',
+      renderCell: ({ row }) => row.stats.sent
     },
-
-    {
-      flex: 0.25,
-      minWidth: 5,
-      field: 'fail',
-      headerName: 'Failed',
-      renderCell: ({ row }) => row.stats.fail
-    },
-
     {
       flex: 0.25,
       minWidth: 5,
@@ -82,13 +73,12 @@ const DashboardTable = ({ rows, isLoading }) => {
       headerName: 'Opened',
       renderCell: ({ row }) => row.stats.open
     },
-
     {
       flex: 0.25,
       minWidth: 5,
-      field: 'sent',
-      headerName: 'Sent',
-      renderCell: ({ row }) => row.stats.sent
+      field: 'click',
+      headerName: 'Clicked',
+      renderCell: ({ row }) => (row.stats.click != '' ? row.stats.click : '-')
     },
 
     {
@@ -98,7 +88,20 @@ const DashboardTable = ({ rows, isLoading }) => {
       headerName: 'Submitted',
       renderCell: ({ row }) => row.stats.submit
     },
-
+    {
+      flex: 0.25,
+      minWidth: 5,
+      field: 'fail',
+      headerName: 'Failed',
+      renderCell: ({ row }) => row.stats.fail
+    },
+    {
+      flex: 0.25,
+      minWidth: 5,
+      field: 'report',
+      headerName: 'Reported',
+      renderCell: ({ row }) => row.stats.report
+    },
     {
       flex: 0.25,
       minWidth: 5,

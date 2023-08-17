@@ -102,13 +102,13 @@ const DashboardTable = ({ rows, isLoading }) => {
       headerName: 'Reported',
       renderCell: ({ row }) => row.stats.report
     },
-    {
-      flex: 0.25,
-      minWidth: 5,
-      field: 'total',
-      headerName: 'Total',
-      renderCell: ({ row }) => row.stats.total
-    },
+    // {
+    //   flex: 0.25,
+    //   minWidth: 5,
+    //   field: 'total',
+    //   headerName: 'Total',
+    //   renderCell: ({ row }) => row.stats.total
+    // },
 
     {
       flex: 0.275,

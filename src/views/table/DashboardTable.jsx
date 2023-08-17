@@ -56,7 +56,7 @@ const DashboardTable = ({ rows, isLoading }) => {
       minWidth: 200,
       field: 'create_date',
       headerName: 'Created Date',
-      renderCell: ({ row }) => (row.create_date ? row.create_date : '-')
+      renderCell: ({ row }) => (row.created_date ? row.created_date : '-')
     },
 
     {

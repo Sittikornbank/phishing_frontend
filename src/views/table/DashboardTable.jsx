@@ -40,7 +40,8 @@ function CustomToolbar(props) {
 const statusObj = {
   running: { title: 'Running', color: 'primary' },
   complete: { title: 'Complete', color: 'success' },
-  fail: { title: 'Fail', color: 'error' }
+  fail: { title: 'Fail', color: 'error' },
+  idle: { title: 'Idle', color: 'error' }
 }
 
 const DashboardTable = ({ rows, isLoading }) => {
@@ -102,6 +103,7 @@ const DashboardTable = ({ rows, isLoading }) => {
       headerName: 'Reported',
       renderCell: ({ row }) => row.stats.report
     },
+
     // {
     //   flex: 0.25,
     //   minWidth: 5,

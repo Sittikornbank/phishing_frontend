@@ -13,7 +13,7 @@ import { useGetCampaigns_summaryQuery } from 'src/store/api'
 import { useGetOverViewsQuery } from 'src/store/api'
 
 import DashboardTable from 'src/views/table/DashboardTable'
-import BarChartDashboard from 'src/views/dashboards/BarChartDashboard'
+import BarChartDashboard from 'src/views/dashboards/BarchartDashboard'
 
 function Dashboard() {
   const campains = useGetCampaigns_summaryQuery()

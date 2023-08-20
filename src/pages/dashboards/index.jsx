@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import GrapDashboards from 'src/views/dashboards/GrapDashboards'
 import LineChartDashboard from 'src/views/dashboards/LineChartDashboard'
-import TableStickyHeader from 'src/views/table/mui/TableStickyHeader'
 
 import Typography from '@mui/material/Typography'
 

@@ -25,7 +25,7 @@ const navigation = () => {
       path: '/template'
     },
     {
-      title: 'Email Templeate',
+      title: 'Email Template',
       icon: 'mdi:email-outline',
       path: '/email_templeate'
     },

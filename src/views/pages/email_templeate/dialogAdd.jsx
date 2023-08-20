@@ -53,6 +53,9 @@ import EditorUncontrolled from 'src/views/forms/form-elements/editor/EditorUncon
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import DialogImportEmail from './DialogImportEmail'
 
+// ** Styles
+import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+
 // import DialogSendTestEmail from './dialogSendTestEmail'
 
 const Transition = forwardRef(function Transition(props, ref) {
@@ -297,6 +300,7 @@ const DialogAdd = props => {
                     onChange={e => handleFormChange('subject', e.target.value)}
                   />
                 </Grid>
+
                 <Grid item xs={12} sm={12}>
                   <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
                     <Tab label='Text' {...a11yProps(0)} />
@@ -321,16 +325,7 @@ const DialogAdd = props => {
                   <EditorWrapper>
                     <Grid container spacing={6} className='match-height'>
                       <Grid item xs={12}>
-                        <CardSnippet
-                          sx={{ overflow: 'visible' }}
-                          title=''
-                          code={{
-                            tsx: null,
-                            jsx: source.EditorUncontrolledJSXCode
-                          }}
-                        >
-                          <EditorUncontrolled />
-                        </CardSnippet>
+                        <EditorUncontrolled />
                       </Grid>
                     </Grid>
                   </EditorWrapper>
@@ -384,7 +379,6 @@ const DialogAdd = props => {
                         onRequestSort={handleRequestSort}
                       />
                       <TableBody>
-                        {/* if you don't need to support IE11, you can replace the `stableSort` call with: rows.slice().sort(getComparator(order, orderBy)) */}
                         {stableSort(files, getComparator(order, orderBy))
                           .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                           .map((row, index) => {

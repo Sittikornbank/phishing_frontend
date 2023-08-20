@@ -18,23 +18,13 @@ import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Data Import
 import { rows } from 'src/@fake-db/table/static-data'
+import { useGetEmailTemplatesQuery } from 'src/store/api'
+import { IconButton } from '@mui/material'
 
-// ** renders client column
-const renderClient = params => {
-  const { row } = params
-  const stateNum = Math.floor(Math.random() * 6)
-  const states = ['success', 'error', 'warning', 'info', 'primary', 'secondary']
-  const color = states[stateNum]
-  if (row.avatar.length) {
-    return <CustomAvatar src={`/images/avatars/${row.avatar}`} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
-  } else {
-    return (
-      <CustomAvatar skin='light' color={color} sx={{ mr: 3, fontSize: '.8rem', width: '1.875rem', height: '1.875rem' }}>
-        {getInitials(row.full_name ? row.full_name : 'John Doe')}
-      </CustomAvatar>
-    )
-  }
-}
+// ** Icon Import
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import { ContentCopy } from '@mui/icons-material'
 
 const statusObj = {
   1: { title: 'current', color: 'primary' },
@@ -44,91 +34,76 @@ const statusObj = {
   5: { title: 'applied', color: 'info' }
 }
 
+function ConvertDate(date) {
+  var created_date = new Date(date)
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  var year = created_date.getFullYear()
+  var month = months[created_date.getMonth()]
+  var date = created_date.getDate()
+  var hour = ('0' + created_date.getHours()).slice(-2)
+  var min = ('0' + created_date.getMinutes()).slice(-2)
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min // final date with time, you can use this according your requirement
+
+  return time
+}
+
 const escapeRegExp = value => {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
 
 const columns = [
   {
-    flex: 0.275,
-    minWidth: 290,
-    field: 'full_name',
-    headerName: 'Name',
-    renderCell: params => {
-      const { row } = params
-
-      return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(params)}
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-              {row.full_name}
-            </Typography>
-            <Typography noWrap variant='caption'>
-              {row.email}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
     flex: 0.2,
     type: 'date',
     minWidth: 120,
-    headerName: 'Date',
-    field: 'start_date',
+    headerName: 'Name',
+    field: 'name',
     valueGetter: params => new Date(params.value),
     renderCell: params => (
       <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.start_date}
+        {params.row.name}
       </Typography>
     )
   },
   {
     flex: 0.2,
     minWidth: 110,
-    field: 'salary',
-    headerName: 'Salary',
+    field: 'modified_date',
+    headerName: 'Modified Date',
     renderCell: params => (
       <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.salary}
+        {ConvertDate(params.row.modified_date)}
       </Typography>
     )
   },
-  {
-    flex: 0.125,
-    field: 'age',
-    minWidth: 80,
-    headerName: 'Age',
-    renderCell: params => (
-      <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.age}
-      </Typography>
-    )
-  },
-  {
-    flex: 0.2,
-    minWidth: 140,
-    field: 'status',
-    headerName: 'Status',
-    renderCell: params => {
-      const status = statusObj[params.row.status]
 
+  {
+    flex: 0.275,
+    minWidth: 100,
+    headerName: 'Action',
+    renderCell: ({ row }) => {
       return (
-        <CustomChip
-          size='small'
-          skin='light'
-          color={status.color}
-          label={status.title}
-          sx={{ '& .MuiChip-label': { textTransform: 'capitalize' } }}
-        />
+        <>
+          <IconButton color='primary'>
+            <EditIcon  sx={{ fontSize: 26 }} />
+          </IconButton>
+          <IconButton color='primary'>
+            <ContentCopy sx={{ fontSize: 26 }} />
+          </IconButton>
+          <IconButton color='error'>
+            <DeleteForeverIcon sx={{ fontSize: 26 }} />
+          </IconButton>
+        </>
       )
     }
   }
 ]
 
 const Email_template_Table = () => {
+
+  const template = useGetEmailTemplatesQuery()
+  let templateData = !template.isLoading ? template.data?.email_templates : []
+
   // ** States
   const [data] = useState(rows)
   const [searchText, setSearchText] = useState('')
@@ -156,11 +131,12 @@ const Email_template_Table = () => {
     <DataGrid
       autoHeight
       columns={columns}
+      loading={template.isLoading}
       pageSizeOptions={[7, 10, 25, 50]}
       paginationModel={paginationModel}
       slots={{ toolbar: QuickSearchToolbar }}
       onPaginationModelChange={setPaginationModel}
-      rows={filteredData.length ? filteredData : data}
+      rows={templateData}
       slotProps={{
         baseButton: {
           variant: 'outlined'

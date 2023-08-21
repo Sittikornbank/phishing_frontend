@@ -5,10 +5,10 @@ import Email_template_Table from 'src/views/table/Email_template_Table'
 
 // MUI Import
 import Typography from '@mui/material/Typography'
-import { Card, CardHeader, CardContent } from '@mui/material'
+import { Card, Grid } from '@mui/material'
 import Button from '@mui/material/Button'
-import ToggleButton from '@mui/material/ToggleButton'
-import ToggleButtonGroup from '@mui/material/ToggleButtonGroup'
+import { useGetLandingPageQuery } from 'src/store/api'
+import CardTemplate from 'src/views/template/CardTemplate'
 
 // ** Icon Imports
 import AddCircleIcon from '@mui/icons-material/AddCircle'
@@ -20,6 +20,9 @@ function Campaigns() {
   const [show, setShow] = useState(false)
   const [showEdit, setShowEdit] = useState(false)
   const [data, setData] = useState()
+
+  const template = useGetLandingPageQuery()
+  let templateData = !template.isLoading ? template.data?.site_templates : []
 
   const handleAlignment = (event, newAlignment) => {
     setAlignment(newAlignment)
@@ -44,6 +47,11 @@ function Campaigns() {
       >
         New Template
       </Button>
+      <Grid container sx={{ my: [0, 4, 1.625] }} spacing={5}>
+        {templateData.map((data) => {
+          return (<CardTemplate key={data.id} data={data}  />)
+        })}
+      </Grid>
       <Card sx={{ my: 4, p: 6 }}>
         <Email_template_Table />
       </Card>

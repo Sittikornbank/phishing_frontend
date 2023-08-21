@@ -48,7 +48,7 @@ const UserGroupDetail = () => {
       <Typography variant='h3' sx={{ my: 8 }}>
         Details
       </Typography>
-      <UserGroupDetailTable data={resultData} isLoading={result.isLoading} />
+      <UserGroupDetailTable data={resultData} isLoading={result.isLoading} pageID={id} />
     </>
   )
 }

@@ -14,28 +14,16 @@ import {
   gridFilteredSortedRowIdsSelector,
   gridVisibleColumnFieldsSelector
 } from '@mui/x-data-grid'
-import { Icon, IconButton } from '@mui/material'
+import { Button, Icon, IconButton } from '@mui/material'
 
 // MUI Icon import
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
+import Link from 'next/link'
 
-const csvOptions = { delimiter: '', utf8WithBom: true }
-function CustomExportButton(props) {
-  return (
-    <GridToolbarExportContainer {...props}>
-      <GridCsvExportMenuItem options={csvOptions} />
-    </GridToolbarExportContainer>
-  )
-}
+const url = process.env.NEXT_PUBLIC_BASE_URL + ":" + process.env.NEXT_PUBLIC_USER_PORT
 
-function CustomToolbar(props) {
-  return (
-    <GridToolbarContainer sx={{ my: 1, fontSize: '1rem' }} {...props}>
-      <CustomExportButton />
-    </GridToolbarContainer>
-  )
-}
+
 
 const statusObj = {
   create_campaign: { title: 'Create Campaign', color: 'error' },
@@ -50,7 +38,25 @@ const statusObj = {
 }
 
 const UserGroupDetailTable = props => {
-  const { data, isLoading } = props
+  const { data, isLoading, pageID } = props
+
+  const csvOptions = { delimiter: '', utf8WithBom: true }
+  function CustomExportButton(props) {
+    return (
+      <GridToolbarExportContainer {...props}>
+        <Button sx={{width: "100%"}} component={GridCsvExportMenuItem} options={csvOptions} />
+        <Button sx={{width: "100%"}} component={Link} rel="noopener noreferrer" target="_blank" href={`${url}/campaigns/${pageID}/results/export_pdf`}>Export to PDF</Button>
+      </GridToolbarExportContainer>
+    )
+  }
+
+  function CustomToolbar(props) {
+    return (
+      <GridToolbarContainer sx={{ my: 1, fontSize: '1rem' }} {...props}>
+        <CustomExportButton />
+      </GridToolbarContainer>
+    )
+  }
 
   const columns = [
     {

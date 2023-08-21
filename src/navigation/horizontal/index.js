@@ -15,25 +15,46 @@ const navigation = () => {
       path: '/campaigns'
     },
     {
-      title: 'User & Groups',
-      icon: 'mdi:user-group',
-      path: '/user_group'
+      title: 'Phishing Material',
+      icon: 'mdi:email',
+      badgeColor: 'error',
+      children: [
+        {
+          title: 'Email Template',
+          path: '/email_templeate'
+        },
+        {
+          title: 'Landing Page',
+          path: '/landingpage'
+        },
+        {
+          title: 'User & Groups',
+          path: '/user_group'
+        }
+      ]
     },
+
+    // {
+    //   title: 'User & Groups',
+    //   icon: 'mdi:user-group',
+    //   path: '/user_group'
+    // },
     {
       title: 'Template',
       icon: 'mdi:newspaper',
       path: '/template'
     },
-    {
-      title: 'Email Template',
-      icon: 'mdi:email-outline',
-      path: '/email_templeate'
-    },
-    {
-      title: 'Landing Page',
-      icon: 'mdi:face-profile',
-      path: '/landingpage'
-    },
+
+    // {
+    //   title: 'Email Template',
+    //   icon: 'mdi:email-outline',
+    //   path: '/email_templeate'
+    // },
+    // {
+    //   title: 'Landing Page',
+    //   icon: 'mdi:face-profile',
+    //   path: '/landingpage'
+    // },
     {
       title: 'Sending Profile',
       icon: 'mdi:cube-send',

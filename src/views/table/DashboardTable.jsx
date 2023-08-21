@@ -152,7 +152,7 @@ const DashboardTable = ({ rows, isLoading }) => {
     }
   ]
 
-  return <DataGrid columns={columns} rows={rows} slots={{ toolbar: CustomToolbar }} autoHeight loading={isLoading} />
+return <DataGrid columns={columns} rows={rows || []} slots={{ toolbar: CustomToolbar }} autoHeight loading={isLoading} />
 }
 
 export default DashboardTable

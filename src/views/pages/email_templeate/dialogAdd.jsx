@@ -44,17 +44,19 @@ import {
   Tooltip
 } from '@mui/material'
 
-import CardSnippet from 'src/@core/components/card-snippet'
-import * as source from 'src/views/forms/form-elements/editor/EditorSourceCode'
-
 // ** Demo Components Imports
-import EditorControlled from 'src/views/forms/form-elements/editor/EditorControlled'
-import EditorUncontrolled from 'src/views/forms/form-elements/editor/EditorUncontrolled'
+// import EditorControlled from 'src/views/forms/form-elements/editor/EditorControlled'
+// import EditorUncontrolled from 'src/views/forms/form-elements/editor/EditorUncontrolled'
+import { EditorState } from 'draft-js';
+
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import DialogImportEmail from './DialogImportEmail'
 
+// import { EditorState } from 'draft-js'
+
 // ** Styles
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
+import EditorControlled from 'src/views/forms/form-elements/editor/EditorControlled'
 
 // import DialogSendTestEmail from './dialogSendTestEmail'
 
@@ -175,6 +177,10 @@ const DialogAdd = props => {
   const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(0)
+
+  const [html, setHtml] = useState(EditorState.createEmpty())
+
+  console.log(html);
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -325,7 +331,7 @@ const DialogAdd = props => {
                   <EditorWrapper>
                     <Grid container spacing={6} className='match-height'>
                       <Grid item xs={12}>
-                        <EditorUncontrolled />
+                        <EditorControlled editorState={html} onEditorStateChange={setHtml} />
                       </Grid>
                     </Grid>
                   </EditorWrapper>

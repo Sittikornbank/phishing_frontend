@@ -70,7 +70,7 @@ export const GetAPI_users_port = createApi({
 })
 
 export const GetAPI_template_port = createApi({
-  reducerPath: 'GetAPI_users',
+  reducerPath: 'GetAPI_template',
   baseQuery: fetchBaseQuery({
     baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/`,
     prepareHeaders: (headers, { getState }) => {

@@ -24,7 +24,6 @@ function reducePercentage() {}
 
 const GrapDashboards = props => {
   const { dataGrap } = props
-
   console.log(dataGrap)
 
   // ** Hook
@@ -86,48 +85,48 @@ const GrapDashboards = props => {
             <ReactApexcharts
               type='radialBar'
               height={240}
-              series={[calPercentage(dataGrap.sent, dataGrap.total)]}
-              options={options('#38f205', 'Sent', dataGrap.sent, dataGrap.total)}
+              series={[calPercentage(dataGrap?.sent || 0, dataGrap?.total || 0)]}
+              options={options('#38f205', 'Sent', dataGrap?.sent || 0, dataGrap?.total || 0)}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} sx={{ mb: [3, 0] }}>
             <ReactApexcharts
               type='radialBar'
               height={240}
-              series={[calPercentage(dataGrap.open, dataGrap.total)]}
-              options={options('#fcd75b', 'Open', dataGrap.open, dataGrap.total)}
+              series={[calPercentage(dataGrap?.open || 0, dataGrap?.total || 0)]}
+              options={options('#fcd75b', 'Open', dataGrap?.open || 0, dataGrap?.total || 0)}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} sx={{ mb: [3, 0] }}>
             <ReactApexcharts
               type='radialBar'
               height={240}
-              series={[calPercentage(dataGrap.click, dataGrap.total)]}
-              options={options('#ff9d1c', 'Click', dataGrap.click, dataGrap.total)}
+              series={[calPercentage(dataGrap?.click || 0, dataGrap?.total || 0)]}
+              options={options('#ff9d1c', 'Click', dataGrap?.click || 0, dataGrap?.total || 0)}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} sx={{ mb: [3, 0] }}>
             <ReactApexcharts
               type='radialBar'
               height={240}
-              series={[calPercentage(dataGrap.submit, dataGrap.total)]}
-              options={options('#8d42f5', 'Submit', dataGrap.submit, dataGrap.total)}
+              series={[calPercentage(dataGrap?.submit || 0, dataGrap?.total || 0)]}
+              options={options('#8d42f5', 'Submit', dataGrap?.submit || 0, dataGrap?.total || 0)}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} sx={{ mb: [3, 0] }}>
             <ReactApexcharts
               type='radialBar'
               height={240}
-              series={[calPercentage(dataGrap.report, dataGrap.total)]}
-              options={options('#0565ff', 'Report', dataGrap.report, dataGrap.total)}
+              series={[calPercentage(dataGrap?.report || 0, dataGrap?.total || 0)]}
+              options={options('#0565ff', 'Report', dataGrap?.report || 0, dataGrap?.total || 0)}
             />
           </Grid>
           <Grid item xs={6} sm={4} md={2} sx={{ mb: [3, 0] }}>
             <ReactApexcharts
               type='radialBar'
               height={240}
-              series={[calPercentage(dataGrap.fail, dataGrap.total)]}
-              options={options('#ff241c', 'Failed', dataGrap.fail, dataGrap.total)}
+              series={[calPercentage(dataGrap?.fail || 0, dataGrap?.total || 0)]}
+              options={options('#ff241c', 'Failed', dataGrap?.fail || 0, dataGrap?.total || 0)}
             />
           </Grid>
         </Grid>

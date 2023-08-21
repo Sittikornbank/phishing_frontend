@@ -20,7 +20,9 @@ function Dashboard() {
   let campainsData = !campains.isLoading ? campains.data?.campaigns : []
   let overviewsData = !overviews.isLoading ? overviews.data : []
 
-  return (
+  console.log(campains);
+
+return (
     <>
       <Grid container sx={{ my: [0, 4, 1.625] }} spacing={5}>
         <Grid item xs={12} sx={{ mb: [3, 0] }}>

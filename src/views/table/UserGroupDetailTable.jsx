@@ -44,7 +44,8 @@ const UserGroupDetailTable = props => {
   function CustomExportButton(props) {
     return (
       <GridToolbarExportContainer {...props}>
-        <Button sx={{width: "100%"}} component={GridCsvExportMenuItem} options={csvOptions} />
+        {/* <Button sx={{width: "100%"}} component={GridCsvExportMenuItem} options={csvOptions} /> */}
+        <Button sx={{width: "100%"}} component={Link} rel="noopener noreferrer" target="_blank" href={`${url}/campaigns/${pageID}/results/export.xlsx`}>Export to EXCEL</Button>
         <Button sx={{width: "100%"}} component={Link} rel="noopener noreferrer" target="_blank" href={`${url}/campaigns/${pageID}/results/export_pdf`}>Export to PDF</Button>
       </GridToolbarExportContainer>
     )

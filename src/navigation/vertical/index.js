@@ -39,11 +39,11 @@ const navigation = () => {
     //   icon: 'mdi:user-group',
     //   path: '/user_group'
     // },
-    {
-      title: 'Template',
-      icon: 'mdi:newspaper',
-      path: '/template'
-    },
+    // {
+    //   title: 'Template',
+    //   icon: 'mdi:newspaper',
+    //   path: '/template'
+    // },
 
     // {
     //   title: 'Email Template',

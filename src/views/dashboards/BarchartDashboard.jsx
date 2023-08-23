@@ -59,7 +59,7 @@ const BarChartDashboard = () => {
     xaxis: {
       axisBorder: { show: false },
       axisTicks: { color: theme.palette.divider },
-      categories: ['MON, 11', 'THU, 14', 'FRI, 15', 'MON, 18', 'WED, 20', 'FRI, 21', 'MON, 23'],
+      categories: ['', 'ccc'],
       labels: {
         style: { colors: theme.palette.text.disabled }
       }
@@ -75,7 +75,7 @@ const BarChartDashboard = () => {
   return (
     <Card>
       <CardHeader
-        title='Balance'
+        title='Event-Department'
         subheader='Commercial networks & enterprises'
         sx={{
           flexDirection: ['column', 'row'],
@@ -85,12 +85,7 @@ const BarChartDashboard = () => {
         }}
       />
       <CardContent>
-        <ReactApexcharts
-          type='bar'
-          height={485}
-          options={options}
-          series={[{ data: [700, 350, 480, 600, 210, 550, 150] }]}
-        />
+        <ReactApexcharts type='bar' height={485} options={options} series={[{ data: [5, 1] }]} />
       </CardContent>
     </Card>
   )

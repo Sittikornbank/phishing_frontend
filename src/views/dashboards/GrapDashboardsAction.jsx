@@ -22,7 +22,7 @@ function calPercentage(a, total) {
 
 function reducePercentage() {}
 
-const GrapDashboards = props => {
+const GrapDashboardsAction = props => {
   const { dataGrap } = props
   console.log(dataGrap)
 
@@ -74,27 +74,43 @@ const GrapDashboards = props => {
   return (
     <Card>
       <CardHeader
-        title='Overviews-Sending'
+        title='Summary-Status'
         titleTypographyProps={{
           sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' }
         }}
       />
       <CardContent>
         <Grid container sx={{ my: [0, 4, 1.625] }}>
-          <Grid item xs={6} sm={4} md={6} sx={{ mb: [3, 0] }}>
+          <Grid item xs={6} sm={4} md={3} sx={{ mb: [3, 0] }}>
             <ReactApexcharts
               type='radialBar'
               height={240}
-              series={[calPercentage(dataGrap?.sent || 0, dataGrap?.total || 0)]}
-              options={options('#38f205', 'Sent', dataGrap?.sent || 0, dataGrap?.total || 0)}
+              series={[calPercentage(dataGrap?.open || 0, dataGrap?.total || 0)]}
+              options={options('#fcd75b', 'Open', dataGrap?.open || 0, dataGrap?.total || 0)}
             />
           </Grid>
-          <Grid item xs={6} sm={4} md={6} sx={{ mb: [3, 0] }}>
+          <Grid item xs={6} sm={4} md={3} sx={{ mb: [3, 0] }}>
             <ReactApexcharts
               type='radialBar'
               height={240}
-              series={[calPercentage(dataGrap?.fail || 0, dataGrap?.total || 0)]}
-              options={options('#ff241c', 'Failed', dataGrap?.fail || 0, dataGrap?.total || 0)}
+              series={[calPercentage(dataGrap?.click || 0, dataGrap?.total || 0)]}
+              options={options('#ff9d1c', 'Click', dataGrap?.click || 0, dataGrap?.total || 0)}
+            />
+          </Grid>
+          <Grid item xs={6} sm={4} md={3} sx={{ mb: [3, 0] }}>
+            <ReactApexcharts
+              type='radialBar'
+              height={240}
+              series={[calPercentage(dataGrap?.submit || 0, dataGrap?.total || 0)]}
+              options={options('#8d42f5', 'Submit', dataGrap?.submit || 0, dataGrap?.total || 0)}
+            />
+          </Grid>
+          <Grid item xs={6} sm={4} md={3} sx={{ mb: [3, 0] }}>
+            <ReactApexcharts
+              type='radialBar'
+              height={240}
+              series={[calPercentage(dataGrap?.report || 0, dataGrap?.total || 0)]}
+              options={options('#0565ff', 'Report', dataGrap?.report || 0, dataGrap?.total || 0)}
             />
           </Grid>
         </Grid>
@@ -103,4 +119,4 @@ const GrapDashboards = props => {
   )
 }
 
-export default GrapDashboards
+export default GrapDashboardsAction

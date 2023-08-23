@@ -40,7 +40,7 @@ const DefaultPalette = (mode, skin, themeColor) => {
       bodyBg: mode === 'light' ? '#F4F5FA' : '#000',
       trackBg: mode === 'light' ? '#F0F2F8' : '#474360',
       avatarBg: mode === 'light' ? '#F0EFF0' : '#3F3B59',
-      darkBg: skin === 'bordered' ? '#152238' : '#000',
+      darkBg: skin === 'bordered' ? '#1F2020' : '#000',
       lightBg: skin === 'bordered' ? whiteColor : '#F4F5FA',
       tableHeaderBg: mode === 'light' ? '#F9FAFC' : '#3D3759'
     },
@@ -108,7 +108,7 @@ const DefaultPalette = (mode, skin, themeColor) => {
     },
     divider: `rgba(${mainColor}, 0.12)`,
     background: {
-      paper: mode === 'light' ? whiteColor : '#152238',
+      paper: mode === 'light' ? whiteColor : '#1F2020',
       default: defaultBgColor()
     },
     action: {

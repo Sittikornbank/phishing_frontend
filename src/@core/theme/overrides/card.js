@@ -17,6 +17,17 @@ const Card = skin => {
         elevation: skin === 'bordered' ? 0 : 6
       }
     },
+    MuiCardActionArea: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          ...(skin === 'bordered' && { border: `1px solid ${theme.palette.divider}` }),
+          borderRadius: 6,
+        })
+      },
+      defaultProps: {
+        elevation: skin === 'bordered' ? 0 : 6
+      }
+    },
     MuiCardHeader: {
       styleOverrides: {
         root: ({ theme }) => ({

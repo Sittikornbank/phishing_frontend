@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react'
 
-// Components import
-import CampaignsTable from 'src/views/table/CampaignsTable'
+import { useGetCampaigns_summaryQuery } from 'src/store/api'
 
 // MUI Import
 import Typography from '@mui/material/Typography'
@@ -23,6 +22,7 @@ import CustomInput from 'src/views/forms/form-elements/pickers/PickersCustomInpu
 
 // ** Icon Imports
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import DashboardTable from 'src/views/table/DashboardTable'
 
 const modal_style = {
   position: 'absolute',
@@ -48,9 +48,13 @@ const initialUserData = {
 }
 
 function Campaigns() {
+  const campains = useGetCampaigns_summaryQuery()
+
   // ** State
   const [alignment, setAlignment] = useState('Active Campaign')
   const [open, setOpen] = useState(false)
+
+  let campainsData = !campains.isLoading ? campains.data?.campaigns : []
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
 
@@ -96,7 +100,7 @@ function Campaigns() {
           <ToggleButton value={'Active Campaign'}>Active Campaign</ToggleButton>
           <ToggleButton value={'Actived Campaign'}>Actived Campaign</ToggleButton>
         </ToggleButtonGroup>
-        <CampaignsTable />
+        <DashboardTable rows={campainsData} isLoading={campains.isLoading}  />
       </Card>
 
       <Modal

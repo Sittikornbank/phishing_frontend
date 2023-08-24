@@ -3,6 +3,7 @@ import CardMedia from '@mui/material/CardMedia'
 import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
+import { ButtonBase, CardActionArea } from '@mui/material'
 
 function ConvertDate(date) {
   var created_date = new Date(date)
@@ -17,23 +18,31 @@ function ConvertDate(date) {
   return time
 }
 
-export default function CardTemplate({ data }) {
+export default function CardTemplate({ data, setData, setShow }) {
+
+  function ClickShow(e) {
+    e.preventDefault();
+    setData(data);
+    setShow(true);
+  }
 
   return (
     <Grid item xs={12} md={6}>
       <Card>
-        <CardMedia sx={{ height: '14.5625rem' }} image={`${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/images/${data.image_site}`} />
-        <CardContent>
-          <Typography variant='h6' sx={{ mb: 2 }}>
-            {data.name}
-          </Typography>
-          <Typography variant='subtitle1' sx={{ mb: 2 }}>
-            Modified Date : {ConvertDate(data.modified_date)}
-          </Typography>
-          <Typography variant='body2'>
-            {}
-          </Typography>
-        </CardContent>
+        <CardActionArea onClick={(e) => ClickShow(e)}>
+          <CardMedia sx={{ height: '14.5625rem' }} image={`${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/images/${data.image_site}`} />
+          <CardContent>
+            <Typography variant='h6' sx={{ mb: 2 }}>
+              {data.name}
+            </Typography>
+            <Typography variant='subtitle1' sx={{ mb: 2 }}>
+              Modified Date : {ConvertDate(data.modified_date)}
+            </Typography>
+            <Typography variant='body2'>
+              {}
+            </Typography>
+          </CardContent>
+        </CardActionArea>
       </Card>
     </Grid>
   )

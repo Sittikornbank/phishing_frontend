@@ -26,7 +26,7 @@ const UserGroupDetail = () => {
   return (
     <>
       <Typography variant='h3' sx={{ my: 8 }}>
-        Results for {campainsData.name}
+        Results for {campainsData?.name}
       </Typography>
       <Button
         variant='contained'

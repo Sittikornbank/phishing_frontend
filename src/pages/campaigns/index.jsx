@@ -100,7 +100,7 @@ function Campaigns() {
           <ToggleButton value={'Active Campaign'}>Active Campaign</ToggleButton>
           <ToggleButton value={'Actived Campaign'}>Actived Campaign</ToggleButton>
         </ToggleButtonGroup>
-        <DashboardTable rows={campainsData} isLoading={campains.isLoading}  />
+        <DashboardTable rows={campainsData} isLoading={campains.isLoading} />
       </Card>
 
       <Modal

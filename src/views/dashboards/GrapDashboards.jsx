@@ -81,7 +81,7 @@ const GrapDashboards = props => {
       />
       <CardContent>
         <Grid container sx={{ my: [0, 4, 1.625] }}>
-          <Grid item xs={6} sm={4} md={6} sx={{ mb: [3, 0] }}>
+          <Grid item xs={6} sm={12} md={6} sx={{ mb: [3, 0] }}>
             <ReactApexcharts
               type='radialBar'
               height={240}
@@ -89,7 +89,7 @@ const GrapDashboards = props => {
               options={options('#38f205', 'Sent', dataGrap?.sent || 0, dataGrap?.total || 0)}
             />
           </Grid>
-          <Grid item xs={6} sm={4} md={6} sx={{ mb: [3, 0] }}>
+          <Grid item xs={6} sm={12} md={6} sx={{ mb: [3, 0] }}>
             <ReactApexcharts
               type='radialBar'
               height={240}

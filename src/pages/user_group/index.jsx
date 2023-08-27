@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react'
 
 // Components import
-import CampaignsTable from 'src/views/table/CampaignsTable'
+import GroupTable from 'src/views/table/GroupTable'
 
 // MUI Import
 import Typography from '@mui/material/Typography'
@@ -15,6 +15,8 @@ import Icon from 'src/@core/components/icon'
 
 // ** Icon Imports
 import AddCircleIcon from '@mui/icons-material/AddCircle'
+import { useGetGroupQuery } from 'src/store/api'
+import TargetGroupTable from 'src/views/table/TargetGroupTable'
 
 const initialUserData = {
   groupName: '',
@@ -24,6 +26,9 @@ const initialUserData = {
 }
 
 function User_group() {
+  const Group = useGetGroupQuery()
+  let groupsData = !Group.isLoading ? Group.data?.groups : []
+
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
@@ -72,7 +77,7 @@ function User_group() {
         New Group
       </Button>
       <Card sx={{ my: 4, p: 6 }}>
-        <CampaignsTable />
+        <GroupTable data={groupsData} />
       </Card>
 
       <Modal
@@ -141,7 +146,7 @@ function User_group() {
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                <CampaignsTable />
+                <TargetGroupTable data={groupsData} />
               </Grid>
 
               <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end' }}>

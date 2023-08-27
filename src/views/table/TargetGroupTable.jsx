@@ -9,18 +9,7 @@ import CardHeader from '@mui/material/CardHeader'
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** Custom Components
-import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
 import QuickSearchToolbar from 'src/views/table/data-grid/QuickSearchToolbar'
-
-// ** Data Import
-import { useGetEmailTemplatesQuery } from 'src/store/api'
-import { IconButton } from '@mui/material'
-
-// ** Icon Import
-import EditIcon from '@mui/icons-material/Edit'
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import { ContentCopy } from '@mui/icons-material'
 
 const statusObj = {
   1: { title: 'current', color: 'primary' },
@@ -50,11 +39,9 @@ const escapeRegExp = value => {
 const columns = [
   {
     flex: 0.2,
-    type: 'date',
     minWidth: 120,
     headerName: 'Name',
     field: 'name',
-    valueGetter: params => new Date(params.value),
     renderCell: params => (
       <Typography variant='body2' sx={{ color: 'text.primary' }}>
         {params.row.name}
@@ -64,41 +51,29 @@ const columns = [
   {
     flex: 0.2,
     minWidth: 110,
-    field: 'modified_date',
-    headerName: 'Modified Date',
+    field: 'salary',
+    headerName: 'Salary',
     renderCell: params => (
       <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {ConvertDate(params.row.modified_date)}
+        {params.row.modified_date}
       </Typography>
     )
   },
 
   {
-    flex: 0.275,
-    minWidth: 100,
-    headerName: 'Action',
-    renderCell: ({ row }) => {
-      return (
-        <>
-          <IconButton color='primary'>
-            <EditIcon sx={{ fontSize: 26 }} />
-          </IconButton>
-          <IconButton color='primary'>
-            <ContentCopy sx={{ fontSize: 26 }} />
-          </IconButton>
-          <IconButton color='error'>
-            <DeleteForeverIcon sx={{ fontSize: 26 }} />
-          </IconButton>
-        </>
-      )
-    }
+    flex: 0.125,
+    field: 'target_count',
+    minWidth: 80,
+    headerName: 'Target Count',
+    renderCell: params => (
+      <Typography variant='body2' sx={{ color: 'text.primary' }}>
+        {params.row.targets ? params.row.targets.length : 0}
+      </Typography>
+    )
   }
 ]
 
-const Email_template_Table = () => {
-  const template = useGetEmailTemplatesQuery()
-  let templateData = !template.isLoading ? template.data?.email_templates : []
-
+const TargetGroupTable = ({ data }) => {
   // ** States
   const [searchText, setSearchText] = useState('')
   const [filteredData, setFilteredData] = useState([])
@@ -125,12 +100,11 @@ const Email_template_Table = () => {
     <DataGrid
       autoHeight
       columns={columns}
-      loading={template.isLoading}
-      pageSizeOptions={[7, 10, 25, 50]}
+      pageSizeOptions={[10, 15, 20, 25, 50]}
       paginationModel={paginationModel}
       slots={{ toolbar: QuickSearchToolbar }}
       onPaginationModelChange={setPaginationModel}
-      rows={templateData}
+      rows={filteredData.length ? filteredData : data}
       slotProps={{
         baseButton: {
           variant: 'outlined'
@@ -145,4 +119,4 @@ const Email_template_Table = () => {
   )
 }
 
-export default Email_template_Table
+export default TargetGroupTable

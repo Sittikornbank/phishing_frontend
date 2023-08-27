@@ -16,8 +16,6 @@ import DialogAdd from 'src/views/pages/email_templeate/dialogAdd'
 
 import DialogShowUI from 'src/views/pages/email_templeate/dialogShowUI'
 
-
-
 function Campaigns() {
   // ** State
   const [alignment, setAlignment] = useState('Active Campaign')
@@ -34,7 +32,7 @@ function Campaigns() {
   }
 
   const RenderMarkUp = () => {
-    return <div dangerouslySetInnerHTML={{__html: dataEdit?.html}} />
+    return <div dangerouslySetInnerHTML={{ __html: dataEdit?.html }} />
   }
 
   const handleSetShow = (field, value) => {
@@ -58,8 +56,8 @@ function Campaigns() {
         New Template
       </Button>
       <Grid container sx={{ my: [0, 4, 1.625] }} spacing={5}>
-        {templateData.map((data) => {
-          return (<CardTemplate key={data.id} data={data} setData={setDataEdit} setShow={setShowEdit} />)
+        {templateData?.map(data => {
+          return <CardTemplate key={data.id} data={data} setData={setDataEdit} setShow={setShowEdit} />
         })}
       </Grid>
       <Card sx={{ my: 4, p: 6 }}>

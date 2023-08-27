@@ -37,6 +37,19 @@ function CustomToolbar(props) {
   )
 }
 
+function ConvertDate(date) {
+  var created_date = new Date(date)
+  var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  var year = created_date.getFullYear()
+  var month = months[created_date.getMonth()]
+  var date = created_date.getDate()
+  var hour = ('0' + created_date.getHours()).slice(-2)
+  var min = ('0' + created_date.getMinutes()).slice(-2)
+  var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min // final date with time, you can use this according your requirement
+
+  return time
+}
+
 const statusObj = {
   running: { title: 'Running', color: 'primary' },
   complete: { title: 'Complete', color: 'success' },
@@ -57,7 +70,7 @@ const DashboardTable = ({ rows, isLoading }) => {
       minWidth: 200,
       field: 'create_date',
       headerName: 'Created Date',
-      renderCell: ({ row }) => (row.created_date ? row.created_date : '-')
+      renderCell: ({ row }) => (row.created_date ? ConvertDate(row.created_date) : '-')
     },
 
     {
@@ -152,7 +165,9 @@ const DashboardTable = ({ rows, isLoading }) => {
     }
   ]
 
-return <DataGrid columns={columns} rows={rows || []} slots={{ toolbar: CustomToolbar }} autoHeight loading={isLoading} />
+  return (
+    <DataGrid columns={columns} rows={rows || []} slots={{ toolbar: CustomToolbar }} autoHeight loading={isLoading} />
+  )
 }
 
 export default DashboardTable

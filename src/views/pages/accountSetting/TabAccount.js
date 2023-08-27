@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -15,6 +15,7 @@ import { useForm, Controller } from 'react-hook-form'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
+import { useGetAccountAPIQuery } from 'src/store/api'
 
 const initialData = {
   APIKey: '',
@@ -49,6 +50,11 @@ const ResetButtonStyled = styled(Button)(({ theme }) => ({
 }))
 
 const TabAccount = () => {
+  const AccountDetail = useGetAccountAPIQuery()
+  const LoadData = AccountDetail.isLoading
+  const DataAccount = !LoadData ? AccountDetail.data : {}
+  console.log(DataAccount)
+
   // ** State
   const [open, setOpen] = useState(false)
   const [inputValue, setInputValue] = useState('')
@@ -82,6 +88,7 @@ const TabAccount = () => {
                   <TextField
                     fullWidth
                     label='API Key'
+                    disabled={LoadData}
                     placeholder='http://google.com:'
                     value={formData.APIKey}
                     onChange={e => handleFormChange('APIKey', e.target.value)}
@@ -97,8 +104,8 @@ const TabAccount = () => {
                   <TextField
                     fullWidth
                     label='Username'
-                    placeholder='Doe'
-                    value={formData.username}
+                    disabled={LoadData}
+                    value={DataAccount.username}
                     onChange={e => handleFormChange('username', e.target.value)}
                   />
                 </Grid>
@@ -107,7 +114,8 @@ const TabAccount = () => {
                     fullWidth
                     type='password'
                     label='Old Password'
-                    value={formData.oldPassword}
+                    disabled={LoadData}
+                    // value={data.oldPassword}
                     onChange={e => handleFormChange('oldPassword', e.target.value)}
                   />
                 </Grid>
@@ -116,7 +124,8 @@ const TabAccount = () => {
                     fullWidth
                     type='password'
                     label='New Password'
-                    value={formData.NewPassword}
+                    disabled={LoadData}
+                    // value={formData.NewPassword}
                     onChange={e => handleFormChange('NewPassword', e.target.value)}
                   />
                 </Grid>
@@ -125,7 +134,8 @@ const TabAccount = () => {
                     fullWidth
                     type='password'
                     label='Confirm New Password'
-                    value={formData.ConfirmNewPassword}
+                    disabled={LoadData}
+                    // value={formData.ConfirmNewPassword}
                     onChange={e => handleFormChange('ConfirmNewPassword', e.target.value)}
                   />
                 </Grid>

@@ -28,6 +28,9 @@ export const GetAPI_summary_port = createApi({
     }),
     getOverViews: builder.query({
       query: () => 'campaigns/results/all'
+    }),
+    getGroup: builder.query({
+      query: () => `groups`
     })
   })
 })
@@ -44,6 +47,9 @@ export const GetAPI_users_port = createApi({
     }
   }),
   endpoints: builder => ({
+    getAccountAPI: builder.query({
+      query: () => 'me'
+    }),
     getUsersAPI: builder.query({
       query: () => 'users'
     }),
@@ -95,9 +101,10 @@ export const {
   useGetOverViewsQuery,
   useGetCampaignQuery,
   useGetCampaign_summary_resultQuery,
-  useGetCampaign_resultQuery
+  useGetCampaign_resultQuery,
+  useGetGroupQuery
 } = GetAPI_summary_port
 
-export const { useGetUsersAPIQuery, useGetUsersByIDQuery } = GetAPI_users_port
+export const { useGetUsersAPIQuery, useGetUsersByIDQuery, useGetAccountAPIQuery } = GetAPI_users_port
 
 export const { useGetEmailTemplatesQuery, useGetLandingPageQuery } = GetAPI_template_port

@@ -51,8 +51,8 @@ const columns = [
   {
     flex: 0.2,
     minWidth: 110,
-    field: 'salary',
-    headerName: 'Salary',
+    field: 'email',
+    headerName: 'E-Mail',
     renderCell: params => (
       <Typography variant='body2' sx={{ color: 'text.primary' }}>
         {params.row.modified_date}
@@ -62,9 +62,9 @@ const columns = [
 
   {
     flex: 0.125,
-    field: 'target_count',
+    field: 'position',
     minWidth: 80,
-    headerName: 'Target Count',
+    headerName: 'Position',
     renderCell: params => (
       <Typography variant='body2' sx={{ color: 'text.primary' }}>
         {params.row.targets ? params.row.targets.length : 0}

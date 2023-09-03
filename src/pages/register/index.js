@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState } from 'react'
+import { use, useState } from 'react'
 
 // ** Next Import
 import Link from 'next/link'
@@ -36,7 +36,9 @@ import { useSettings } from 'src/@core/hooks/useSettings'
 
 // ** Demo Imports
 import FooterIllustrationsV2 from 'src/views/pages/auth/FooterIllustrationsV2'
-import { FormHelperText, Grid } from '@mui/material'
+import { Alert, FormHelperText, Grid } from '@mui/material'
+import { useRegisterQuery } from 'src/store/api'
+import axios from 'axios'
 
 // ** Styled Components
 const RegisterIllustrationWrapper = styled(Box)(({ theme }) => ({
@@ -90,10 +92,13 @@ const LinkStyled = styled(Link)(({ theme }) => ({
   color: theme.palette.primary.main
 }))
 
+const url = `${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_USERAUTH_PORT}/register`
+
 const Register = () => {
   // ** States
   const [showPassword, setShowPassword] = useState(false)
   const [matchPassword, setMatchPassword] = useState(false)
+  const [msgRegister, setRegister] = useState('')
 
   // ** Hooks
   const theme = useTheme()
@@ -104,163 +109,176 @@ const Register = () => {
   const { skin } = settings
   const imageSource = skin === 'bordered' ? 'auth-v2-register-illustration-bordered' : 'auth-v2-register-illustration'
 
-  function CheckMatchPassword(value) {}
+  async function SubmitData(e) {
+    e.preventDefault()
+    const dataForm = new FormData(e.target)
+    const data = Object.fromEntries(dataForm.entries())
+
+    // * Check Password
+    if (data.password != data.confirm_password) setMatchPassword(true)
+    else setMatchPassword(false)
+
+    axios
+      .post(url, data)
+      .then(function (response) {
+        console.log(response)
+        setRegister(response.response.data.detail)
+      })
+      .catch(function (error) {
+        console.log(error)
+        setRegister(error.response?.data.detail)
+      })
+  }
 
   return (
-    <Box className='content-right'>
-      {!hidden ? (
-        <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-          <RegisterIllustrationWrapper>
-            <RegisterIllustration
-              alt='register-illustration'
-              src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
-            />
-          </RegisterIllustrationWrapper>
-          <FooterIllustrationsV2 image={<TreeIllustration alt='tree' src='/images/pages/tree-2.png' />} />
-        </Box>
-      ) : null}
-      <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
-        <Box
-          sx={{
-            p: 12,
-            height: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            backgroundColor: 'background.paper'
-          }}
-        >
-          <BoxWrapper>
-            <Box
-              sx={{
-                top: 30,
-                left: 40,
-                display: 'flex',
-                position: 'absolute',
-                alignItems: 'center',
-                justifyContent: 'center'
-              }}
-            >
-              <Image src={`/images/pages/Logo.png`} alt='Logo' width={50} height={50} />
-              <Typography
-                variant='h6'
+    <>
+      <Box className='content-right'>
+        {!hidden ? (
+          <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
+            <RegisterIllustrationWrapper>
+              <RegisterIllustration
+                alt='register-illustration'
+                src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
+              />
+            </RegisterIllustrationWrapper>
+            <FooterIllustrationsV2 image={<TreeIllustration alt='tree' src='/images/pages/tree-2.png' />} />
+          </Box>
+        ) : null}
+        <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
+          <Box
+            sx={{
+              p: 12,
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'background.paper'
+            }}
+          >
+            <BoxWrapper>
+              <Box
                 sx={{
-                  ml: 3,
-                  lineHeight: 1,
-                  fontWeight: 600,
-                  textTransform: 'uppercase',
-                  fontSize: '1.5rem !important'
+                  top: 30,
+                  left: 40,
+                  display: 'flex',
+                  position: 'absolute',
+                  alignItems: 'center',
+                  justifyContent: 'center'
                 }}
               >
-                {themeConfig.templateName}
-              </Typography>
-            </Box>
-            <Box sx={{ mb: 6 }}>
-              <TypographyStyled variant='h5'>Adventure starts here 🚀</TypographyStyled>
-              <Typography variant='body2'>Make your app management easy and fun!</Typography>
-            </Box>
-            <form noValidate autoComplete='off' onSubmit={e => e.preventDefault()}>
-              <Grid container spacing={4} justifyContent={'space-between'} sx={{ mb: 6 }}>
-                <Grid item xs={12}>
-                  <TextField autoFocus fullWidth label='Username' />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <InputLabel htmlFor='auth-login-v2-password'>Password</InputLabel>
-                    <OutlinedInput
-                      label='Password'
-                      id='auth-login-v2-password'
-                      error={true}
-                      type={showPassword ? 'text' : 'password'}
-                      endAdornment={
-                        <InputAdornment position='end'>
-                          <IconButton
-                            edge='end'
-                            onMouseDown={e => e.preventDefault()}
-                            onClick={() => setShowPassword(!showPassword)}
-                          >
-                            <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} />
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <InputLabel htmlFor='auth-login-v2-password'>Confirm Password</InputLabel>
-                    <OutlinedInput
-                      label='Confirm Password'
-                      id='auth-login-v2-password'
-                      error={true}
-                      onChange={e => CheckMatchPassword(e.target.value)}
-                      type={showPassword ? 'text' : 'password'}
-                      endAdornment={
-                        <InputAdornment position='end'>
-                          <IconButton
-                            edge='end'
-                            onMouseDown={e => e.preventDefault()}
-                            onClick={() => setShowPassword(!showPassword)}
-                          >
-                            <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} />
-                          </IconButton>
-                        </InputAdornment>
-                      }
-                    />
-                    <FormHelperText sx={{ color: 'error.main', display: 'flex', gap: 2 }}>
-                      <DangerousIcon fontSize='small' /> <span>Password not match</span>
-                    </FormHelperText>
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField autoFocus fullWidth label='E-Mail' />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField autoFocus fullWidth label='Firstname' />
-                </Grid>
-                <Grid item xs={6}>
-                  <TextField autoFocus fullWidth label='Lastname' />
-                </Grid>
-                <Grid item xs={12}>
-                  <TextField autoFocus fullWidth label='Telephone' />
-                </Grid>
-              </Grid>
-              <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 6 }}>
-                Sign up
-              </Button>
-              <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
-                <Typography variant='body2' sx={{ mr: 2 }}>
-                  Already have an account?
-                </Typography>
-                <Typography variant='body2'>
-                  <LinkStyled href='/login'>Sign in instead</LinkStyled>
+                <Image src={`/images/pages/Logo.png`} alt='Logo' width={50} height={50} />
+                <Typography
+                  variant='h6'
+                  sx={{
+                    ml: 3,
+                    lineHeight: 1,
+                    fontWeight: 600,
+                    textTransform: 'uppercase',
+                    fontSize: '1.5rem !important'
+                  }}
+                >
+                  {themeConfig.templateName}
                 </Typography>
               </Box>
-              {/* <Divider sx={{ my: theme => `${theme.spacing(5)} !important` }}>or</Divider>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <IconButton href='/' component={Link} sx={{ color: '#497ce2' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:facebook' />
-                </IconButton>
-                <IconButton href='/' component={Link} sx={{ color: '#1da1f2' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:twitter' />
-                </IconButton>
-                <IconButton
-                  href='/'
-                  component={Link}
-                  onClick={e => e.preventDefault()}
-                  sx={{ color: theme => (theme.palette.mode === 'light' ? '#272727' : 'grey.300') }}
-                >
-                  <Icon icon='mdi:github' />
-                </IconButton>
-                <IconButton href='/' component={Link} sx={{ color: '#db4437' }} onClick={e => e.preventDefault()}>
-                  <Icon icon='mdi:google' />
-                </IconButton>
-              </Box> */}
-            </form>
-          </BoxWrapper>
-        </Box>
-      </RightWrapper>
-    </Box>
+              <Box sx={{ mb: 6 }}>
+                <TypographyStyled variant='h5'>Adventure starts here 🚀</TypographyStyled>
+                <Typography variant='body2'>Make your app management easy and fun!</Typography>
+              </Box>
+              <form autoComplete='off' onSubmit={e => SubmitData(e)}>
+                <Grid container spacing={4} justifyContent={'space-between'} sx={{ mb: 6 }}>
+                  <Grid item xs={12}>
+                    <TextField autoFocus fullWidth required label='Username' name='username' />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControl fullWidth>
+                      <InputLabel htmlFor='auth-login-v2-password'>Password</InputLabel>
+                      <OutlinedInput
+                        label='Password'
+                        id='auth-login-v2-password'
+                        name='password'
+                        error={matchPassword}
+                        type={showPassword ? 'text' : 'password'}
+                        required
+                        endAdornment={
+                          <InputAdornment position='end'>
+                            <IconButton
+                              edge='end'
+                              onMouseDown={e => e.preventDefault()}
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} />
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControl fullWidth>
+                      <InputLabel htmlFor='auth-login-v2-password'>Confirm Password</InputLabel>
+                      <OutlinedInput
+                        label='Confirm Password'
+                        id='auth-login-v2-password'
+                        error={matchPassword}
+                        type={showPassword ? 'text' : 'password'}
+                        name='confirm_password'
+                        required
+                        endAdornment={
+                          <InputAdornment position='end'>
+                            <IconButton
+                              edge='end'
+                              onMouseDown={e => e.preventDefault()}
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              <Icon icon={showPassword ? 'mdi:eye-outline' : 'mdi:eye-off-outline'} />
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                      {matchPassword && (
+                        <FormHelperText sx={{ color: 'error.main', display: 'flex', gap: 2 }}>
+                          <DangerousIcon fontSize='small' /> <span>Password not match</span>
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField autoFocus fullWidth required label='E-Mail' name='email' />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField autoFocus fullWidth required label='Firstname' name='firstname' />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField autoFocus fullWidth required label='Lastname' name='lastname' />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TextField autoFocus fullWidth required label='Telephone' name='phonenumber' />
+                  </Grid>
+                  <Grid item xs={12}>
+                    {msgRegister && (
+                      <FormHelperText sx={{ color: 'error.main', display: 'flex', gap: 2 }}>
+                        <DangerousIcon fontSize='small' /> <span>{msgRegister}</span>
+                      </FormHelperText>
+                    )}
+                  </Grid>
+                </Grid>
+                <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 6 }}>
+                  Sign up
+                </Button>
+                <Box sx={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'center' }}>
+                  <Typography variant='body2' sx={{ mr: 2 }}>
+                    Already have an account?
+                  </Typography>
+                  <Typography variant='body2'>
+                    <LinkStyled href='/login'>Sign in instead</LinkStyled>
+                  </Typography>
+                </Box>
+              </form>
+            </BoxWrapper>
+          </Box>
+        </RightWrapper>
+      </Box>
+    </>
   )
 }
 Register.getLayout = page => <BlankLayout>{page}</BlankLayout>

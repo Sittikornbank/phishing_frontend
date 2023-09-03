@@ -47,6 +47,15 @@ export const GetAPI_users_port = createApi({
     }
   }),
   endpoints: builder => ({
+    register: builder.query({
+      query: body => ({
+        url: 'register',
+        method: 'POST',
+        body
+      }),
+      providesTags: ['Register'],
+      transformResponse: response => response
+    }),
     getAccountAPI: builder.query({
       query: () => 'me'
     }),
@@ -105,6 +114,6 @@ export const {
   useGetGroupQuery
 } = GetAPI_summary_port
 
-export const { useGetUsersAPIQuery, useGetUsersByIDQuery, useGetAccountAPIQuery } = GetAPI_users_port
+export const { useGetUsersAPIQuery, useGetUsersByIDQuery, useGetAccountAPIQuery, useRegisterQuery } = GetAPI_users_port
 
 export const { useGetEmailTemplatesQuery, useGetLandingPageQuery } = GetAPI_template_port

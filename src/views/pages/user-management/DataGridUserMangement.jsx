@@ -104,7 +104,7 @@ const DataGridUserMangement = () => {
             <IconButton color='primary' onClick={() => openDialog(row)}>
               <DriveFileRenameOutlineIcon sx={{ fontSize: 26 }} />
             </IconButton>
-            <IconButton color='error'>
+            <IconButton color='error' onClick={() => deleteDialog(row)}>
               <DeleteForeverIcon sx={{ fontSize: 26 }} />
             </IconButton>
           </>
@@ -123,6 +123,7 @@ const DataGridUserMangement = () => {
   const [filteredData, setFilteredData] = useState([])
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
   const [open_Dialog, setOpenDialog] = useState(false)
+  const [open_Delete, setOpenDelete] = useState(false)
 
   const openDialog = data_select => {
     console.log(data_select)
@@ -132,6 +133,12 @@ const DataGridUserMangement = () => {
     } else {
       setOpenDialog(false)
       setDataCurrent({})
+    }
+  }
+
+  const deleteDialog = data_select => {
+    if (open_Delete) {
+      setOpenDelete(() => false)
     }
   }
 

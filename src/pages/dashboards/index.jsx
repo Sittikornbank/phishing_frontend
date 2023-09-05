@@ -14,6 +14,7 @@ import { useGetOverViewsQuery } from 'src/store/api'
 
 import DashboardTable from 'src/views/table/DashboardTable'
 import BarChartDashboard from 'src/views/dashboards/BarchartDashboard'
+import GrapTotalDashboards from 'src/views/dashboards/GrapTotalDashboard'
 
 function Dashboard() {
   const campains = useGetCampaigns_summaryQuery()
@@ -31,6 +32,9 @@ function Dashboard() {
         </Grid>
         <Grid item xs={12} sm={8} sx={{ mb: [3, 0] }}>
           <GrapDashboardsAction dataGrap={overviewsData} />
+        </Grid>
+        <Grid item sm={12} sx={{ mb: [3, 0] }}>
+          <GrapTotalDashboards dataGrap={overviewsData} />
         </Grid>
         <Grid item xs={12} sx={{ mb: [3, 0] }}>
           <LineChartDashboard />

@@ -100,7 +100,7 @@ const GrapTotalDashboards = ({ dataGrap }) => {
                 <Icon icon='solar:graph-up-line-duotone' />
               </CustomAvatar>
               <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                <Typography variant='body2'>Number of Sales</Typography>
+                <Typography variant='body2'>Total Status</Typography>
                 <Typography variant='h6'>{total}</Typography>
               </Box>
             </Box>

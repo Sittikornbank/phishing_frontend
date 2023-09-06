@@ -27,58 +27,95 @@ function calPercentage(a, total) {
 const GrapTotalDashboards = ({ dataGrap }) => {
   // ** Hook
   const theme = useTheme()
-  const data_grap = [dataGrap.open, dataGrap.click, dataGrap.submit]
+  const open = dataGrap.open ? dataGrap.open : 0
+  const click = dataGrap.click ? dataGrap.click : 0
+  const submit = dataGrap.submit ? dataGrap.submit : 0
+  const data_grap = [open, click, submit]
 
   console.log(dataGrap)
 
   const total = data_grap.reduce((a, b) => a + b, 0)
 
   const options = {
-    chart: {
-      sparkline: { enabled: true }
-    },
-    colors: ['#fcd75b', '#ff9d1c', '#8d42f5'],
     stroke: { width: 0 },
-    legend: { show: false },
-    dataLabels: { enabled: false },
     labels: ['Open', 'Click', 'Submit'],
-    states: {
-      hover: {
-        filter: { type: 'none' }
-      },
-      active: {
-        filter: { type: 'none' }
+    colors: ['#fcd75b', '#ff9d1c', '#8d42f5'],
+    dataLabels: {
+      enabled: true,
+      formatter: val => `${parseInt(val, 10)}%`
+    },
+    legend: {
+      position: 'bottom',
+      markers: { offsetX: -3 },
+      labels: { colors: theme.palette.text.secondary },
+      itemMargin: {
+        vertical: 3,
+        horizontal: 10
       }
     },
     plotOptions: {
       pie: {
-        customScale: 0.9,
         donut: {
-          size: '70%',
           labels: {
             show: true,
             name: {
-              offsetY: 25,
-              fontSize: '0.875rem',
-              color: theme.palette.text.secondary
+              fontSize: '1.2rem'
             },
             value: {
-              offsetY: -15,
-              fontWeight: 500,
-              formatter: value => `value`,
-              color: theme.palette.text.primary
+              fontSize: '1.2rem',
+              color: theme.palette.text.secondary,
+              formatter: val => `${parseInt(val, 10)}`
             },
             total: {
               show: true,
-              fontSize: '0.875rem',
-              label: 'Total',
-              color: theme.palette.text.secondary,
-              formatter: value => `${value.globals.seriesTotals.reduce((total, num) => total + num)}`
+              fontSize: '1.2rem',
+              label: 'Operational',
+              formatter: () => '31%',
+              color: theme.palette.text.primary
             }
           }
         }
       }
-    }
+    },
+    responsive: [
+      {
+        breakpoint: 992,
+        options: {
+          chart: {
+            height: 380
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      },
+      {
+        breakpoint: 576,
+        options: {
+          chart: {
+            height: 320
+          },
+          plotOptions: {
+            pie: {
+              donut: {
+                labels: {
+                  show: true,
+                  name: {
+                    fontSize: '1rem'
+                  },
+                  value: {
+                    fontSize: '1rem'
+                  },
+                  total: {
+                    fontSize: '1rem'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   }
 
   return (
@@ -92,7 +129,7 @@ const GrapTotalDashboards = ({ dataGrap }) => {
       <CardContent>
         <Grid container sx={{ my: [0, 1, 0.625] }}>
           <Grid item xs={12} sm={6} sx={{ mb: [3, 0] }}>
-            <ReactApexcharts type='donut' height={220} series={data_grap} options={options} />
+            <ReactApexcharts type='donut' height={400} series={data_grap} options={options} />
           </Grid>
           <Grid item xs={12} sm={6} sx={{ my: 'auto' }}>
             <Box sx={{ mr: 2, display: 'flex', alignItems: 'center' }}>

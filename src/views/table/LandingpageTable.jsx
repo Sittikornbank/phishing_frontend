@@ -1,12 +1,12 @@
 // ** React Imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
 import { DataGrid } from '@mui/x-data-grid'
+
+// MUI Icon import
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+import EditIcon from '@mui/icons-material/Edit'
 
 // ** Custom Components
 import CustomChip from 'src/@core/components/mui/chip'
@@ -18,6 +18,8 @@ import { getInitials } from 'src/@core/utils/get-initials'
 
 // ** Data Import
 import { rows } from 'src/@fake-db/table/static-data'
+import { useGetLandingPageQuery } from 'src/store/api'
+import { IconButton } from '@mui/material'
 
 // ** renders client column
 const renderClient = params => {
@@ -50,79 +52,25 @@ const escapeRegExp = value => {
 
 const columns = [
   {
+    flex: 1,
+    field: 'name',
+    minWidth: 150,
+    headerName: 'Name'
+  },
+  {
     flex: 0.275,
-    minWidth: 290,
-    field: 'full_name',
-    headerName: 'Name',
-    renderCell: params => {
-      const { row } = params
-
+    minWidth: 100,
+    headerName: 'Action',
+    renderCell: ({ row }) => {
       return (
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          {renderClient(params)}
-          <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-            <Typography noWrap variant='body2' sx={{ color: 'text.primary', fontWeight: 600 }}>
-              {row.full_name}
-            </Typography>
-            <Typography noWrap variant='caption'>
-              {row.email}
-            </Typography>
-          </Box>
-        </Box>
-      )
-    }
-  },
-  {
-    flex: 0.2,
-    type: 'date',
-    minWidth: 120,
-    headerName: 'Date',
-    field: 'start_date',
-    valueGetter: params => new Date(params.value),
-    renderCell: params => (
-      <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.start_date}
-      </Typography>
-    )
-  },
-  {
-    flex: 0.2,
-    minWidth: 110,
-    field: 'salary',
-    headerName: 'Salary',
-    renderCell: params => (
-      <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.salary}
-      </Typography>
-    )
-  },
-  {
-    flex: 0.125,
-    field: 'age',
-    minWidth: 80,
-    headerName: 'Age',
-    renderCell: params => (
-      <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.age}
-      </Typography>
-    )
-  },
-  {
-    flex: 0.2,
-    minWidth: 140,
-    field: 'status',
-    headerName: 'Status',
-    renderCell: params => {
-      const status = statusObj[params.row.status]
-
-      return (
-        <CustomChip
-          size='small'
-          skin='light'
-          color={status.color}
-          label={status.title}
-          sx={{ '& .MuiChip-label': { textTransform: 'capitalize' } }}
-        />
+        <>
+          <IconButton color='primary'>
+            <EditIcon sx={{ fontSize: 26 }} />
+          </IconButton>
+          <IconButton color='error'>
+            <DeleteForeverIcon sx={{ fontSize: 26 }} />
+          </IconButton>
+        </>
       )
     }
   }
@@ -130,10 +78,18 @@ const columns = [
 
 const LandingpageTable = () => {
   // ** States
-  const [data] = useState(rows)
+  const [data, setData] = useState([])
   const [searchText, setSearchText] = useState('')
   const [filteredData, setFilteredData] = useState([])
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
+
+  const landingpage = useGetLandingPageQuery()
+
+  useEffect(() => {
+    if (!landingpage.isLoading) {
+      setData(landingpage.data.site_templates)
+    }
+  }, [landingpage])
 
   const handleSearch = searchValue => {
     setSearchText(searchValue)

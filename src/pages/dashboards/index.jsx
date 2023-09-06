@@ -17,12 +17,11 @@ import BarChartDashboard from 'src/views/dashboards/BarchartDashboard'
 import GrapTotalDashboards from 'src/views/dashboards/GrapTotalDashboard'
 
 function Dashboard() {
+  const [data, setDate] = useState({})
   const campains = useGetCampaigns_summaryQuery()
   const overviews = useGetOverViewsQuery()
   let campainsData = !campains.isLoading ? campains.data?.campaigns : []
   let overviewsData = !overviews.isLoading ? overviews.data : []
-
-  console.log(campains)
 
   return (
     <>

@@ -18,6 +18,7 @@ import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
 // ** Util Import
 import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
+import { useState } from 'react'
 
 function calPercentage(a, total) {
   return ((a / total) * 100).toFixed(2)
@@ -26,10 +27,9 @@ function calPercentage(a, total) {
 const GrapTotalDashboards = ({ dataGrap }) => {
   // ** Hook
   const theme = useTheme()
+  const data_grap = [dataGrap.open, dataGrap.click, dataGrap.submit]
 
   console.log(dataGrap)
-
-  const data_grap = [dataGrap.open, dataGrap.click, dataGrap.submit]
 
   const total = data_grap.reduce((a, b) => a + b, 0)
 
@@ -65,7 +65,7 @@ const GrapTotalDashboards = ({ dataGrap }) => {
             value: {
               offsetY: -15,
               fontWeight: 500,
-              formatter: value => value,
+              formatter: value => `value`,
               color: theme.palette.text.primary
             },
             total: {
@@ -84,7 +84,7 @@ const GrapTotalDashboards = ({ dataGrap }) => {
   return (
     <Card>
       <CardHeader
-        title='Sales Overview'
+        title='Total Status'
         titleTypographyProps={{
           sx: { lineHeight: '2rem !important', letterSpacing: '0.15px !important' }
         }}
@@ -119,7 +119,7 @@ const GrapTotalDashboards = ({ dataGrap }) => {
                   <Typography variant='body2'>Open</Typography>
                 </Box>
                 <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap.open}</Typography>
-                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.open, total)}</Typography>
+                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.open, total)} %</Typography>
               </Grid>
               <Grid item xs={6} sx={{ mb: 4 }}>
                 <Box
@@ -134,7 +134,7 @@ const GrapTotalDashboards = ({ dataGrap }) => {
                   <Typography variant='body2'>Click</Typography>
                 </Box>
                 <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap.click}</Typography>
-                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.click, total)}</Typography>
+                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.click, total)} %</Typography>
               </Grid>
               <Grid item xs={6}>
                 <Box
@@ -149,7 +149,7 @@ const GrapTotalDashboards = ({ dataGrap }) => {
                   <Typography variant='body2'>Submit</Typography>
                 </Box>
                 <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap.submit}</Typography>
-                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.submit, total)}</Typography>
+                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.submit, total)} %</Typography>
               </Grid>
             </Grid>
           </Grid>

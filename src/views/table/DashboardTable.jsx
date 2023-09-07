@@ -1,9 +1,6 @@
 import NextLink from 'next/link'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
-import CardHeader from '@mui/material/CardHeader'
 import CustomChip from 'src/@core/components/mui/chip'
 import { IconButton } from '@mui/material'
 import {

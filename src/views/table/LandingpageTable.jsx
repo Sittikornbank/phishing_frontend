@@ -9,34 +9,13 @@ import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import EditIcon from '@mui/icons-material/Edit'
 
 // ** Custom Components
-import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
 import QuickSearchToolbar from 'src/views/table/data-grid/QuickSearchToolbar'
 
-// ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
-
-// ** Data Import
-import { rows } from 'src/@fake-db/table/static-data'
-import { useGetLandingPageQuery } from 'src/store/api'
+import { useDeleteLandingPageMutation, useGetLandingPageQuery } from 'src/store/api'
 import { IconButton } from '@mui/material'
-
-// ** renders client column
-const renderClient = params => {
-  const { row } = params
-  const stateNum = Math.floor(Math.random() * 6)
-  const states = ['success', 'error', 'warning', 'info', 'primary', 'secondary']
-  const color = states[stateNum]
-  if (row.avatar.length) {
-    return <CustomAvatar src={`/images/avatars/${row.avatar}`} sx={{ mr: 3, width: '1.875rem', height: '1.875rem' }} />
-  } else {
-    return (
-      <CustomAvatar skin='light' color={color} sx={{ mr: 3, fontSize: '.8rem', width: '1.875rem', height: '1.875rem' }}>
-        {getInitials(row.full_name ? row.full_name : 'John Doe')}
-      </CustomAvatar>
-    )
-  }
-}
+import DialogDelete from '../landingpage/DialogDelete'
+import DialogEdit from '../landingpage/DialogEdit'
+import DialogAdd from '../landingpage/DialogAdd'
 
 const statusObj = {
   1: { title: 'current', color: 'primary' },
@@ -50,7 +29,7 @@ const escapeRegExp = value => {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
 
-const columns = [
+const columns = (handleDelOpen, handleEditOpen) => [
   {
     flex: 1,
     field: 'name',
@@ -65,9 +44,9 @@ const columns = [
       return (
         <>
           <IconButton color='primary'>
-            <EditIcon sx={{ fontSize: 26 }} />
+            <EditIcon sx={{ fontSize: 26 }} onClick={() => handleEditOpen(row)} />
           </IconButton>
-          <IconButton color='error'>
+          <IconButton color='error' onClick={() => handleDelOpen(row)}>
             <DeleteForeverIcon sx={{ fontSize: 26 }} />
           </IconButton>
         </>
@@ -81,9 +60,38 @@ const LandingpageTable = () => {
   const [data, setData] = useState([])
   const [searchText, setSearchText] = useState('')
   const [filteredData, setFilteredData] = useState([])
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
+  // ** Redux
   const landingpage = useGetLandingPageQuery()
+  const [deleteLangingPage] = useDeleteLandingPageMutation()
+
+  const [currentData, setCurrentData] = useState({})
+
+  // ** Handle Delete Dialog
+  const [delDialog, setDelDialog] = useState(false)
+
+  const handleDelOpen = (row = {}) => {
+    setCurrentData(() => row)
+    setDelDialog(true)
+  }
+  const handleDelClose = () => (setDelDialog(false), setCurrentData(() => {}))
+
+  const DeleteData = async id => {
+    await deleteLangingPage(id)
+    setDelDialog(false)
+    landingpage.refetch()
+  }
+
+  // ** Handle Edit Dialog
+  const [editDialog, setEditDialog] = useState(false)
+
+  const handleEditOpen = (row = {}) => {
+    setCurrentData(() => row)
+    setEditDialog(true)
+  }
+
+  const handleEditClose = () => setEditDialog(false)
 
   useEffect(() => {
     if (!landingpage.isLoading) {
@@ -109,25 +117,29 @@ const LandingpageTable = () => {
   }
 
   return (
-    <DataGrid
-      autoHeight
-      columns={columns}
-      pageSizeOptions={[7, 10, 25, 50]}
-      paginationModel={paginationModel}
-      slots={{ toolbar: QuickSearchToolbar }}
-      onPaginationModelChange={setPaginationModel}
-      rows={filteredData.length ? filteredData : data}
-      slotProps={{
-        baseButton: {
-          variant: 'outlined'
-        },
-        toolbar: {
-          value: searchText,
-          clearSearch: () => handleSearch(''),
-          onChange: event => handleSearch(event.target.value)
-        }
-      }}
-    />
+    <>
+      <DataGrid
+        autoHeight
+        columns={columns(handleDelOpen, handleEditOpen, setCurrentData)}
+        pageSizeOptions={[10, 20, 30, 40, 50]}
+        paginationModel={paginationModel}
+        slots={{ toolbar: QuickSearchToolbar }}
+        onPaginationModelChange={setPaginationModel}
+        rows={filteredData.length ? filteredData : data}
+        slotProps={{
+          baseButton: {
+            variant: 'outlined'
+          },
+          toolbar: {
+            value: searchText,
+            clearSearch: () => handleSearch(''),
+            onChange: event => handleSearch(event.target.value)
+          }
+        }}
+      />
+      <DialogEdit handleClose={handleEditClose} open={editDialog} data={currentData} />
+      <DialogDelete handleClose={handleDelClose} open={delDialog} data={currentData} DeleteData={DeleteData} />
+    </>
   )
 }
 

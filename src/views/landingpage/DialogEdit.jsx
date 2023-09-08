@@ -58,7 +58,7 @@ function DialogEdit({ handleClose, open, data }) {
       aria-describedby='alert-dialog-description'
       sx={{ maxWidth: '100%' }}
     >
-      <DialogTitle id='alert-dialog-title'>Edit: {data.name}</DialogTitle>
+      <DialogTitle id='alert-dialog-title'>Edit: {data?.name}</DialogTitle>
       <DialogContent>
         <Grid container spacing={4} alignItems={'center'} sx={{ mb: 4, mt: 1 }}>
           <Grid item xs={12}>
@@ -68,7 +68,7 @@ function DialogEdit({ handleClose, open, data }) {
               type='text'
               name='name'
               label='Name'
-              value={dataCurrent.name}
+              value={dataCurrent?.name}
               onChange={updateData}
             />
           </Grid>
@@ -88,13 +88,13 @@ function DialogEdit({ handleClose, open, data }) {
           <Grid item xs={12}>
             <FormControlLabel
               label='Capture Credentials'
-              checked={dataCurrent.capture_credentials}
+              checked={dataCurrent?.capture_credentials}
               onChange={updateData}
               control={<Checkbox name='capture_credentials' />}
             />
             <FormControlLabel
               label='Capture Password'
-              checked={dataCurrent.capture_passwords}
+              checked={dataCurrent?.capture_passwords}
               onChange={updateData}
               control={<Checkbox name='capture_passwords' />}
             />

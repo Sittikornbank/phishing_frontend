@@ -17,7 +17,7 @@ function DialogDelete({ handleClose, open, data, DeleteData }) {
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
     >
-      <DialogTitle id='alert-dialog-title'>Do You Want to Delete {data.name}</DialogTitle>
+      <DialogTitle id='alert-dialog-title'>Do You Want to Delete {data?.name}</DialogTitle>
       <DialogActions className='dialog-actions-dense'>
         <Button onClick={() => DeleteData(data.id)} color='success'>
           Yes

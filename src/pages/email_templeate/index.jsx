@@ -31,10 +31,6 @@ function Campaigns() {
     setAlignment(newAlignment)
   }
 
-  const RenderMarkUp = () => {
-    return <div dangerouslySetInnerHTML={{ __html: dataEdit?.html }} />
-  }
-
   const handleSetShow = (field, value) => {
     setData(false)
     setShow(true)
@@ -64,7 +60,7 @@ function Campaigns() {
         <Email_template_Table />
       </Card>
       <DialogAdd show={show} setShow={setShow} data={data} />
-      <DialogShowUI show={showEdit} dataEdit={dataEdit} setShowEdit={setShowEdit} />
+      <DialogShowUI show={showEdit} dataEdit={dataEdit ? dataEdit : []} setShowEdit={setShowEdit} />
     </>
   )
 }

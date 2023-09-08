@@ -16,10 +16,6 @@ import CustomAvatar from 'src/@core/components/mui/avatar'
 import OptionsMenu from 'src/@core/components/option-menu'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
 
-// ** Util Import
-import { hexToRGBA } from 'src/@core/utils/hex-to-rgba'
-import { useState } from 'react'
-
 function calPercentage(a, total) {
   return ((a / total) * 100).toFixed(2)
 }

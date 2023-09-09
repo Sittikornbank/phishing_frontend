@@ -3,8 +3,34 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import { Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material'
+import { Box, Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material'
 import Icon from 'src/@core/components/icon'
+import { styled } from '@mui/material/styles'
+
+import CloudUploadIcon from '@mui/icons-material/CloudUpload'
+
+// ** Third Party Imports
+import { useDropzone } from 'react-dropzone'
+
+// Styled component for the heading inside the dropzone area
+const HeadingTypography = styled(Typography)(({ theme }) => ({
+  marginBottom: theme.spacing(5),
+  [theme.breakpoints.down('sm')]: {
+    marginBottom: theme.spacing(4)
+  }
+}))
+
+const Img = styled('img')(({ theme }) => ({
+  [theme.breakpoints.up('md')]: {
+    marginRight: theme.spacing(15.75)
+  },
+  [theme.breakpoints.down('md')]: {
+    marginBottom: theme.spacing(4)
+  },
+  [theme.breakpoints.down('sm')]: {
+    width: 160
+  }
+}))
 
 import { useEffect, useState } from 'react'
 
@@ -16,12 +42,15 @@ import ReactDraftWysiwyg from 'src/@core/components/react-draft-wysiwyg'
 
 // ** Third Party Imports
 import { ContentState, EditorState } from 'draft-js'
+import { useCreateLandingPageMutation } from 'src/store/api'
+import FileUploaderLandingPage from './FileUpload'
 
 const defaultData = {
   name: '',
   html: '',
   capture_credentials: false,
-  capture_passwords: false
+  capture_passwords: false,
+  image_site: ''
 }
 
 export default function DialogAdd({ handleClose, open }) {
@@ -33,12 +62,18 @@ export default function DialogAdd({ handleClose, open }) {
     return EditorState.createWithContent(contentState)
   })
 
+  const [CreateLandingPage] = useCreateLandingPageMutation()
+
   const updateData = event => {
     const target = event.currentTarget
-    setDatacurrent({
-      ...dataCurrent,
-      [target.name]: target.type === 'checkbox' ? target.checked : target.value
-    })
+    if (target.type === 'file') {
+      setDatacurrent({ ...dataCurrent })
+    } else {
+      setDatacurrent({
+        ...dataCurrent,
+        [target.name]: target.type === 'checkbox' ? target.checked : target.value
+      })
+    }
   }
 
   const updateEditor = data => {
@@ -51,13 +86,19 @@ export default function DialogAdd({ handleClose, open }) {
     setEditorState(data)
   }
 
+  const SubmitData = async () => {
+    console.log(dataCurrent)
+    const cb = await CreateLandingPage(dataCurrent)
+    console.log(cb)
+  }
+
   return (
     <Dialog
       open={open}
       onClose={handleClose}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
-      sx={{ maxWidth: '100%' }}
+      maxWidth={'lg'}
     >
       <DialogTitle id='alert-dialog-title'>Create new Langingpage</DialogTitle>
       <DialogContent>
@@ -87,6 +128,17 @@ export default function DialogAdd({ handleClose, open }) {
             />
           </Grid>
           <Grid item xs={12}>
+            <TextField
+              autoFocus
+              fullWidth
+              type='text'
+              name='redirect_url'
+              label='Redirect URL'
+              value={dataCurrent?.redirect_url}
+              onChange={updateData}
+            />
+          </Grid>
+          <Grid item xs={12}>
             <FormControlLabel
               label='Capture Credentials'
               control={
@@ -96,15 +148,23 @@ export default function DialogAdd({ handleClose, open }) {
             <FormControlLabel
               label='Capture Password'
               control={
-                <Checkbox name='capture_passwords' checked={dataCurrent.capture_credentials} onChange={updateData} />
+                <Checkbox name='capture_passwords' checked={dataCurrent.capture_passwords} onChange={updateData} />
               }
             />
+          </Grid>
+          <Grid item xs={12}>
+            <FileUploaderLandingPage setData={setDatacurrent} data={dataCurrent} />
           </Grid>
           <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end' }}>
             <Button variant='contained' onClick={handleClose} sx={{ mr: 4 }}>
               Close
             </Button>
-            <Button variant='contained' sx={{ mr: 4 }} startIcon={<Icon icon='material-symbols:save' />}>
+            <Button
+              variant='contained'
+              sx={{ mr: 4 }}
+              onClick={SubmitData}
+              startIcon={<Icon icon='material-symbols:save' />}
+            >
               Create Landing Page
             </Button>
           </Grid>

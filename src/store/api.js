@@ -107,6 +107,20 @@ export const GetAPI_template_port = createApi({
         url: `site_templates/${id}`,
         method: 'DELETE'
       })
+    }),
+    createLandingPage: builder.mutation({
+      query: body => ({
+        url: `site_templates`,
+        method: 'POST',
+        body
+      })
+    }),
+    updateLandingPage: builder.mutation({
+      query: (id, body) => ({
+        url: `site_templates/${id}`,
+        method: 'PUT',
+        body
+      })
     })
   })
 })
@@ -122,4 +136,10 @@ export const {
 
 export const { useGetUsersAPIQuery, useGetUsersByIDQuery, useGetAccountAPIQuery, useRegisterQuery } = GetAPI_users_port
 
-export const { useGetEmailTemplatesQuery, useGetLandingPageQuery, useDeleteLandingPageMutation } = GetAPI_template_port
+export const {
+  useGetEmailTemplatesQuery,
+  useGetLandingPageQuery,
+  useDeleteLandingPageMutation,
+  useCreateLandingPageMutation,
+  useUpdateLandingPageMutation
+} = GetAPI_template_port

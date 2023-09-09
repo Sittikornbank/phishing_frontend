@@ -56,7 +56,7 @@ function DialogEdit({ handleClose, open, data }) {
       onClose={handleClose}
       aria-labelledby='alert-dialog-title'
       aria-describedby='alert-dialog-description'
-      sx={{ maxWidth: '100%' }}
+      maxWidth={'lg'}
     >
       <DialogTitle id='alert-dialog-title'>Edit: {data?.name}</DialogTitle>
       <DialogContent>
@@ -83,6 +83,17 @@ function DialogEdit({ handleClose, open, data }) {
               editorState={editorState}
               onEditorStateChange={data => updateEditor(data)}
               editorStyle={{ height: '200px' }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              autoFocus
+              fullWidth
+              type='text'
+              name='redirect_url'
+              label='Redirect URL'
+              value={dataCurrent?.redirect_url}
+              onChange={updateData}
             />
           </Grid>
           <Grid item xs={12}>

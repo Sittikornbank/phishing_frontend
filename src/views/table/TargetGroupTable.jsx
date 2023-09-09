@@ -2,10 +2,7 @@
 import { useState } from 'react'
 
 // ** MUI Imports
-import Box from '@mui/material/Box'
-import Card from '@mui/material/Card'
 import Typography from '@mui/material/Typography'
-import CardHeader from '@mui/material/CardHeader'
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** Custom Components
@@ -104,7 +101,7 @@ const TargetGroupTable = ({ data }) => {
       paginationModel={paginationModel}
       slots={{ toolbar: QuickSearchToolbar }}
       onPaginationModelChange={setPaginationModel}
-      rows={filteredData.length ? filteredData : data}
+      rows={filteredData.length ? filteredData : data ? data : []}
       slotProps={{
         baseButton: {
           variant: 'outlined'

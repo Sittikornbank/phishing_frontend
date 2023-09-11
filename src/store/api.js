@@ -31,6 +31,9 @@ export const GetAPI_summary_port = createApi({
     }),
     getGroup: builder.query({
       query: () => `groups`
+    }),
+    getCampaignGraph: builder.query({
+      query: () => `campaigns/graphs?sampling=86400`
     })
   })
 })
@@ -131,7 +134,8 @@ export const {
   useGetCampaignQuery,
   useGetCampaign_summary_resultQuery,
   useGetCampaign_resultQuery,
-  useGetGroupQuery
+  useGetGroupQuery,
+  useGetCampaignGraphQuery
 } = GetAPI_summary_port
 
 export const { useGetUsersAPIQuery, useGetUsersByIDQuery, useGetAccountAPIQuery, useRegisterQuery } = GetAPI_users_port

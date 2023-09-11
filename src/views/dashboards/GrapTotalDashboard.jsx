@@ -28,8 +28,6 @@ const GrapTotalDashboards = ({ dataGrap }) => {
   const submit = dataGrap.submit ? dataGrap.submit : 0
   const data_grap = [open, click, submit]
 
-  console.log(dataGrap)
-
   const total = data_grap.reduce((a, b) => a + b, 0)
 
   const options = {

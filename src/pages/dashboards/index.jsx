@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography'
 import Grid from '@mui/material/Grid'
 
 // Redux API
-import { useGetCampaigns_summaryQuery } from 'src/store/api'
+import { useGetCampaignGraphQuery, useGetCampaigns_summaryQuery } from 'src/store/api'
 import { useGetOverViewsQuery } from 'src/store/api'
 
 import DashboardTable from 'src/views/table/DashboardTable'
@@ -18,28 +18,31 @@ import GrapTotalDashboards from 'src/views/dashboards/GrapTotalDashboard'
 
 function Dashboard() {
   const [data, setDate] = useState({})
+  const [graph, setGraph] = useState([])
   const campains = useGetCampaigns_summaryQuery()
   const overviews = useGetOverViewsQuery()
+  const graphs = useGetCampaignGraphQuery()
   let campainsData = !campains.isLoading ? campains.data?.campaigns : []
   let overviewsData = !overviews.isLoading ? overviews.data : []
+  let graphsData = !graphs.isLoading ? graphs.data : []
 
   return (
     <>
-      <Grid container sx={{ my: [0, 4, 1.625] }} spacing={5}>
-        <Grid item xs={12} sm={4} sx={{ mb: [3, 0] }}>
+      <Grid key='Graph' container sx={{ my: [0, 4, 1.625] }} spacing={5}>
+        <Grid key='GrapDashboards' item xs={12} sm={4} sx={{ mb: [3, 0] }}>
           <GrapDashboards dataGrap={overviewsData} />
         </Grid>
-        <Grid item xs={12} sm={8} sx={{ mb: [3, 0] }}>
+        <Grid key='GrapDashboardsAction' item xs={12} sm={8} sx={{ mb: [3, 0] }}>
           <GrapDashboardsAction dataGrap={overviewsData} />
         </Grid>
-        <Grid item sm={12} sx={{ mb: [3, 0] }}>
+        <Grid key='GrapTotalDashboards' item sm={12} sx={{ mb: [3, 0] }}>
           <GrapTotalDashboards dataGrap={overviewsData} />
         </Grid>
-        <Grid item xs={12} sx={{ mb: [3, 0] }}>
-          <LineChartDashboard />
+        <Grid key='LineChartDashboard' item xs={12} sx={{ mb: [3, 0] }}>
+          <LineChartDashboard dataGrap={graphsData} isLoading={graphs.isLoading} />
         </Grid>
-        <Grid item xs={12} sx={{ mb: [3, 0] }}>
-          <BarChartDashboard />
+        <Grid key='BarChartDashboard' item xs={12} sx={{ mb: [3, 0] }}>
+          <BarChartDashboard dataGrap={graphsData} isLoading={graphs.isLoading} />
         </Grid>
       </Grid>
 

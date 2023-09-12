@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react'
+
+// ** MUI Import
 import Button from '@mui/material/Button'
 import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -5,8 +8,6 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
 import { Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material'
 import Icon from 'src/@core/components/icon'
-
-import { useEffect, useState } from 'react'
 
 // ** Styles
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'

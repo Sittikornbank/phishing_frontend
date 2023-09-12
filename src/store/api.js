@@ -138,7 +138,13 @@ export const {
   useGetCampaignGraphQuery
 } = GetAPI_summary_port
 
-export const { useGetUsersAPIQuery, useGetUsersByIDQuery, useGetAccountAPIQuery, useRegisterQuery } = GetAPI_users_port
+export const {
+  useGetUsersAPIQuery,
+  useGetUsersByIDQuery,
+  useGetAccountAPIQuery,
+  useRegisterQuery,
+  useCreateUserMutation
+} = GetAPI_users_port
 
 export const {
   useGetEmailTemplatesQuery,

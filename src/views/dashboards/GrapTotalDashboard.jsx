@@ -26,14 +26,15 @@ const GrapTotalDashboards = ({ dataGrap }) => {
   const open = dataGrap.open ? dataGrap.open : 0
   const click = dataGrap.click ? dataGrap.click : 0
   const submit = dataGrap.submit ? dataGrap.submit : 0
-  const data_grap = [open, click, submit]
+  const nothing = dataGrap.nothing ? dataGrap.nothing : 0
+  const data_grap = [open, click, submit, nothing]
 
   const total = data_grap.reduce((a, b) => a + b, 0)
 
   const options = {
     stroke: { width: 0 },
-    labels: ['Open', 'Click', 'Submit'],
-    colors: ['#fcd75b', '#ff9d1c', '#8d42f5'],
+    labels: ['Open', 'Click', 'Submit', 'Nothing'],
+    colors: ['#fcd75b', '#ff9d1c', '#8d42f5', '#5d62c6'],
     dataLabels: {
       enabled: true,
       formatter: val => `${parseInt(val, 10)}%`
@@ -61,10 +62,10 @@ const GrapTotalDashboards = ({ dataGrap }) => {
               formatter: val => `${parseInt(val, 10)}`
             },
             total: {
-              show: true,
+              show: false,
               fontSize: '1.2rem',
-              label: 'Operational',
-              formatter: () => '31%',
+              label: 'Overall',
+              formatter: () => '100%',
               color: theme.palette.text.primary
             }
           }
@@ -181,6 +182,22 @@ const GrapTotalDashboards = ({ dataGrap }) => {
                 </Box>
                 <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap.submit}</Typography>
                 <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.submit, total)} %</Typography>
+              </Grid>
+
+              <Grid item xs={6}>
+                <Box
+                  sx={{
+                    mb: 1.5,
+                    display: 'flex',
+                    alignItems: 'center',
+                    '& svg': { mr: 1.5, fontSize: '0.75rem', color: '#5d62c6' }
+                  }}
+                >
+                  <Icon icon='mdi:circle' />
+                  <Typography variant='body2'>No Action</Typography>
+                </Box>
+                <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap.nothing}</Typography>
+                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.nothing, total)} %</Typography>
               </Grid>
             </Grid>
           </Grid>

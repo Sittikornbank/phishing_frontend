@@ -74,7 +74,7 @@ const BarChartDashboard = forwardRef(({ dataGrap, isLoading }) => {
     xaxis: {
       axisBorder: { show: false },
       axisTicks: { color: theme.palette.divider },
-      categories: !isLoading && dataGrap.hist[event] ? Object.keys(dataGrap.hist[event]) : [],
+      categories: !isLoading && dataGrap?.hist[event] ? Object.keys(dataGrap.hist[event]) : [],
       labels: {
         rotate: 310,
         style: { colors: theme.palette.text.disabled }

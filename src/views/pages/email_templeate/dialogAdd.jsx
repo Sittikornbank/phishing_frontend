@@ -47,7 +47,7 @@ import {
 // ** Demo Components Imports
 // import EditorControlled from 'src/views/forms/form-elements/editor/EditorControlled'
 // import EditorUncontrolled from 'src/views/forms/form-elements/editor/EditorUncontrolled'
-import { EditorState } from 'draft-js';
+import { EditorState, convertToRaw } from 'draft-js'
 
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import DialogImportEmail from './DialogImportEmail'
@@ -56,7 +56,11 @@ import DialogImportEmail from './DialogImportEmail'
 
 // ** Styles
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
-import EditorControlled from 'src/views/forms/form-elements/editor/EditorControlled'
+
+// ** Component Import
+import ReactDraftWysiwyg from 'src/@core/components/react-draft-wysiwyg'
+
+import { useForm, Controller } from 'react-hook-form'
 
 // import DialogSendTestEmail from './dialogSendTestEmail'
 
@@ -178,48 +182,29 @@ const DialogAdd = props => {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState(0)
 
-  const [html, setHtml] = useState(EditorState.createEmpty())
+  const [editorState, setEditorState] = useState(EditorState.createEmpty())
 
-  console.log(html);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    getValues,
+    reset,
+    setError
+  } = useForm()
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue)
+  const SubmitEmailTemplate = async data => {
+    const contentState = editorState.getCurrentContent()
+    data.html = contentState.getPlainText()
+    console.log(data)
   }
 
-  const handleFormChange = (field, value) => {
-    setFormData({ ...formData, [field]: value })
+  const getPlainText = editorState => {
+    const contentState = editorState.getCurrentContent()
+    console.log(contentState.getPlainText())
+
+    return contentState.getPlainText()
   }
-
-  const handleRequestSort = (event, property) => {
-    const isAsc = orderBy === property && order === 'asc'
-    setOrder(isAsc ? 'desc' : 'asc')
-    setOrderBy(property)
-  }
-
-  const handleAddfile = e => {
-    console.log('e', e)
-
-    setFiles(current => [...current, e.target.value])
-  }
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage)
-  }
-
-  const handleChangeRowsPerPage = event => {
-    setRowsPerPage(parseInt(event.target.value, 10))
-    setPage(0)
-  }
-
-  const clickDelete = e => {
-    setFiles(current => [
-      ...files.filter(function (v) {
-        return v !== e
-      })
-    ])
-  }
-
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - files.length) : 0
 
   return (
     <Card>
@@ -232,38 +217,48 @@ const DialogAdd = props => {
         TransitionComponent={Transition}
         onBackdropClick={() => setShow(false)}
       >
-        <DialogContent
-          sx={{
-            position: 'relative',
-            pb: theme => `${theme.spacing(8)} !important`,
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-          }}
-        >
-          <IconButton
-            size='small'
-            onClick={() => setShow(false)}
-            sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+        <form onSubmit={handleSubmit(SubmitEmailTemplate)}>
+          <DialogContent
+            sx={{
+              position: 'relative',
+              pb: theme => `${theme.spacing(8)} !important`,
+              px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+              pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            }}
           >
-            <Icon icon='mdi:close' />
-          </IconButton>
-          <Box sx={{ mb: 8, textAlign: 'center' }}>
-            <Typography variant='h5' sx={{ mb: 3 }}>
-              New Sending Profile
-            </Typography>
-          </Box>
-          <form>
+            <IconButton
+              size='small'
+              onClick={() => setShow(false)}
+              sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+            >
+              <Icon icon='mdi:close' />
+            </IconButton>
+            <Box sx={{ mb: 8, textAlign: 'center' }}>
+              <Typography variant='h5' sx={{ mb: 3 }}>
+                New Email Template
+              </Typography>
+            </Box>
             <CardContent>
               <Grid container spacing={5}>
                 <Grid item xs={12} sm={12}>
                   <Typography>Name:</Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <TextField
-                    fullWidth
-                    placeholder='Template Name'
-                    value={formData.envelope_sender}
-                    onChange={e => handleFormChange('envelope_sender', e.target.value)}
+                  <Controller
+                    name='name'
+                    control={control}
+                    defaultValue=''
+                    rules={{ required: 'Template Name is required' }}
+                    render={({ field }) => (
+                      <TextField
+                        autoFocus
+                        fullWidth
+                        placeholder='Template Name'
+                        {...field}
+                        error={!!errors.name}
+                        helperText={errors.name ? errors.name.message : ''}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
@@ -288,165 +283,97 @@ const DialogAdd = props => {
                   </Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <TextField
-                    fullWidth
-                    placeholder='First Last <test@example.com>'
-                    value={formData.name}
-                    onChange={e => handleFormChange('name', e.target.value)}
+                  <Controller
+                    name='envelope_sender'
+                    control={control}
+                    defaultValue=''
+                    rules={{ required: 'Envelope Sender is required' }}
+                    render={({ field }) => (
+                      <TextField
+                        autoFocus
+                        fullWidth
+                        placeholder='First Last <test@example.com>'
+                        type='text'
+                        {...field}
+                        error={!!errors.envelope_sender}
+                        helperText={errors.envelope_sender ? errors.envelope_sender.message : ''}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12} sm={12}>
                   <Typography>Subject:</Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <TextField
-                    fullWidth
-                    placeholder='Email Subject'
-                    value={formData.subject}
-                    onChange={e => handleFormChange('subject', e.target.value)}
+                  <Controller
+                    name='subject'
+                    control={control}
+                    defaultValue=''
+                    rules={{ required: 'Subject is required' }}
+                    render={({ field }) => (
+                      <TextField
+                        autoFocus
+                        fullWidth
+                        placeholder='Envelope Sender'
+                        {...field}
+                        error={!!errors.subject}
+                        helperText={errors.subject ? errors.subject.message : ''}
+                      />
+                    )}
                   />
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                  <Tabs value={value} onChange={handleChange} aria-label='basic tabs example'>
-                    <Tab label='Text' {...a11yProps(0)} />
-                    <Tab label='HTML' {...a11yProps(1)} />
-                  </Tabs>
-                </Grid>
-
-                {value === 0 && (
-                  <Grid item xs={12}>
-                    <TextField
-                      multiline
-                      fullWidth
-                      rows={8}
-                      variant='filled'
-                      placeholder='Plaintext'
-                      value={formData.text}
-                      onChange={e => handleFormChange('text', e.target.value)}
-                    />
-                  </Grid>
-                )}
-                {value === 1 && (
-                  <EditorWrapper>
-                    <Grid container spacing={6} className='match-height'>
-                      <Grid item xs={12}>
-                        <EditorControlled editorState={html} onEditorStateChange={setHtml} />
-                      </Grid>
-                    </Grid>
-                  </EditorWrapper>
-                )}
-                <Grid item xs={12} sm={12}>
-                  <Box display='flex' alignItems='center'>
-                    <Box>
-                      <FormControlLabel
-                        control={
-                          <Checkbox
-                            checked={formData.tracking}
-                            onChange={e => handleFormChange('tracking', e.target.checked)}
-                            name='Tracking'
-                          />
-                        }
-                        label='Add Tracking Image'
-                      />
-                    </Box>
-                  </Box>
+                  <Controller
+                    name='editorContent'
+                    control={control}
+                    defaultValue={convertToRaw(editorState.getCurrentContent())}
+                    render={({ field }) => (
+                      <EditorWrapper>
+                        <ReactDraftWysiwyg editorState={editorState} onEditorStateChange={setEditorState} />
+                      </EditorWrapper>
+                    )}
+                  />
                 </Grid>
 
                 <Grid item xs={12} sm={12}>
-                  <Grid container spacing={6}>
-                    <Grid item xs={4} sm={4}>
-                      <Input
-                        id='contained-button-file-logo'
-                        name='assets'
-                        type='file'
-                        style={{ display: 'none' }}
-                        onChange={e => handleAddfile(e)}
-
-                        // inputProps={{ multiple: true }}
-                      />
-                      <label htmlFor='contained-button-file-logo'>
-                        <Button margin='10' component='span' variant='contained' color='primary'>
-                          <Icon icon='mdi:add' />
-                          Add files
-                        </Button>
-                      </label>
-                    </Grid>
-                  </Grid>
+                  <Typography>Attachments :</Typography>
                 </Grid>
                 <Grid item xs={12} sm={12}>
-                  <TableContainer component={Paper}>
-                    <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle'>
-                      <EnhancedTableHead
-                        order={order}
-                        orderBy={orderBy}
-                        rowCount={files.length}
-                        numSelected={selected.length}
-                        onRequestSort={handleRequestSort}
+                  <Controller
+                    name='attachments[0]'
+                    control={control}
+                    defaultValue=''
+                    rules={{ required: 'Attachments is required' }}
+                    render={({ field }) => (
+                      <TextField
+                        autoFocus
+                        fullWidth
+                        placeholder='Attachments'
+                        {...field}
+                        error={!!errors['attachments[0]']}
+                        helperText={errors['attachments[0]'] ? errors['attachments[0]'].message : ''}
                       />
-                      <TableBody>
-                        {stableSort(files, getComparator(order, orderBy))
-                          .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                          .map((row, index) => {
-                            const labelId = `enhanced-table-checkbox-${index}`
-
-                            return (
-                              <TableRow hover tabIndex={-1} key={row} role='checkbox'>
-                                <TableCell align='left'>{row}</TableCell>
-
-                                <TableCell align='left' size='small'>
-                                  <Button
-                                    color='error'
-                                    size='small'
-                                    variant='contained'
-                                    sx={{ marginLeft: '4px' }}
-                                    onClick={e => clickDelete(row)}
-                                  >
-                                    <Icon icon='ic:baseline-delete' />
-                                  </Button>
-                                </TableCell>
-                              </TableRow>
-                            )
-                          })}
-                        {emptyRows > 0 && (
-                          <TableRow
-                            sx={{
-                              height: 53 * emptyRows
-                            }}
-                          >
-                            <TableCell colSpan={6} />
-                          </TableRow>
-                        )}
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
-                  <TablePagination
-                    page={page}
-                    component='div'
-                    count={files.length}
-                    rowsPerPage={rowsPerPage}
-                    onPageChange={handleChangePage}
-                    rowsPerPageOptions={[5, 10, 25]}
-                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    )}
                   />
                 </Grid>
               </Grid>
             </CardContent>
-          </form>
-        </DialogContent>
-        <DialogActions
-          sx={{
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-          }}
-        >
-          <Button variant='outlined' color='secondary' onClick={() => setShow(false)}>
-            Cancel
-          </Button>
-          <Button variant='contained' sx={{ mr: 1 }} onClick={() => setShow(false)}>
-            Save Profile
-          </Button>
-        </DialogActions>
+          </DialogContent>
+          <DialogActions
+            sx={{
+              px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+              pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            }}
+          >
+            <Button variant='outlined' color='secondary' onClick={() => setShow(false)}>
+              Cancel
+            </Button>
+            <Button variant='contained' type='submit' sx={{ mr: 1 }}>
+              Save Profile
+            </Button>
+          </DialogActions>
+        </form>
       </Dialog>
       <DialogImportEmail show={open} setShow={setOpen} />
     </Card>

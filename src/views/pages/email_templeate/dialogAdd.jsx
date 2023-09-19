@@ -167,9 +167,7 @@ const DialogAdd = props => {
     handleSubmit,
     control,
     formState: { errors },
-    getValues,
-    reset,
-    setError
+    reset
   } = useForm()
   if (!show) {
     return null

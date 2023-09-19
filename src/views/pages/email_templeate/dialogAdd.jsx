@@ -181,8 +181,9 @@ const DialogAdd = props => {
     data.image_email = dataCurrent
     console.log(data)
     reset()
-    await createEmailTemplate(data)
-    auth.addMessage('Create Successful')
+    const data_cb = await createEmailTemplate(data)
+    console.log(data_cb)
+    auth.addMessage('Create Successful', 'success')
     setShow(() => false)
   }
 

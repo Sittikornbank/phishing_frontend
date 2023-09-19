@@ -10,6 +10,8 @@ import axios from 'axios'
 // ** Config
 import authConfig from 'src/configs/auth'
 
+import MessageQueue, { useAlert } from './AlertSystem/MessageQueue'
+
 // ** Defaults
 const defaultProvider = {
   user: null,
@@ -88,6 +90,8 @@ const AuthProvider = ({ children }) => {
     router.push('/login')
   }
 
+  const { addMessage, message, removeMessage } = useAlert()
+
   const values = {
     user,
     loading,
@@ -95,10 +99,16 @@ const AuthProvider = ({ children }) => {
     setLoading,
     login: handleLogin,
     register: handleRegister,
-    logout: handleLogout
+    logout: handleLogout,
+    addMessage: addMessage
   }
 
-  return <AuthContext.Provider value={values}>{children}</AuthContext.Provider>
+  return (
+    <AuthContext.Provider value={values}>
+      <MessageQueue message={message} removeMessage={removeMessage} />
+      {children}
+    </AuthContext.Provider>
+  )
 }
 
 export { AuthContext, AuthProvider }

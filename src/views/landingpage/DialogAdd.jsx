@@ -7,31 +7,6 @@ import { Box, Checkbox, FormControlLabel, Grid, TextField, Typography } from '@m
 import Icon from 'src/@core/components/icon'
 import { styled } from '@mui/material/styles'
 
-import CloudUploadIcon from '@mui/icons-material/CloudUpload'
-
-// ** Third Party Imports
-import { useDropzone } from 'react-dropzone'
-
-// Styled component for the heading inside the dropzone area
-const HeadingTypography = styled(Typography)(({ theme }) => ({
-  marginBottom: theme.spacing(5),
-  [theme.breakpoints.down('sm')]: {
-    marginBottom: theme.spacing(4)
-  }
-}))
-
-const Img = styled('img')(({ theme }) => ({
-  [theme.breakpoints.up('md')]: {
-    marginRight: theme.spacing(15.75)
-  },
-  [theme.breakpoints.down('md')]: {
-    marginBottom: theme.spacing(4)
-  },
-  [theme.breakpoints.down('sm')]: {
-    width: 160
-  }
-}))
-
 import { useEffect, useState } from 'react'
 
 // ** Styles

@@ -61,6 +61,9 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 import ReactDraftWysiwyg from 'src/@core/components/react-draft-wysiwyg'
 
 import { useForm, Controller } from 'react-hook-form'
+import FileUploaderEmailTemplate from './FileUpload'
+import { useCreateEmailTemplateMutation } from 'src/store/api'
+import { useAuth } from 'src/hooks/useAuth'
 
 // import DialogSendTestEmail from './dialogSendTestEmail'
 
@@ -151,38 +154,14 @@ function a11yProps(index) {
   }
 }
 
-const initialData = {
-  subject: '',
-  attachments: '',
-  visible: 'none',
-  org_id: null,
-  html: '',
-  envelope_sender: '',
-  name: '',
-  image_email: '',
-  tracking: '',
-  text: ''
-}
-
 const DialogAdd = props => {
   // ** States
   const { show, setShow, data } = props
-
-  if (!show) {
-    return null
-  }
-  const [formData, setFormData] = useState(data || initialData)
-  const [files, setFiles] = useState([])
-  const [page, setPage] = useState(0)
-  const [order, setOrder] = useState('asc')
-  const [rowsPerPage, setRowsPerPage] = useState(5)
-  const [orderBy, setOrderBy] = useState('header')
-  const [selected, setSelected] = useState([])
-  const [search, setSearch] = useState('')
   const [open, setOpen] = useState(false)
-  const [value, setValue] = useState(0)
-
+  const [dataCurrent, setDatacurrent] = useState('')
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
+  const [createEmailTemplate] = useCreateEmailTemplateMutation()
+  const auth = useAuth()
 
   const {
     handleSubmit,
@@ -192,18 +171,19 @@ const DialogAdd = props => {
     reset,
     setError
   } = useForm()
+  if (!show) {
+    return null
+  }
 
   const SubmitEmailTemplate = async data => {
     const contentState = editorState.getCurrentContent()
     data.html = contentState.getPlainText()
+    data.image_email = dataCurrent
     console.log(data)
-  }
-
-  const getPlainText = editorState => {
-    const contentState = editorState.getCurrentContent()
-    console.log(contentState.getPlainText())
-
-    return contentState.getPlainText()
+    reset()
+    await createEmailTemplate(data)
+    auth.addMessage('Create Successful')
+    setShow(() => false)
   }
 
   return (
@@ -356,6 +336,10 @@ const DialogAdd = props => {
                       />
                     )}
                   />
+                </Grid>
+
+                <Grid item xs={12}>
+                  <FileUploaderEmailTemplate setData={setDatacurrent} data={dataCurrent} />
                 </Grid>
               </Grid>
             </CardContent>

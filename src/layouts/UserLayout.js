@@ -1,5 +1,8 @@
 import useMediaQuery from '@mui/material/useMediaQuery'
 
+import PerfectScrollbar from 'react-perfect-scrollbar'
+import 'react-perfect-scrollbar/dist/css/styles.css'
+
 // ** Layout Imports
 // !Do not remove this Layout import
 import Layout from 'src/@core/layouts/Layout'
@@ -77,8 +80,7 @@ const UserLayout = ({ children, contentHeightFixed }) => {
         }
       })}
     >
-      {children}
-      
+      <PerfectScrollbar>{children}</PerfectScrollbar>
     </Layout>
   )
 }

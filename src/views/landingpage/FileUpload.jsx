@@ -14,7 +14,8 @@ import { useDropzone } from 'react-dropzone'
 
 // Styled component for the upload image inside the dropzone area
 const Img = styled('img')(({ theme }) => ({
-  width: 'fit-content',
+  width: 400,
+  margin: '1rem 30%',
   [theme.breakpoints.up('md')]: {
     marginRight: theme.spacing(15.75)
   },
@@ -64,7 +65,7 @@ const FileUploaderLandingPage = ({ setData, data }) => {
   })
 
   const img = files.map(file => {
-    return <img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file)} />
+    return <Img key={file.name} alt={file.name} className='single-file-image' src={URL.createObjectURL(file)} />
   })
 
   return (
@@ -73,7 +74,7 @@ const FileUploaderLandingPage = ({ setData, data }) => {
         <input {...getInputProps()} />
 
         <Box sx={{ display: 'flex', flexDirection: ['column', 'column', 'row'], alignItems: 'center' }}>
-          <Img alt='Upload img' src='/images/misc/upload.png' />
+          <img alt='Upload img' src='/images/misc/upload.png' />
           <Box sx={{ display: 'flex', flexDirection: 'column', textAlign: ['center', 'center', 'inherit'] }}>
             <HeadingTypography variant='h5'>Drop files here or click to upload.</HeadingTypography>
             <Typography color='textSecondary' sx={{ '& a': { color: 'primary.main', textDecoration: 'none' } }}>
@@ -86,7 +87,7 @@ const FileUploaderLandingPage = ({ setData, data }) => {
           </Box>
         </Box>
       </Box>
-      {files.length && img}
+      {files.length ? img : ''}
     </>
   )
 }

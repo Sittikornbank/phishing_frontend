@@ -124,6 +124,13 @@ export const GetAPI_template_port = createApi({
         method: 'PUT',
         body
       })
+    }),
+    createEmailTemplate: builder.mutation({
+      query: body => ({
+        url: `email_templates`,
+        method: 'POST',
+        body
+      })
     })
   })
 })
@@ -151,5 +158,6 @@ export const {
   useGetLandingPageQuery,
   useDeleteLandingPageMutation,
   useCreateLandingPageMutation,
-  useUpdateLandingPageMutation
+  useUpdateLandingPageMutation,
+  useCreateEmailTemplateMutation
 } = GetAPI_template_port

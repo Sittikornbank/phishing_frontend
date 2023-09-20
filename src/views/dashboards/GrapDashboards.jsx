@@ -20,7 +20,7 @@ function calPercentage(a, total) {
   return (a / total) * 100
 }
 
-function reducePercentage() {}
+function reducePercentage() { }
 
 const GrapDashboards = props => {
   const { dataGrap } = props
@@ -85,7 +85,7 @@ const GrapDashboards = props => {
               type='radialBar'
               height={240}
               series={[calPercentage(dataGrap?.sent || 0, dataGrap?.total || 0)]}
-              options={options('#38f205', 'Sent', dataGrap?.sent || 0, dataGrap?.total || 0)}
+              options={options('#38f205', 'Complete', dataGrap?.sent || 0, dataGrap?.total || 0)}
             />
           </Grid>
           <Grid item xs={6} sm={12} md={6} sx={{ mb: [3, 0] }}>

@@ -1,5 +1,5 @@
 // ** React Imports
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 // ** MUI Imports
 import { DataGrid } from '@mui/x-data-grid'
@@ -14,7 +14,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import CachedIcon from '@mui/icons-material/Cached'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import { useGetUsersAPIQuery } from 'src/store/api'
+import { useDeleteUserMutation, useGetUsersAPIQuery } from 'src/store/api'
 
 // ** Utils Import
 import { getInitials } from 'src/@core/utils/get-initials'
@@ -23,6 +23,8 @@ import { getInitials } from 'src/@core/utils/get-initials'
 import { rows } from 'src/@fake-db/table/static-data'
 import { IconButton } from '@mui/material'
 import DialogEdit from './dialogEdit'
+import DialogDelete from './DialogDelete'
+import { useAuth } from 'src/hooks/useAuth'
 
 const statusObj = {
   0: { title: 'Active', color: 'success' },
@@ -114,16 +116,19 @@ const DataGridUserMangement = () => {
   ]
 
   const usersAPI = useGetUsersAPIQuery()
-  let usersData = !usersAPI.isLoading ? usersAPI.data?.users : []
+  const [deleteUsers] = useDeleteUserMutation()
+  let usersData = useMemo(() => (!usersAPI.isLoading ? usersAPI.data?.users : []), [usersAPI])
 
   // ** States
-  const [data, setData] = useState(usersData)
+  const [data, setData] = useState(() => usersData)
   const [dataCurrent, setDataCurrent] = useState({})
   const [searchText, setSearchText] = useState('')
   const [filteredData, setFilteredData] = useState([])
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
   const [open_Dialog, setOpenDialog] = useState(false)
   const [open_Delete, setOpenDelete] = useState(false)
+
+  const auth = useAuth()
 
   const openDialog = data_select => {
     console.log(data_select)
@@ -136,15 +141,23 @@ const DataGridUserMangement = () => {
     }
   }
 
+  const handleDelClose = () => (setOpenDelete(false), setCurrentData(() => {}))
+
   const deleteDialog = data_select => {
-    if (open_Delete) {
-      setOpenDelete(() => false)
-    }
+    setOpenDelete(true)
+    setDataCurrent(() => data_select)
+  }
+
+  const DeleteData = async id => {
+    await deleteUsers(id)
+    setOpenDelete(false)
+    auth.addMessage('Delete Success', 'success')
+    usersAPI.refetch()
   }
 
   useEffect(() => {
-    setData(usersData)
-  })
+    setData(() => usersData)
+  }, [usersData])
 
   const handleSearch = searchValue => {
     setSearchText(searchValue)
@@ -188,6 +201,7 @@ const DataGridUserMangement = () => {
         }}
       />
       <DialogEdit show={open_Dialog} setShow={setOpenDialog} data={dataCurrent} />
+      <DialogDelete handleClose={handleDelClose} open={open_Delete} data={dataCurrent} DeleteData={DeleteData} />
     </>
   )
 }

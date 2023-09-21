@@ -83,6 +83,13 @@ export const GetAPI_users_port = createApi({
         body
       }),
       invalidatesTags: ['Put']
+    }),
+    deleteUser: builder.mutation({
+      query: id => ({
+        url: `users/${id}`,
+        method: 'Delete'
+      }),
+      invalidatesTags: ['DeleteUser']
     })
   })
 })
@@ -150,7 +157,8 @@ export const {
   useGetUsersByIDQuery,
   useGetAccountAPIQuery,
   useRegisterQuery,
-  useCreateUserMutation
+  useCreateUserMutation,
+  useDeleteUserMutation
 } = GetAPI_users_port
 
 export const {

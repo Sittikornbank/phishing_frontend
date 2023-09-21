@@ -21,25 +21,35 @@ import { useForm, Controller } from 'react-hook-form'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
-import { Checkbox, FormHelperText } from '@mui/material'
+import { FormHelperText } from '@mui/material'
 import { useCreateUserMutation } from 'src/store/api'
+import { useAuth } from 'src/hooks/useAuth'
 
 const DialogAdd = props => {
   // ** States
   const { show, setShow } = props
   const [CreateUser] = useCreateUserMutation()
+  const auth = useAuth()
 
   const {
     handleSubmit,
     control,
     formState: { errors },
     getValues,
-    reset,
-    setError
+    reset
   } = useForm()
 
-  const SubmitUpdateUser = async data => {
+  const SubmitCreateUser = async data => {
     console.log(data)
+    const data_cb = await CreateUser(data)
+    console.log(data_cb)
+    if (data_cb?.data) {
+      setShow(() => false)
+      reset()
+      auth.addMessage('Create Users Successful', 'success')
+    } else {
+      auth.addMessage(data_cb.error.data.detail, 'error')
+    }
   }
 
   return (
@@ -48,9 +58,9 @@ const DialogAdd = props => {
         <DialogContent
           sx={{
             position: 'relative',
-            pb: theme => `${theme.spacing(8)} !important`,
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            pb: theme => `${theme.spacing(2)} !important`,
+            px: theme => [`${theme.spacing(4)} !important`, `${theme.spacing(4)} !important`],
+            pt: theme => [`${theme.spacing(6)} !important`, `${theme.spacing(8.5)} !important`]
           }}
         >
           <IconButton
@@ -65,12 +75,9 @@ const DialogAdd = props => {
               Craete New User
             </Typography>
           </Box>
-          <form onSubmit={handleSubmit(SubmitUpdateUser)}>
+          <form onSubmit={handleSubmit(SubmitCreateUser)}>
             <CardContent>
-              <Grid container spacing={5}>
-                <Grid item xs={12} sm={12}>
-                  <Typography>Username:</Typography>
-                </Grid>
+              <Grid container spacing={6}>
                 <Grid item xs={12} sm={12}>
                   <Controller
                     name='username'
@@ -90,9 +97,27 @@ const DialogAdd = props => {
                     )}
                   />
                 </Grid>
+
                 <Grid item xs={12} sm={12}>
-                  <Typography>Password:</Typography>
+                  <Controller
+                    name='email'
+                    control={control}
+                    defaultValue=''
+                    rules={{ required: 'Email is required' }}
+                    render={({ field }) => (
+                      <TextField
+                        autoFocus
+                        fullWidth
+                        type='text'
+                        {...field}
+                        error={!!errors.email}
+                        helperText={errors.email ? errors.email.message : ''}
+                        label='Email'
+                      />
+                    )}
+                  />
                 </Grid>
+
                 <Grid item xs={12} sm={12}>
                   <Controller
                     name='password'
@@ -101,8 +126,8 @@ const DialogAdd = props => {
                     rules={{
                       required: 'Password is required',
                       minLength: {
-                        value: 6,
-                        message: 'Password must be at least 6 characters'
+                        value: 8,
+                        message: 'Password must be at least 8 characters'
                       },
                       validate: value => value === getValues('confirmPassword') || ''
                     }}
@@ -118,9 +143,7 @@ const DialogAdd = props => {
                     )}
                   />
                 </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Typography>Confirm Password:</Typography>
-                </Grid>
+
                 <Grid item xs={12} sm={12}>
                   <Controller
                     name='confirmPassword'
@@ -142,32 +165,87 @@ const DialogAdd = props => {
                     )}
                   />
                 </Grid>
+
                 <Grid item xs={12} sm={12}>
-                  <FormControlLabel
-                    label='Require the user to set a new password'
-                    control={
-                      <Controller
-                        name='set_new_password' // The name should match your form data structure
-                        control={control}
-                        defaultValue={false} // Set the default value for the checkbox
-                        render={({ field }) => <Checkbox {...field} />}
+                  <Controller
+                    name='firstname'
+                    control={control}
+                    defaultValue=''
+                    rules={{ required: 'Firstname is required' }}
+                    render={({ field }) => (
+                      <TextField
+                        autoFocus
+                        fullWidth
+                        type='text'
+                        {...field}
+                        error={!!errors.firstname}
+                        helperText={errors.firstname ? errors.firstname.message : ''}
+                        label='Firstname'
                       />
-                    }
+                    )}
                   />
                 </Grid>
+
                 <Grid item xs={12} sm={12}>
-                  <FormControlLabel
-                    label='Account Locked'
-                    control={
-                      <Controller
-                        name='account_locked' // The name should match your form data structure
-                        control={control}
-                        defaultValue={false} // Set the default value for the checkbox
-                        render={({ field }) => <Checkbox {...field} />}
+                  <Controller
+                    name='lastname'
+                    control={control}
+                    defaultValue=''
+                    rules={{ required: 'Lastname is required' }}
+                    render={({ field }) => (
+                      <TextField
+                        autoFocus
+                        fullWidth
+                        type='text'
+                        {...field}
+                        error={!!errors.lastname}
+                        helperText={errors.lastname ? errors.lastname.message : ''}
+                        label='Lastname'
                       />
-                    }
+                    )}
                   />
                 </Grid>
+
+                <Grid item xs={12} sm={12}>
+                  <Controller
+                    name='phonenumber'
+                    control={control}
+                    defaultValue=''
+                    rules={{ required: 'Phone No. is required' }}
+                    render={({ field }) => (
+                      <TextField
+                        autoFocus
+                        fullWidth
+                        type='text'
+                        {...field}
+                        error={!!errors.phonenumber}
+                        helperText={errors.phonenumber ? errors.phonenumber.message : ''}
+                        label='Phone No.'
+                      />
+                    )}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12}>
+                  <Controller
+                    name='organization'
+                    control={control}
+                    defaultValue=''
+                    rules={{ required: 'Organization is required' }}
+                    render={({ field }) => (
+                      <TextField
+                        autoFocus
+                        fullWidth
+                        type='text'
+                        {...field}
+                        error={!!errors.organization}
+                        helperText={errors.organization ? errors.organization.message : ''}
+                        label='Organization'
+                      />
+                    )}
+                  />
+                </Grid>
+
                 <Grid item xs={12} sm={12}>
                   <FormControl fullWidth>
                     <InputLabel id='demo-simple-select-label'>Role</InputLabel>

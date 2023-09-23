@@ -93,18 +93,7 @@ const DialogEdit = props => {
                     name='username'
                     control={control}
                     defaultValue=''
-                    rules={{ required: 'Username is required' }}
-                    render={({ field }) => (
-                      <TextField
-                        autoFocus
-                        fullWidth
-                        type='text'
-                        {...field}
-                        error={!!errors.username}
-                        helperText={errors.username ? errors.username.message : ''}
-                        label='Username'
-                      />
-                    )}
+                    render={({ field }) => <TextField autoFocus fullWidth type='text' {...field} label='Username' />}
                   />
                 </Grid>
 
@@ -113,18 +102,7 @@ const DialogEdit = props => {
                     name='email'
                     control={control}
                     defaultValue=''
-                    rules={{ required: 'Email is required' }}
-                    render={({ field }) => (
-                      <TextField
-                        autoFocus
-                        fullWidth
-                        type='text'
-                        {...field}
-                        error={!!errors.email}
-                        helperText={errors.email ? errors.email.message : ''}
-                        label='Email'
-                      />
-                    )}
+                    render={({ field }) => <TextField autoFocus fullWidth type='text' {...field} label='Email' />}
                   />
                 </Grid>
 
@@ -133,23 +111,7 @@ const DialogEdit = props => {
                     name='password'
                     control={control}
                     defaultValue=''
-                    rules={{
-                      required: 'Password is required',
-                      minLength: {
-                        value: 8,
-                        message: 'Password must be at least 8 characters'
-                      }
-                    }}
-                    render={({ field }) => (
-                      <TextField
-                        {...field}
-                        type='password'
-                        label='Password'
-                        fullWidth
-                        error={!!errors.password}
-                        helperText={errors.password ? errors.password.message : ''}
-                      />
-                    )}
+                    render={({ field }) => <TextField {...field} type='password' label='Password' fullWidth />}
                   />
                 </Grid>
 
@@ -158,18 +120,7 @@ const DialogEdit = props => {
                     name='firstname'
                     control={control}
                     defaultValue=''
-                    rules={{ required: 'Firstname is required' }}
-                    render={({ field }) => (
-                      <TextField
-                        autoFocus
-                        fullWidth
-                        type='text'
-                        {...field}
-                        error={!!errors.firstname}
-                        helperText={errors.firstname ? errors.firstname.message : ''}
-                        label='Firstname'
-                      />
-                    )}
+                    render={({ field }) => <TextField autoFocus fullWidth type='text' {...field} label='Firstname' />}
                   />
                 </Grid>
 
@@ -178,18 +129,7 @@ const DialogEdit = props => {
                     name='lastname'
                     control={control}
                     defaultValue=''
-                    rules={{ required: 'Lastname is required' }}
-                    render={({ field }) => (
-                      <TextField
-                        autoFocus
-                        fullWidth
-                        type='text'
-                        {...field}
-                        error={!!errors.lastname}
-                        helperText={errors.lastname ? errors.lastname.message : ''}
-                        label='Lastname'
-                      />
-                    )}
+                    render={({ field }) => <TextField autoFocus fullWidth type='text' {...field} label='Lastname' />}
                   />
                 </Grid>
 
@@ -198,18 +138,7 @@ const DialogEdit = props => {
                     name='phonenumber'
                     control={control}
                     defaultValue=''
-                    rules={{ required: 'Phone No. is required' }}
-                    render={({ field }) => (
-                      <TextField
-                        autoFocus
-                        fullWidth
-                        type='text'
-                        {...field}
-                        error={!!errors.phonenumber}
-                        helperText={errors.phonenumber ? errors.phonenumber.message : ''}
-                        label='Phone No.'
-                      />
-                    )}
+                    render={({ field }) => <TextField autoFocus fullWidth type='text' {...field} label='Phone No.' />}
                   />
                 </Grid>
 

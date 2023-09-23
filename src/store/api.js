@@ -80,7 +80,7 @@ export const GetAPI_users_port = createApi({
       query: (id, body) => ({
         url: `users/${id}`,
         method: 'PUT',
-        body
+        body: body
       })
     }),
     deleteUser: builder.mutation({

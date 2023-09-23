@@ -1,6 +1,5 @@
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
 import Dialog from '@mui/material/Dialog'
@@ -14,7 +13,6 @@ import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import Select from '@mui/material/Select'
 
 import { useForm, Controller } from 'react-hook-form'
@@ -22,38 +20,46 @@ import { useForm, Controller } from 'react-hook-form'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 import { FormHelperText } from '@mui/material'
-import { useCreateUserMutation } from 'src/store/api'
+import { useUpdateUserMutation } from 'src/store/api'
 import { useAuth } from 'src/hooks/useAuth'
-
-const initialData = {
-  user_name: '',
-  password: '',
-  confirm_password: '',
-  set_new_password: true,
-  account_locked: false,
-  role: ''
-}
+import { useEffect } from 'react'
 
 const DialogEdit = props => {
   // ** States
   const { show, setShow, data } = props
+
+  const [updateUser] = useUpdateUserMutation()
+  const auth = useAuth()
 
   const {
     handleSubmit,
     control,
     formState: { errors },
     getValues,
-    reset
+    setValue
   } = useForm()
 
-  if (!show) {
-    return null
-  }
+  useEffect(() => {
+    setValue('id', data.id)
+    setValue('username', data.username)
+    setValue('email', data.email)
+    setValue('firstname', data.firstname)
+    setValue('lastname', data.lastname)
+    setValue('phonenumber', data.phonenumber)
+    setValue('organization', data.organization)
+    setValue('role', data.role)
+    setValue('lastname', data.lastname)
+  }, [setValue, data])
 
-  const SubmitUpdateUser = e => {
-    e.preventDefault()
-    const data = new FormData(e.target)
-    const a = Object.fromEntries(data.entries())
+  const SubmitUpdateUser = async data => {
+    const data_cb = await updateUser(data.id, data)
+    console.log(data_cb)
+
+    if (!data_cb?.error) {
+      auth.addMessage('Update User Success', 'success')
+    } else {
+      auth.addMessage(data_cb?.error.data.detail, 'error')
+    }
   }
 
   return (
@@ -132,8 +138,7 @@ const DialogEdit = props => {
                       minLength: {
                         value: 8,
                         message: 'Password must be at least 8 characters'
-                      },
-                      validate: value => value === getValues('confirmPassword') || ''
+                      }
                     }}
                     render={({ field }) => (
                       <TextField
@@ -213,17 +218,8 @@ const DialogEdit = props => {
                     name='organization'
                     control={control}
                     defaultValue=''
-                    rules={{ required: 'Organization is required' }}
                     render={({ field }) => (
-                      <TextField
-                        autoFocus
-                        fullWidth
-                        type='text'
-                        {...field}
-                        error={!!errors.organization}
-                        helperText={errors.organization ? errors.organization.message : ''}
-                        label='Organization'
-                      />
+                      <TextField autoFocus fullWidth type='text' {...field} label='Organization' />
                     )}
                   />
                 </Grid>
@@ -272,7 +268,7 @@ const DialogEdit = props => {
                 Cancel
               </Button>
               <Button variant='contained' type='submit' sx={{ mr: 1 }}>
-                Save Profile
+                Update Profile
               </Button>
             </DialogActions>
           </form>

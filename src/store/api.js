@@ -81,8 +81,7 @@ export const GetAPI_users_port = createApi({
         url: `users/${id}`,
         method: 'PUT',
         body
-      }),
-      invalidatesTags: ['Put']
+      })
     }),
     deleteUser: builder.mutation({
       query: id => ({
@@ -142,6 +141,30 @@ export const GetAPI_template_port = createApi({
   })
 })
 
+export const GetAPI_mail_port = createApi({
+  reducerPath: 'GetAPI_mails',
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_MAIL_PORT}/`,
+    prepareHeaders: (headers, { getState }) => {
+      const token = window.localStorage.getItem('token')
+      if (token) headers.set('Authorization', `Bearer ${token}`)
+
+      return headers
+    }
+  }),
+  endpoints: builder => ({
+    getSmtpData: builder.query({
+      query: () => `smtp`
+    }),
+    deleteSmtpData: builder.mutation({
+      query: id => ({
+        url: `smtp/${id}`,
+        method: 'DELETE'
+      })
+    })
+  })
+})
+
 export const {
   useGetCampaigns_summaryQuery,
   useGetOverViewsQuery,
@@ -158,6 +181,7 @@ export const {
   useGetAccountAPIQuery,
   useRegisterQuery,
   useCreateUserMutation,
+  useUpdateUserMutation,
   useDeleteUserMutation
 } = GetAPI_users_port
 
@@ -169,3 +193,5 @@ export const {
   useUpdateLandingPageMutation,
   useCreateEmailTemplateMutation
 } = GetAPI_template_port
+
+export const { useGetSmtpDataQuery, useDeleteSmtpDataMutation } = GetAPI_mail_port

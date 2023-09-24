@@ -92,7 +92,7 @@ const UserDropdown = props => {
           alt='John Doe'
           onClick={handleDropdownOpen}
           sx={{ width: 40, height: 40 }}
-          src='   https://cdn-icons-png.flaticon.com/512/847/847969.png '
+          src='https://as2.ftcdn.net/v2/jpg/05/22/98/33/1000_F_522983309_MKEfP7NM9azvsAeXUxHr0s7bXRwBFuWu.webp '
 
           // src='https://cdn-icons-png.flaticon.com/512/848/848006.png'
         />

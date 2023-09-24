@@ -13,22 +13,21 @@ import Icon from 'src/@core/components/icon'
 // ** Custom Components Imports
 import CustomChip from 'src/@core/components/mui/chip'
 import ReactApexcharts from 'src/@core/components/react-apexcharts'
-import { FormControl, IconButton, InputLabel, MenuItem } from '@mui/material'
 import MoreVertIcon from '@mui/icons-material/MoreVert'
 import { useState } from 'react'
+
+import * as React from 'react'
+import InputLabel from '@mui/material/InputLabel'
+import MenuItem from '@mui/material/MenuItem'
+import FormControl from '@mui/material/FormControl'
 
 const LineChartDashboard = ({ dataGrap, isLoading }) => {
   const [event, setEvent] = useState('send')
 
   // ** Hook
   const theme = useTheme()
-  console.log(isLoading)
-  console.log(!isLoading ? dataGrap?.ts[event] : [])
 
-  function ChangeData(e) {
-    console.log(e.target.value)
-    setEvent(() => e.target.value)
-  }
+  const [value, setValue] = useState('')
 
   const options = {
     chart: {
@@ -79,25 +78,35 @@ const LineChartDashboard = ({ dataGrap, isLoading }) => {
 
   return (
     <Card>
-      <CardHeader
-        title='Event-Timeline'
-        subheader='Commercial networks & enterprises'
-        action={
-          <Select defaultValue='send' onChange={ChangeData}>
-            <MenuItem value={'send'}>Send</MenuItem>
-            <MenuItem value={'open'}>Open</MenuItem>
-            <MenuItem value={'click'}>Click</MenuItem>
-            <MenuItem value={'submit'}>Submit</MenuItem>
-            <MenuItem value={'report'}>Report</MenuItem>
-          </Select>
-        }
-        sx={{
-          flexDirection: ['column', 'row'],
-          alignItems: ['flex-start', 'center'],
-          '& .MuiCardHeader-action': { mb: 0 },
-          '& .MuiCardHeader-content': { mb: [2, 0] }
-        }}
-      />{' '}
+      <CardContent>
+        <Box mt={4} mx={4} display='flex'>
+          <Box>
+            <Typography variant='h4'> Event-Timeline</Typography>
+            <Typography>Commercial networks & enterprises</Typography>
+          </Box>
+          <Box flexGrow={1} />
+          <Box mr={8}>
+            <FormControl fullWidth>
+              <InputLabel id='demo-simple-select-label'>Status</InputLabel>
+              <Select
+                labelId='demo-simple-select-label'
+                id='demo-simple-select'
+                value={value}
+                label='Status'
+                onChange={e => {
+                  setValue(e.target.value)
+                }}
+              >
+                <MenuItem value={'send'}>send</MenuItem>
+                <MenuItem value={'open'}>open</MenuItem>
+                <MenuItem value={'click'}>click</MenuItem>
+                <MenuItem value={'submit'}>submit</MenuItem>
+                <MenuItem value={'report'}>report</MenuItem>
+              </Select>
+            </FormControl>{' '}
+          </Box>
+        </Box>
+      </CardContent>
       <CardContent>
         <ReactApexcharts
           type='line'

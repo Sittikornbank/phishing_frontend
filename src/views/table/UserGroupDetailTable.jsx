@@ -45,8 +45,8 @@ const UserGroupDetailTable = props => {
     return (
       <GridToolbarExportContainer {...props}>
         {/* <Button sx={{width: "100%"}} component={GridCsvExportMenuItem} options={csvOptions} /> */}
-        <Button sx={{ width: "100%" }} component={Link} rel="noopener noreferrer" target="_blank" href={`${url}/campaigns/${pageID}/results/export.xlsx`}>Export to EXCEL</Button>
-        <Button sx={{ width: "100%" }} component={Link} rel="noopener noreferrer" target="_blank" href={`${url}/campaigns/${pageID}/results/export_pdf`}>Export to PDF</Button>
+        <Button sx={{width: "100%"}} component={Link} rel="noopener noreferrer" target="_blank" href={`${url}/campaigns/${pageID}/results/export.xlsx`}>Export to EXCEL</Button>
+        <Button sx={{width: "100%"}} component={Link} rel="noopener noreferrer" target="_blank" href={`${url}/campaigns/${pageID}/results/export_pdf`}>Export to PDF</Button>
       </GridToolbarExportContainer>
     )
   }
@@ -83,12 +83,6 @@ const UserGroupDetailTable = props => {
       field: 'position',
       minWidth: 80,
       headerName: 'Position'
-    },
-    {
-      flex: 0.1,
-      field: 'department',
-      minWidth: 80,
-      headerName: 'Department'
     },
     {
       flex: 0.275,

@@ -14,12 +14,6 @@ import Grid from '@mui/material/Grid'
 import TextField from '@mui/material/TextField'
 import Icon from 'src/@core/components/icon'
 
-// ** Third Party Imports
-import DatePicker from 'react-datepicker'
-
-// ** Custom Component Imports
-import CustomInput from 'src/views/forms/form-elements/pickers/PickersCustomInput'
-
 // ** Icon Imports
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import DashboardTable from 'src/views/table/DashboardTable'
@@ -51,16 +45,11 @@ function Campaigns() {
   const campains = useGetCampaigns_summaryQuery()
 
   // ** State
-  const [alignment, setAlignment] = useState('Active Campaign')
   const [open, setOpen] = useState(false)
 
   let campainsData = !campains.isLoading ? campains.data?.campaigns : []
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-
-  const handleAlignment = (event, newAlignment) => {
-    setAlignment(newAlignment)
-  }
 
   const [userData, setUserData] = useState(initialUserData)
 
@@ -89,17 +78,6 @@ function Campaigns() {
         New Campaign
       </Button>
       <Card sx={{ my: 4, p: 6 }}>
-        <ToggleButtonGroup
-          size='large'
-          sx={{ mb: 8 }}
-          exclusive
-          color='primary'
-          value={alignment}
-          onChange={handleAlignment}
-        >
-          <ToggleButton value={'Active Campaign'}>Active Campaign</ToggleButton>
-          <ToggleButton value={'Actived Campaign'}>Actived Campaign</ToggleButton>
-        </ToggleButtonGroup>
         <DashboardTable rows={campainsData} isLoading={campains.isLoading} />
       </Card>
 

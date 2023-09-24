@@ -5,8 +5,6 @@ import { useEffect, useMemo, useState } from 'react'
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** Custom Components
-import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
 import QuickSearchToolbar from 'src/views/table/data-grid/QuickSearchToolbar'
 
 // Icon Import
@@ -14,22 +12,11 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import CachedIcon from '@mui/icons-material/Cached'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
-import { useDeleteUserMutation, useGetUsersAPIQuery } from 'src/store/api'
+import { useDeleteSmtpDataMutation, useGetSmtpDataQuery } from 'src/store/api'
 
-// ** Utils Import
-import { getInitials } from 'src/@core/utils/get-initials'
-
-// ** Data Import
-import { rows } from 'src/@fake-db/table/static-data'
 import { IconButton } from '@mui/material'
-import DialogEdit from './dialogEdit'
-import DialogDelete from './DialogDelete'
 import { useAuth } from 'src/hooks/useAuth'
-
-const statusObj = {
-  0: { title: 'Active', color: 'success' },
-  1: { title: 'Locked', color: 'error' }
-}
+import DialogDelete from './DialogDelete'
 
 const escapeRegExp = value => {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
@@ -48,49 +35,28 @@ function ConvertDate(date) {
   return time
 }
 
-const DataGridUserMangement = () => {
+export default function TableSendProfile() {
   const columns = [
     {
       flex: 0.275,
       minWidth: 290,
-      field: 'username',
-      headerName: 'Username'
+      field: 'interface_type',
+      headerName: 'Interface Type'
     },
 
     {
       flex: 0.275,
       minWidth: 80,
-      field: 'role',
-      headerName: 'Role'
-    },
-
-    {
-      flex: 0.275,
-      minWidth: 10,
-      field: 'is_active',
-      headerName: 'Active',
-      renderCell: params => {
-        const dataActive = params.row.is_active ? 0 : 1
-        const status = statusObj[dataActive]
-
-        return (
-          <CustomChip
-            size='small'
-            skin='light'
-            color={status.color}
-            label={status.title}
-            sx={{ '& .MuiChip-label': { textTransform: 'capitalize' } }}
-          />
-        )
-      }
+      field: 'name',
+      headerName: 'Name'
     },
 
     {
       flex: 0.275,
       minWidth: 250,
-      field: 'last_login',
-      headerName: 'Last Login',
-      renderCell: ({ row }) => (row.last_login ? ConvertDate(row.last_login) : '-')
+      field: 'modified_date',
+      headerName: 'Last Modified',
+      renderCell: ({ row }) => (row.modified_date ? ConvertDate(row.modified_date) : '-')
     },
 
     {
@@ -100,9 +66,6 @@ const DataGridUserMangement = () => {
       renderCell: ({ row }) => {
         return (
           <>
-            <IconButton color='primary'>
-              <CachedIcon sx={{ fontSize: 26 }} />
-            </IconButton>
             <IconButton color='primary' onClick={() => openDialog(row)}>
               <DriveFileRenameOutlineIcon sx={{ fontSize: 26 }} />
             </IconButton>
@@ -115,20 +78,23 @@ const DataGridUserMangement = () => {
     }
   ]
 
-  const usersAPI = useGetUsersAPIQuery()
-  const [deleteUsers] = useDeleteUserMutation()
-  let usersData = useMemo(() => (!usersAPI.isLoading ? usersAPI.data?.users : []), [usersAPI])
+  const smtpData = useGetSmtpDataQuery()
+  const [DelSmtp] = useDeleteSmtpDataMutation()
 
-  // ** States
-  const [data, setData] = useState(() => usersData)
+  const [data, setData] = useState([])
   const [dataCurrent, setDataCurrent] = useState({})
   const [searchText, setSearchText] = useState('')
   const [filteredData, setFilteredData] = useState([])
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
   const [open_Dialog, setOpenDialog] = useState(false)
   const [open_Delete, setOpenDelete] = useState(false)
-
   const auth = useAuth()
+
+  let smtpData_rows = useMemo(() => (!smtpData.isLoading ? smtpData.data?.smtp : []), [smtpData])
+
+  useEffect(() => {
+    setData(() => smtpData_rows)
+  }, [smtpData_rows])
 
   const openDialog = data_select => {
     console.log(data_select)
@@ -141,7 +107,7 @@ const DataGridUserMangement = () => {
     }
   }
 
-  const handleDelClose = () => (setOpenDelete(false), setCurrentData(() => {}))
+  const handleDelClose = () => (setOpenDelete(false), setDataCurrent(() => {}))
 
   const deleteDialog = data_select => {
     setOpenDelete(true)
@@ -149,18 +115,15 @@ const DataGridUserMangement = () => {
   }
 
   const DeleteData = async id => {
-    await deleteUsers(id)
+    await DelSmtp(id)
     setOpenDelete(false)
     auth.addMessage('Delete Success', 'success')
-    usersAPI.refetch()
+    smtpData.refetch()
   }
-
-  useEffect(() => {
-    setData(() => usersData)
-  }, [usersData])
 
   const handleSearch = searchValue => {
     setSearchText(searchValue)
+    console.log(searchValue)
 
     const searchRegex = new RegExp(escapeRegExp(searchValue), 'i')
 
@@ -182,7 +145,7 @@ const DataGridUserMangement = () => {
         autoHeight
         disableColumnSelector
         columns={columns}
-        loading={usersAPI.isLoading}
+        loading={smtpData.isLoading}
         MenuProps={{ disablePortal: true }}
         pageSizeOptions={[10, 15, 25, 50]}
         paginationModel={paginationModel}
@@ -200,10 +163,7 @@ const DataGridUserMangement = () => {
           }
         }}
       />
-      <DialogEdit show={open_Dialog} setShow={setOpenDialog} data={dataCurrent} />
       <DialogDelete handleClose={handleDelClose} open={open_Delete} data={dataCurrent} DeleteData={DeleteData} />
     </>
   )
 }
-
-export default DataGridUserMangement

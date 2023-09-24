@@ -1,65 +1,65 @@
-// ** React Imports
-import { useState, forwardRef } from 'react'
-
 // ** MUI Imports
 import Box from '@mui/material/Box'
-import Chip from '@mui/material/Chip'
 import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import Switch from '@mui/material/Switch'
 import Dialog from '@mui/material/Dialog'
 import Button from '@mui/material/Button'
 import MenuItem from '@mui/material/MenuItem'
-import { visuallyHidden } from '@mui/utils'
 import TextField from '@mui/material/TextField'
 import IconButton from '@mui/material/IconButton'
 import Typography from '@mui/material/Typography'
 import InputLabel from '@mui/material/InputLabel'
 import FormControl from '@mui/material/FormControl'
 import CardContent from '@mui/material/CardContent'
-import Fade from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import Select from '@mui/material/Select'
-import Paper from '@mui/material/Paper'
+
+import { useForm, Controller } from 'react-hook-form'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
-import {
-  Checkbox,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-  TableSortLabel,
-  Tooltip
-} from '@mui/material'
-
-const initialData = {
-  user_name: '',
-  password: '',
-  confirm_password: '',
-  set_new_password: true,
-  account_locked: false,
-  role: ''
-}
+import { FormHelperText } from '@mui/material'
+import { useUpdateUserMutation } from 'src/store/api'
+import { useAuth } from 'src/hooks/useAuth'
+import { useEffect } from 'react'
 
 const DialogEdit = props => {
   // ** States
   const { show, setShow, data } = props
 
-  if (!show) {
-    return null
-  }
+  const [updateUser] = useUpdateUserMutation()
+  const auth = useAuth()
 
-  const SubmitUpdateUser = e => {
-    e.preventDefault()
-    const data = new FormData(e.target)
-    const a = Object.fromEntries(data.entries())
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    getValues,
+    setValue
+  } = useForm()
+
+  useEffect(() => {
+    setValue('id', data.id)
+    setValue('username', data.username)
+    setValue('email', data.email)
+    setValue('firstname', data.firstname)
+    setValue('lastname', data.lastname)
+    setValue('phonenumber', data.phonenumber)
+    setValue('organization', data.organization)
+    setValue('role', data.role)
+    setValue('lastname', data.lastname)
+  }, [setValue, data])
+
+  const SubmitUpdateUser = async data => {
+    const data_cb = await updateUser(data.id, data)
+    console.log(data_cb)
+
+    if (!data_cb?.error) {
+      auth.addMessage('Update User Success', 'success')
+    } else {
+      auth.addMessage(data_cb?.error.data.detail, 'error')
+    }
   }
 
   return (
@@ -68,9 +68,9 @@ const DialogEdit = props => {
         <DialogContent
           sx={{
             position: 'relative',
-            pb: theme => `${theme.spacing(8)} !important`,
-            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+            pb: theme => `${theme.spacing(2)} !important`,
+            px: theme => [`${theme.spacing(4)} !important`, `${theme.spacing(4)} !important`],
+            pt: theme => [`${theme.spacing(6)} !important`, `${theme.spacing(8.5)} !important`]
           }}
         >
           <IconButton
@@ -82,58 +82,107 @@ const DialogEdit = props => {
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
             <Typography variant='h5' sx={{ mb: 3 }}>
-              New Sending Profile
+              Craete New User
             </Typography>
           </Box>
-          <form onSubmit={SubmitUpdateUser}>
+          <form onSubmit={handleSubmit(SubmitUpdateUser)}>
             <CardContent>
-              <Grid container spacing={5}>
+              <Grid container spacing={6}>
                 <Grid item xs={12} sm={12}>
-                  <Typography>Username:</Typography>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <TextField fullWidth name='username' placeholder='username' value={data.username} />
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Typography>Password:</Typography>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <TextField fullWidth type='password' name='password' placeholder='password' />
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Typography>Confirm Password:</Typography>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <TextField fullWidth type='password' name='confirm_password' placeholder='Confirm Password' />
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <FormControlLabel
-                    control={<Checkbox name='set_new_password' />}
-                    label='Require the user to set a new password'
+                  <Controller
+                    name='username'
+                    control={control}
+                    defaultValue=''
+                    render={({ field }) => <TextField autoFocus fullWidth type='text' {...field} label='Username' />}
                   />
                 </Grid>
+
                 <Grid item xs={12} sm={12}>
-                  <FormControlLabel
-                    control={<Checkbox checked={!data.is_active} name='account_locked' />}
-                    label='Account Locked'
+                  <Controller
+                    name='email'
+                    control={control}
+                    defaultValue=''
+                    render={({ field }) => <TextField autoFocus fullWidth type='text' {...field} label='Email' />}
                   />
                 </Grid>
+
+                <Grid item xs={12} sm={12}>
+                  <Controller
+                    name='password'
+                    control={control}
+                    defaultValue=''
+                    render={({ field }) => <TextField {...field} type='password' label='Password' fullWidth />}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12}>
+                  <Controller
+                    name='firstname'
+                    control={control}
+                    defaultValue=''
+                    render={({ field }) => <TextField autoFocus fullWidth type='text' {...field} label='Firstname' />}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12}>
+                  <Controller
+                    name='lastname'
+                    control={control}
+                    defaultValue=''
+                    render={({ field }) => <TextField autoFocus fullWidth type='text' {...field} label='Lastname' />}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12}>
+                  <Controller
+                    name='phonenumber'
+                    control={control}
+                    defaultValue=''
+                    render={({ field }) => <TextField autoFocus fullWidth type='text' {...field} label='Phone No.' />}
+                  />
+                </Grid>
+
+                <Grid item xs={12} sm={12}>
+                  <Controller
+                    name='organization'
+                    control={control}
+                    defaultValue=''
+                    render={({ field }) => (
+                      <TextField autoFocus fullWidth type='text' {...field} label='Organization' />
+                    )}
+                  />
+                </Grid>
+
                 <Grid item xs={12} sm={12}>
                   <FormControl fullWidth>
                     <InputLabel id='demo-simple-select-label'>Role</InputLabel>
-                    <Select
-                      labelId='demo-simple-select-label'
-                      id='demo-simple-select'
-                      value={data.role}
-                      label='Role'
-                      name='role'
-                    >
-                      <MenuItem value={'superadmin'}>Superadmin</MenuItem>
-                      <MenuItem value={'admin'}>admin</MenuItem>
-                      <MenuItem value={'auditor'}>Auditor</MenuItem>
-                      <MenuItem value={'paid'}>Paid</MenuItem>
-                      <MenuItem value={'guest'}>Guest</MenuItem>
-                    </Select>
+                    <Controller
+                      name='role' // The name should match your form data structure
+                      control={control}
+                      defaultValue=''
+                      rules={{ required: 'Role is required' }}
+                      render={({ field }) => (
+                        <Select
+                          labelId='demo-simple-select-label'
+                          id='demo-simple-select'
+                          label='Role'
+                          name='role'
+                          {...field}
+                          error={!!errors.username}
+                          helperText={errors.role ? errors.role.message : ''}
+                        >
+                          <MenuItem value=''>
+                            <em>Select Role</em>
+                          </MenuItem>
+                          <MenuItem value={'superadmin'}>Superadmin</MenuItem>
+                          <MenuItem value={'admin'}>Admin</MenuItem>
+                          <MenuItem value={'auditor'}>Auditor</MenuItem>
+                          <MenuItem value={'paid'}>Paid</MenuItem>
+                          <MenuItem value={'guest'}>Guest</MenuItem>
+                        </Select>
+                      )}
+                    />
+                    {errors.role && <FormHelperText error>{errors.role.message}</FormHelperText>}
                   </FormControl>
                 </Grid>
               </Grid>
@@ -148,7 +197,7 @@ const DialogEdit = props => {
                 Cancel
               </Button>
               <Button variant='contained' type='submit' sx={{ mr: 1 }}>
-                Save Profile
+                Update Profile
               </Button>
             </DialogActions>
           </form>

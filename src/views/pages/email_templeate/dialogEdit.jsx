@@ -1,4 +1,4 @@
-/* eslint-disable react-hooks/rules-of-hooks */
+//* eslint-disable react-hooks/rules-of-hooks */
 // ** React Imports
 import { useState, forwardRef } from 'react'
 
@@ -42,6 +42,16 @@ import { useAuth } from 'src/hooks/useAuth'
 const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />
 })
+function descendingComparator(a, b, orderBy) {
+  if (b[orderBy] < a[orderBy]) {
+    return -1
+  }
+  if (b[orderBy] > a[orderBy]) {
+    return 1
+  }
+
+  return 0
+}
 
 const DialogAdd = props => {
   // ** States

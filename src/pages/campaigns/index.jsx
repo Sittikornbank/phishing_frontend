@@ -45,16 +45,11 @@ function Campaigns() {
   const campains = useGetCampaigns_summaryQuery()
 
   // ** State
-  const [alignment, setAlignment] = useState('Active Campaign')
   const [open, setOpen] = useState(false)
 
   let campainsData = !campains.isLoading ? campains.data?.campaigns : []
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
-
-  const handleAlignment = (event, newAlignment) => {
-    setAlignment(newAlignment)
-  }
 
   const [userData, setUserData] = useState(initialUserData)
 

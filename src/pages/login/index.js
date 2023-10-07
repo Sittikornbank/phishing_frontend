@@ -134,9 +134,9 @@ const LoginPage = () => {
   const onSubmit = data => {
     const { email, password } = data
     auth.login({ email, password, rememberMe }, () => {
-      setError('email', {
+      setError('msg_error', {
         type: 'manual',
-        message: 'Email or Password is invalid'
+        message: 'Email or Password is wrong'
       })
     })
   }
@@ -155,10 +155,8 @@ const LoginPage = () => {
               '@keyframes beat': { to: { transform: 'scale(1.4)' } }
             }}
             alt='login-illustration'
-            // src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
             src={`/images/pages/Logo.png`}
           />
-          {/* </LoginIllustrationWrapper> */}
         </Box>
       ) : null}
       <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
@@ -265,6 +263,11 @@ const LoginPage = () => {
                     {errors.password.message}
                   </FormHelperText>
                 )}
+                {errors.msg_error && (
+                  <FormHelperText sx={{ color: 'error.main', fontSize: '14px' }} id=''>
+                    {errors.msg_error.message}
+                  </FormHelperText>
+                )}
               </FormControl>
               <Box
                 sx={{ mb: 4, display: 'flex', alignItems: 'center', flexWrap: 'wrap', justifyContent: 'space-between' }}
@@ -275,6 +278,7 @@ const LoginPage = () => {
                 />
                 <LinkStyled href='/forgot-password'>Forgot Password?</LinkStyled>
               </Box>
+
               <Button fullWidth size='large' type='submit' variant='contained' sx={{ mb: 7 }}>
                 Login
               </Button>

@@ -34,6 +34,15 @@ export const GetAPI_summary_port = createApi({
     }),
     getCampaignGraph: builder.query({
       query: () => `campaigns/graphs?sampling=86400`
+    }),
+
+    createCampaign: builder.mutation({
+      query: body => ({
+        url: 'campaigns',
+        method: 'POST',
+        body
+      }),
+      providesTags: ['CreateCampaigns']
     })
   })
 })
@@ -172,7 +181,8 @@ export const {
   useGetCampaign_summary_resultQuery,
   useGetCampaign_resultQuery,
   useGetGroupQuery,
-  useGetCampaignGraphQuery
+  useGetCampaignGraphQuery,
+  useCreateCampaignMutation
 } = GetAPI_summary_port
 
 export const {

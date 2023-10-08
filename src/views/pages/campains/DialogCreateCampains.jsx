@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, forwardRef } from 'react'
+import { useState, forwardRef, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -31,11 +31,16 @@ export default function DialogCreateCampains({ show, handleClose }) {
   const {
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
     reset
   } = useForm()
   const auth = useAuth()
   const [CreateCampains] = useCreateCampaignMutation()
+
+  useEffect(() => {
+    setValue('send_by_date', null)
+  }, [setValue])
 
   const SubmitEmailTemplate = async data => {
     const data_cb = await CreateCampains(data)
@@ -44,6 +49,7 @@ export default function DialogCreateCampains({ show, handleClose }) {
 
       return
     }
+    handleClose()
     auth.addMessage('Create Successful', 'success')
     reset()
   }

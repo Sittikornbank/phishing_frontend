@@ -23,10 +23,10 @@ function calPercentage(a, total) {
 const GrapTotalDashboards = ({ dataGrap }) => {
   // ** Hook
   const theme = useTheme()
-  const open = dataGrap.open ? dataGrap.open : 0
-  const click = dataGrap.click ? dataGrap.click : 0
-  const submit = dataGrap.submit ? dataGrap.submit : 0
-  const nothing = dataGrap.nothing ? dataGrap.nothing : 0
+  const open = dataGrap?.open ? dataGrap.open : 0
+  const click = dataGrap?.click ? dataGrap.click : 0
+  const submit = dataGrap?.submit ? dataGrap.submit : 0
+  const nothing = dataGrap?.nothing ? dataGrap.nothing : 0
   const data_grap = [open, click, submit, nothing]
 
   const total = data_grap.reduce((a, b) => a + b, 0)
@@ -150,8 +150,8 @@ const GrapTotalDashboards = ({ dataGrap }) => {
                   <Icon icon='mdi:circle' />
                   <Typography variant='body2'>Open</Typography>
                 </Box>
-                <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap.open}</Typography>
-                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.open, total)} %</Typography>
+                <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap?.open || 0}</Typography>
+                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap?.open || 0, total)} %</Typography>
               </Grid>
               <Grid item xs={6} sx={{ mb: 4 }}>
                 <Box
@@ -165,8 +165,10 @@ const GrapTotalDashboards = ({ dataGrap }) => {
                   <Icon icon='mdi:circle' />
                   <Typography variant='body2'>Click</Typography>
                 </Box>
-                <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap.click}</Typography>
-                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.click, total)} %</Typography>
+                <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap?.click || 0}</Typography>
+                <Typography sx={{ fontWeight: 600 }}>
+                  Percent: {calPercentage(dataGrap?.click || 0, total)} %
+                </Typography>
               </Grid>
               <Grid item xs={6}>
                 <Box
@@ -180,8 +182,10 @@ const GrapTotalDashboards = ({ dataGrap }) => {
                   <Icon icon='mdi:circle' />
                   <Typography variant='body2'>Submit</Typography>
                 </Box>
-                <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap.submit}</Typography>
-                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.submit, total)} %</Typography>
+                <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap?.submit || 0}</Typography>
+                <Typography sx={{ fontWeight: 600 }}>
+                  Percent: {calPercentage(dataGrap?.submit || 0, total)} %
+                </Typography>
               </Grid>
 
               <Grid item xs={6}>
@@ -196,8 +200,10 @@ const GrapTotalDashboards = ({ dataGrap }) => {
                   <Icon icon='mdi:circle' />
                   <Typography variant='body2'>No Action</Typography>
                 </Box>
-                <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap.nothing}</Typography>
-                <Typography sx={{ fontWeight: 600 }}>Percent: {calPercentage(dataGrap.nothing, total)} %</Typography>
+                <Typography sx={{ fontWeight: 600 }}>Count: {dataGrap?.nothing || 0}</Typography>
+                <Typography sx={{ fontWeight: 600 }}>
+                  Percent: {calPercentage(dataGrap?.nothing || 0, total)} %
+                </Typography>
               </Grid>
             </Grid>
           </Grid>

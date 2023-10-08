@@ -61,4 +61,9 @@ function User_group() {
   )
 }
 
+User_group.acl = {
+  action: 'read',
+  subject: 'guest-page'
+}
+
 export default User_group

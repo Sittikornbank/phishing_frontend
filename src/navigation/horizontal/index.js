@@ -17,14 +17,20 @@ const navigation = () => {
     {
       title: 'Phishing Material',
       icon: 'mdi:email',
+      action: 'read',
+      subject: 'test-page',
       badgeColor: 'error',
       children: [
         {
           title: 'Email Template',
+          action: 'read',
+          subject: 'test-page',
           path: '/email_templeate'
         },
         {
           title: 'Landing Page',
+          action: 'read',
+          subject: 'test-page',
           path: '/landingpage'
         },
         {

@@ -43,6 +43,14 @@ export const GetAPI_summary_port = createApi({
         body
       }),
       providesTags: ['CreateCampaigns']
+    }),
+
+    deleteCampaign: builder.mutation({
+      query: id => ({
+        url: `campaigns/${id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['DeleteCampaign']
     })
   })
 })
@@ -86,8 +94,8 @@ export const GetAPI_users_port = createApi({
       invalidatesTags: ['Posts']
     }),
     updateUser: builder.mutation({
-      query: (id, body) => ({
-        url: `users/${id}`,
+      query: body => ({
+        url: `users/${body.id}`,
         method: 'PUT',
         body: body
       })
@@ -134,7 +142,7 @@ export const GetAPI_template_port = createApi({
       })
     }),
     updateLandingPage: builder.mutation({
-      query: (id, body) => ({
+      query: body => ({
         url: `site_templates/${id}`,
         method: 'PUT',
         body
@@ -182,7 +190,8 @@ export const {
   useGetCampaign_resultQuery,
   useGetGroupQuery,
   useGetCampaignGraphQuery,
-  useCreateCampaignMutation
+  useCreateCampaignMutation,
+  useDeleteCampaignMutation
 } = GetAPI_summary_port
 
 export const {

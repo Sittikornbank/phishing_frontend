@@ -19,24 +19,27 @@ const navigation = () => {
       icon: 'mdi:email',
       action: 'read',
       subject: 'guest-page',
-      icon: 'mdi:shield-outline',
       badgeColor: 'error',
       children: [
         {
-          title: 'Email Template',
+          title: 'Template',
+          action: 'read',
           subject: 'guest-page',
-          icon: 'mdi:shield-outline',
+          path: '/template'
+        },
+        {
+          title: 'Email Template',
           path: '/email_templeate'
         },
         {
           title: 'Landing Page',
-          subject: 'acl-page',
-          icon: 'mdi:shield-outline',
           path: '/landingpage'
         },
         {
           title: 'User & Groups',
-          path: '/user_group'
+          path: '/user_group',
+          action: 'read',
+          subject: 'guest-page'
         }
       ]
     },
@@ -51,7 +54,9 @@ const navigation = () => {
     {
       title: 'Account Settings',
       icon: 'mdi:account-badge-outline',
-      path: '/accountsetting/account'
+      path: '/accountsetting/account',
+      action: 'read',
+      subject: 'guest-page'
     },
     {
       title: 'User Management',

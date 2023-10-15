@@ -16,26 +16,15 @@ import DialogAdd from 'src/views/pages/email_templeate/dialogAdd'
 
 import DialogShowUI from 'src/views/pages/email_templeate/dialogShowUI'
 
-function Campaigns() {
+function EmailTemplates() {
   // ** State
-  const [alignment, setAlignment] = useState('Active Campaign')
   const [show, setShow] = useState(false)
-  const [showEdit, setShowEdit] = useState(false)
-  const [dataEdit, setDataEdit] = useState({})
   const [data, setData] = useState()
-
-  const template = useGetLandingPageQuery()
-  let templateData = !template.isLoading ? template.data?.site_templates : []
-
-  const handleAlignment = (event, newAlignment) => {
-    setAlignment(newAlignment)
-  }
 
   const handleSetShow = (field, value) => {
     setData(false)
     setShow(true)
   }
-  console.log(dataEdit)
 
   return (
     <>
@@ -51,23 +40,17 @@ function Campaigns() {
       >
         New Template
       </Button>
-      <Grid container sx={{ my: [0, 4, 1.625] }} spacing={5}>
-        {templateData?.map(data => {
-          return <CardTemplate key={data.id} data={data} setData={setDataEdit} setShow={setShowEdit} />
-        })}
-      </Grid>
       <Card sx={{ my: 4, p: 6 }}>
         <Email_template_Table />
       </Card>
       <DialogAdd show={show} setShow={setShow} data={data} />
-      <DialogShowUI show={showEdit} dataEdit={dataEdit ? dataEdit : []} setShowEdit={setShowEdit} />
     </>
   )
 }
 
-Campaigns.acl = {
+EmailTemplates.acl = {
   action: 'read',
   subject: 'guest-page'
 }
 
-export default Campaigns
+export default EmailTemplates

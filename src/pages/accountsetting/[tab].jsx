@@ -10,12 +10,7 @@ const AccountSettingsTab = ({ tab, apiPricingPlanData }) => {
 
 export const getStaticPaths = () => {
   return {
-    paths: [
-      { params: { tab: 'account' } },
-      { params: { tab: 'ui' } },
-      { params: { tab: 'reporting' } }
-     
-    ],
+    paths: [{ params: { tab: 'account' } }, { params: { tab: 'ui' } }, { params: { tab: 'reporting' } }],
     fallback: false
   }
 }
@@ -30,6 +25,11 @@ export const getStaticProps = async ({ params }) => {
       apiPricingPlanData: data.pricingPlans
     }
   }
+}
+
+AccountSettingsTab.acl = {
+  action: 'read',
+  subject: 'guest-page'
 }
 
 export default AccountSettingsTab

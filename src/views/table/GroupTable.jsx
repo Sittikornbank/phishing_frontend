@@ -128,7 +128,7 @@ const GroupTable = ({ data }) => {
       paginationModel={paginationModel}
       slots={{ toolbar: QuickSearchToolbar }}
       onPaginationModelChange={setPaginationModel}
-      rows={filteredData.length ? filteredData : data}
+      rows={filteredData.length ? filteredData : data || []}
       slotProps={{
         baseButton: {
           variant: 'outlined'

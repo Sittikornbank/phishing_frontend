@@ -51,14 +51,14 @@ const DialogEdit = props => {
     setValue('lastname', data.lastname)
   }, [setValue, data])
 
-  const SubmitUpdateUser = async data => {
-    const data_cb = await updateUser(data.id, data)
+  const SubmitUpdateUser = async data_form => {
+    const data_cb = await updateUser(data)
     console.log(data_cb)
 
     if (!data_cb?.error) {
       auth.addMessage('Update User Success', 'success')
     } else {
-      auth.addMessage(data_cb?.error.data.detail, 'error')
+      // auth.addMessage(data_cb?.error.data.detail, 'error')
     }
   }
 

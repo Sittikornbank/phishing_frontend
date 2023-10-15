@@ -6,11 +6,13 @@ import { Card, CardHeader, CardContent, Grid } from '@mui/material'
 import Button from '@mui/material/Button'
 import { useGetLandingPageQuery } from 'src/store/api'
 import CardTemplate from 'src/views/template/CardTemplate'
+import DialogShowUI from 'src/views/pages/email_templeate/dialogShowUI'
 
 function Template() {
   const template = useGetLandingPageQuery()
   let templateData = !template.isLoading ? template.data?.site_templates : []
-  console.log(template);
+  const [showEdit, setShowEdit] = useState(false)
+  const [dataEdit, setDataEdit] = useState({})
 
   return (
     <>
@@ -19,12 +21,18 @@ function Template() {
       </Typography>
       <hr />
       <Grid container sx={{ my: [0, 4, 1.625] }} spacing={5}>
-        {templateData.map((data) => {
-          return (<CardTemplate key={data.id} data={data}  />)
+        {templateData?.map(data => {
+          return <CardTemplate key={data.id} data={data} setData={setDataEdit} setShow={setShowEdit} />
         })}
       </Grid>
+      <DialogShowUI show={showEdit} dataEdit={dataEdit ? dataEdit : []} setShowEdit={setShowEdit} />
     </>
   )
+}
+
+Template.acl = {
+  action: 'read',
+  subject: 'guest-page'
 }
 
 export default Template

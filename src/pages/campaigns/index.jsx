@@ -69,6 +69,10 @@ function Campaigns() {
     [userData]
   )
 
+  const Refetch = () => {
+    campains.refetch()
+  }
+
   return (
     <>
       <Typography variant='h3' sx={{ my: 8 }}>
@@ -79,7 +83,7 @@ function Campaigns() {
         New Campaign
       </Button>
       <Card sx={{ my: 4, p: 6 }}>
-        <DashboardTable rows={campainsData} isLoading={campains.isLoading} />
+        <DashboardTable rows={campainsData} isLoading={campains.isLoading} Refetch={Refetch} />
       </Card>
 
       <DialogCreateCampains show={open} handleClose={handleClose} />

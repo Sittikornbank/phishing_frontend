@@ -22,6 +22,12 @@ const navigation = () => {
       badgeColor: 'error',
       children: [
         {
+          title: 'Template',
+          action: 'read',
+          subject: 'test-page',
+          path: '/template'
+        },
+        {
           title: 'Email Template',
           action: 'read',
           subject: 'test-page',

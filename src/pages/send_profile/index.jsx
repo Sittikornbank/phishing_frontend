@@ -39,4 +39,9 @@ const SendProfile = () => {
   )
 }
 
+SendProfile.acl = {
+  action: 'read',
+  subject: 'guest-page'
+}
+
 export default SendProfile

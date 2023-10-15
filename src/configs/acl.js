@@ -13,7 +13,6 @@ const defineRulesFor = (role, subject) => {
     can('manage', 'all')
   } else if (role === 'guest') {
     can(['read'], 'guest-page')
-    can(['read'], 'test-page')
   } else {
     can(['read', 'create', 'update', 'delete'], subject)
   }

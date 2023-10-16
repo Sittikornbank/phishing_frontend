@@ -148,7 +148,7 @@ const Email_template_Table = () => {
       paginationModel={paginationModel}
       slots={{ toolbar: QuickSearchToolbar }}
       onPaginationModelChange={setPaginationModel}
-      rows={filteredData.length > 0 ? filteredData : templateData}
+      rows={filteredData.length > 0 ? filteredData : (templateData || [])}
       slotProps={{
         baseButton: {
           variant: 'outlined'

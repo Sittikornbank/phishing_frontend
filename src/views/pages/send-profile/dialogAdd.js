@@ -372,6 +372,7 @@ const DialogAdd = props => {
                         rowCount={headers.length}
                         numSelected={selected.length}
                         onRequestSort={handleRequestSort}
+
                         // onSelectAllClick={handleSelectAllClick}
                       />
                       <TableBody>

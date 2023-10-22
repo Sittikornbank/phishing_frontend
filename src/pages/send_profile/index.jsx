@@ -10,6 +10,8 @@ import { Button } from '@mui/material'
 import Icon from 'src/@core/components/icon'
 import { useState } from 'react'
 
+import DialogAdd from 'src/views/pages/send-profile/dialogAdd'
+
 import TableSendProfile from 'src/views/pages/send-profile/TableSendProfile'
 
 // ** Icon Imports
@@ -27,7 +29,7 @@ const SendProfile = () => {
 
   return (
     <>
-      <Typography variant='h3'>Send Profile</Typography>
+      <Typography variant='h3'>Sending Profile</Typography>
       <hr />
       <Button variant='contained' sx={{ my: 4 }} onClick={handleSetShow} startIcon={<AddCircleIcon fontSize='large' />}>
         New Page
@@ -35,6 +37,7 @@ const SendProfile = () => {
       <Card sx={{ my: 4, p: 6 }}>
         <TableSendProfile />
       </Card>
+      <DialogAdd show={show} setShow={setShow} />
     </>
   )
 }

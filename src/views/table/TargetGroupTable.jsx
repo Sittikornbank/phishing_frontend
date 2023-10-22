@@ -5,8 +5,12 @@ import { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import { DataGrid } from '@mui/x-data-grid'
 
+// ** Icon Import
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
+
 // ** Custom Components
 import QuickSearchToolbar from 'src/views/table/data-grid/QuickSearchToolbar'
+import { IconButton } from '@mui/material'
 
 const statusObj = {
   1: { title: 'current', color: 'primary' },
@@ -33,48 +37,64 @@ const escapeRegExp = value => {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
 
-const columns = [
-  {
-    flex: 0.2,
-    minWidth: 120,
-    headerName: 'Name',
-    field: 'name',
-    renderCell: params => (
-      <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.name}
-      </Typography>
-    )
-  },
-  {
-    flex: 0.2,
-    minWidth: 110,
-    field: 'email',
-    headerName: 'E-Mail',
-    renderCell: params => (
-      <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.modified_date}
-      </Typography>
-    )
-  },
+const TargetGroupTable = ({ data, setUserDataTarget }) => {
+  const columns = [
+    {
+      flex: 0.2,
+      minWidth: 120,
+      headerName: 'Name',
+      field: 'name',
+      renderCell: params => (
+        <Typography variant='body2' sx={{ color: 'text.primary' }}>
+          {params.row.firstname} {params.row.lastname}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.2,
+      minWidth: 110,
+      field: 'email',
+      headerName: 'E-Mail',
+      renderCell: params => (
+        <Typography variant='body2' sx={{ color: 'text.primary' }}>
+          {params.row.email}
+        </Typography>
+      )
+    },
 
-  {
-    flex: 0.125,
-    field: 'position',
-    minWidth: 80,
-    headerName: 'Position',
-    renderCell: params => (
-      <Typography variant='body2' sx={{ color: 'text.primary' }}>
-        {params.row.targets ? params.row.targets.length : 0}
-      </Typography>
-    )
-  }
-]
+    {
+      flex: 0.125,
+      field: 'position',
+      minWidth: 80,
+      headerName: 'Position',
+      renderCell: params => (
+        <Typography variant='body2' sx={{ color: 'text.primary' }}>
+          {params.row.position}
+        </Typography>
+      )
+    },
+    {
+      flex: 0.1,
+      headerName: 'Actions',
+      sortable: false,
+      minWidth: 80,
+      renderCell: params => (
+        <IconButton color='error' onClick={() => handleDelete(params.row.id)}>
+          <DeleteForeverIcon sx={{ fontSize: 26 }} />
+        </IconButton>
+      )
+    }
+  ]
 
-const TargetGroupTable = ({ data }) => {
   // ** States
   const [searchText, setSearchText] = useState('')
   const [filteredData, setFilteredData] = useState([])
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
+
+  const handleDelete = rowId => {
+    const updatedData = data.filter(row => row.id !== rowId)
+    setUserDataTarget(() => updatedData)
+  }
 
   const handleSearch = searchValue => {
     setSearchText(searchValue)
@@ -95,7 +115,7 @@ const TargetGroupTable = ({ data }) => {
 
   return (
     <DataGrid
-      autoHeight
+      sx={{ height: 400 }}
       columns={columns}
       pageSizeOptions={[10, 15, 20, 25, 50]}
       paginationModel={paginationModel}

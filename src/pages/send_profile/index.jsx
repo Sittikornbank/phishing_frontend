@@ -27,7 +27,7 @@ const SendProfile = () => {
 
   return (
     <>
-      <Typography variant='h3'>Send Profile</Typography>
+      <Typography variant='h3'>Sending Profile</Typography>
       <hr />
       <Button variant='contained' sx={{ my: 4 }} onClick={handleSetShow} startIcon={<AddCircleIcon fontSize='large' />}>
         New Page

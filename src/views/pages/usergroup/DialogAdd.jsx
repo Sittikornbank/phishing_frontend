@@ -1,5 +1,8 @@
 // ** React Imports
 import { useState, forwardRef, useCallback, useRef } from 'react'
+import { useForm, Controller, get } from 'react-hook-form'
+
+import { v4 as uuidv4 } from 'uuid'
 
 // ** MUI Imports
 import { Box, Grid, Card, Switch, Select, Dialog } from '@mui/material'
@@ -48,9 +51,17 @@ const initialUserData = {
 }
 
 export default function DialogAdd({ setShow, show }) {
+  const {
+    handleSubmit,
+    control,
+    getValues,
+    setValue,
+    formState: { errors }
+  } = useForm()
   const [userData, setUserData] = useState(initialUserData)
   const [dataTarget, setDataTarget] = useState()
   const formRef = useRef()
+  const [userDataTarget, setUserDataTarget] = useState([])
 
   const formHandler = useCallback(
     () => event => {
@@ -71,7 +82,28 @@ export default function DialogAdd({ setShow, show }) {
     console.log(e.target.value)
   }
 
-  const insertData = () => {}
+  const insertData = () => {
+    const fName = getValues('Firstname')
+    const lName = getValues('Lastname')
+    const email = getValues('email')
+    const position = getValues('position')
+
+    // Seta data to table
+    setUserDataTarget([...userDataTarget, { id: uuidv4(), firstname: fName, lastname: lName, email, position }])
+
+    // Clear form
+    setValue('Firstname', '')
+    setValue('Lastname', '')
+    setValue('email', '')
+    setValue('position', '')
+  }
+
+  const onSubmit = data => {
+    data.targets = userDataTarget
+    console.log(data)
+
+    // Perform your form submission logic here
+  }
 
   return (
     <Dialog
@@ -92,17 +124,25 @@ export default function DialogAdd({ setShow, show }) {
         }}
       >
         <Box>
-          <form ref={formRef} onSubmit={formHandler()}>
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={4} alignItems={'center'} sx={{ mb: 4 }}>
               <Grid item xs={12}>
                 <Typography variant='subtitle1' component='p'>
                   Name:
                 </Typography>
-                <TextField
-                  fullWidth
-                  placeholder='Group Name'
-                  value={userData.groupName}
-                  onChange={updateUserDataHandler('groupName')}
+                <Controller
+                  name='name'
+                  control={control}
+                  rules={{ required: 'Group Name is required' }}
+                  render={({ field }) => (
+                    <TextField
+                      fullWidth
+                      placeholder='Group Name'
+                      {...field}
+                      error={!!errors.name}
+                      helperText={errors.name ? errors.name.message : ''}
+                    />
+                  )}
                 />
               </Grid>
 
@@ -128,34 +168,47 @@ export default function DialogAdd({ setShow, show }) {
                 <Typography variant='subtitle1' component='p'>
                   Firstname:
                 </Typography>
-                <TextField fullWidth value={userData.Firstname} onChange={updateUserDataHandler('Firstname')} />
+                <Controller
+                  name='Firstname'
+                  control={control}
+                  render={({ field }) => <TextField fullWidth {...field} />}
+                />
               </Grid>
 
               <Grid item xs={12} md={6}>
                 <Typography variant='subtitle1' component='p'>
                   Lastname:
                 </Typography>
-                <TextField fullWidth value={userData.Lastname} onChange={updateUserDataHandler('Lastname')} />
+                <Controller
+                  name='Lastname'
+                  control={control}
+                  render={({ field }) => <TextField fullWidth {...field} />}
+                />
               </Grid>
 
               <Grid item xs={12} md={6}>
                 <Typography variant='subtitle1' component='p'>
                   Email:
                 </Typography>
-                <TextField fullWidth value={userData.email} onChange={updateUserDataHandler('email')} />
+                <Controller name='email' control={control} render={({ field }) => <TextField fullWidth {...field} />} />
               </Grid>
 
               <Grid item xs={12} md={6}>
                 <Typography variant='subtitle1' component='p'>
                   Position:
                 </Typography>
-                <TextField fullWidth value={userData.position} onChange={updateUserDataHandler('position')} />
+                <Controller
+                  name='position'
+                  control={control}
+                  render={({ field }) => <TextField fullWidth {...field} />}
+                />
               </Grid>
 
               <Grid item xs={12}>
                 <Button
                   variant='contained'
                   sx={{ mr: 4 }}
+                  type='button'
                   onClick={insertData}
                   startIcon={<Icon icon='material-symbols:add' />}
                 >
@@ -163,14 +216,19 @@ export default function DialogAdd({ setShow, show }) {
                 </Button>
               </Grid>
               <Grid item xs={12}>
-                <TargetGroupTable data={[]} />
+                <TargetGroupTable data={userDataTarget} setUserDataTarget={setUserDataTarget} />
               </Grid>
 
               <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end' }}>
                 <Button variant='contained' onClick={setShow} sx={{ mr: 4 }}>
                   Close
                 </Button>
-                <Button variant='contained' sx={{ mr: 4 }} startIcon={<Icon icon='material-symbols:save' />}>
+                <Button
+                  variant='contained'
+                  type='submit'
+                  sx={{ mr: 4 }}
+                  startIcon={<Icon icon='material-symbols:save' />}
+                >
                   Create Group
                 </Button>
               </Grid>

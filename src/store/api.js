@@ -13,6 +13,7 @@ export const GetAPI_summary_port = createApi({
       return headers
     }
   }),
+  keepUnusedDataFor: 30,
   endpoints: builder => ({
     getCampaigns_summary: builder.query({
       query: () => 'campaigns/summary'

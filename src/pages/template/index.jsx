@@ -4,13 +4,13 @@ import React, { useState } from 'react'
 import Typography from '@mui/material/Typography'
 import { Card, CardHeader, CardContent, Grid } from '@mui/material'
 import Button from '@mui/material/Button'
-import { useGetLandingPageQuery } from 'src/store/api'
+import { useGetTemplateQuery } from 'src/store/api'
 import CardTemplate from 'src/views/template/CardTemplate'
 import DialogShowUI from 'src/views/pages/email_templeate/dialogShowUI'
 
 function Template() {
-  const template = useGetLandingPageQuery()
-  let templateData = !template.isLoading ? template.data?.site_templates : []
+  const template = useGetTemplateQuery()
+  let templateData = !template.isLoading ? template.data?.templates : []
   const [showEdit, setShowEdit] = useState(false)
   const [dataEdit, setDataEdit] = useState({})
 

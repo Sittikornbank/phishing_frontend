@@ -1,7 +1,6 @@
-
 // ** MUI Imports
-import { Box, Dialog, DialogContent, Fade, IconButton, Typography } from "@mui/material"
-import { forwardRef } from "react";
+import { Box, Dialog, DialogContent, Fade, IconButton, Typography } from '@mui/material'
+import { forwardRef } from 'react'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -11,7 +10,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 })
 
 export default function DialogShowUI({ show, dataEdit, setShowEdit }) {
-  console.log(show);
+  console.log(dataEdit)
 
   return (
     <Dialog
@@ -44,7 +43,7 @@ export default function DialogShowUI({ show, dataEdit, setShowEdit }) {
           </Typography>
         </Box>
         <Box sx={{ mb: 4 }}>
-          <div style={{position: 'relative'}} dangerouslySetInnerHTML={{__html: dataEdit?.html}} />
+          <div style={{ position: 'relative' }} dangerouslySetInnerHTML={{ __html: dataEdit?.email_templates?.html }} />
         </Box>
       </DialogContent>
     </Dialog>

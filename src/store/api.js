@@ -122,6 +122,10 @@ export const GetAPI_template_port = createApi({
     }
   }),
   endpoints: builder => ({
+    getTemplate: builder.query({
+      query: () => `templates`
+    }),
+
     getEmailTemplates: builder.query({
       query: () => `email_templates`
     }),
@@ -205,6 +209,7 @@ export const {
 } = GetAPI_users_port
 
 export const {
+  useGetTemplateQuery,
   useGetEmailTemplatesQuery,
   useGetLandingPageQuery,
   useDeleteLandingPageMutation,

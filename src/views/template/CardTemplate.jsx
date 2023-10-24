@@ -19,18 +19,20 @@ function ConvertDate(date) {
 }
 
 export default function CardTemplate({ data, setData, setShow }) {
-
   function ClickShow(e) {
-    e.preventDefault();
-    setData(data);
-    setShow(true);
+    e.preventDefault()
+    setData(data)
+    setShow(true)
   }
 
   return (
     <Grid item xs={12} md={6}>
       <Card>
-        <CardActionArea onClick={(e) => ClickShow(e)}>
-          <CardMedia sx={{ height: '14.5625rem' }} image={`${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/images/${data.image_site}`} />
+        <CardActionArea onClick={e => ClickShow(e)}>
+          <CardMedia
+            sx={{ height: '14.5625rem' }}
+            image={`${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/images/${data.email_templates.image_site}`}
+          />
           <CardContent>
             <Typography variant='h6' sx={{ mb: 2 }}>
               {data.name}
@@ -38,9 +40,7 @@ export default function CardTemplate({ data, setData, setShow }) {
             <Typography variant='subtitle1' sx={{ mb: 2 }}>
               Modified Date : {ConvertDate(data.modified_date)}
             </Typography>
-            <Typography variant='body2'>
-              {}
-            </Typography>
+            <Typography variant='body2'>{}</Typography>
           </CardContent>
         </CardActionArea>
       </Card>

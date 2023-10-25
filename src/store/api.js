@@ -51,6 +51,14 @@ export const GetAPI_summary_port = createApi({
         method: 'DELETE'
       }),
       invalidatesTags: ['DeleteCampaign']
+    }),
+
+    luachCampaine: builder.mutation({
+      query: id => ({
+        url: `campaigns/${id}/launch`,
+        method: 'POST'
+      }),
+      invalidatesTags: ['LuachCampaign']
     })
   })
 })
@@ -195,7 +203,8 @@ export const {
   useGetGroupQuery,
   useGetCampaignGraphQuery,
   useCreateCampaignMutation,
-  useDeleteCampaignMutation
+  useDeleteCampaignMutation,
+  useLuachCampaineMutation
 } = GetAPI_summary_port
 
 export const {

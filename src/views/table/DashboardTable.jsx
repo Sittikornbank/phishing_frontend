@@ -2,7 +2,7 @@ import NextLink from 'next/link'
 
 // ** MUI Imports
 import CustomChip from 'src/@core/components/mui/chip'
-import { IconButton } from '@mui/material'
+import { IconButton, Switch } from '@mui/material'
 import {
   DataGrid,
   GridToolbarContainer,
@@ -17,9 +17,9 @@ import {
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import AssessmentIcon from '@mui/icons-material/Assessment'
 import DialogDeleteCampains from '../pages/campains/DialogDeleteCampains'
-import { useState } from 'react'
+import { use, useState } from 'react'
 import { useAuth } from 'src/hooks/useAuth'
-import { useDeleteCampaignMutation } from 'src/store/api'
+import { useDeleteCampaignMutation, useLunchCampaignMutation } from 'src/store/api'
 
 const csvOptions = { delimiter: '', utf8WithBom: true }
 function CustomExportButton(props) {
@@ -149,6 +149,19 @@ const DashboardTable = ({ rows, isLoading, Refetch }) => {
 
     {
       flex: 0.275,
+      minWidth: 120,
+      field: 'Lunch Campaign',
+      headerName: 'Lunch Campaign',
+      renderCell: params => {
+        const dataActive = params.row.status
+        const status = statusObj[dataActive]
+
+        return <Switch label='Lunch Campaign' onChange={() => StartLunchCampaign(params.row.id)} />
+      }
+    },
+
+    {
+      flex: 0.275,
       minWidth: 100,
       headerName: 'Action',
       renderCell: ({ row }) => {
@@ -171,6 +184,13 @@ const DashboardTable = ({ rows, isLoading, Refetch }) => {
   const auth = useAuth()
   const handleDelClose = () => (setOpenDelete(false), setDataCurrent(() => {}))
   const [DeleteCampaign] = useDeleteCampaignMutation()
+  const [LunchCampaign] = useLunchCampaignMutation()
+
+  const StartLunchCampaign = async id => {
+    await LunchCampaign(id)
+    auth.addMessage('Lunch Success', 'success')
+    Refetch()
+  }
 
   const deleteDialog = data_select => {
     setOpenDelete(true)

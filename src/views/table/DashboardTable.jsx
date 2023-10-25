@@ -19,7 +19,7 @@ import AssessmentIcon from '@mui/icons-material/Assessment'
 import DialogDeleteCampains from '../pages/campains/DialogDeleteCampains'
 import { use, useState } from 'react'
 import { useAuth } from 'src/hooks/useAuth'
-import { useDeleteCampaignMutation, useLunchCampaignMutation } from 'src/store/api'
+import { useDeleteCampaignMutation, useLuachCampaineMutation } from 'src/store/api'
 
 const csvOptions = { delimiter: '', utf8WithBom: true }
 function CustomExportButton(props) {
@@ -184,7 +184,7 @@ const DashboardTable = ({ rows, isLoading, Refetch }) => {
   const auth = useAuth()
   const handleDelClose = () => (setOpenDelete(false), setDataCurrent(() => {}))
   const [DeleteCampaign] = useDeleteCampaignMutation()
-  const [LunchCampaign] = useLunchCampaignMutation()
+  const [LunchCampaign] = useLuachCampaineMutation()
 
   const StartLunchCampaign = async id => {
     await LunchCampaign(id)

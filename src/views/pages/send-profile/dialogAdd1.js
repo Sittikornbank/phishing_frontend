@@ -136,7 +136,7 @@ const initialData = {
   certificate: ''
 }
 
-const DialogAdd = props => {
+const DialogAdd1 = props => {
   // ** States
   const { show, setShow, data } = props
 
@@ -450,4 +450,4 @@ const DialogAdd = props => {
   )
 }
 
-export default DialogAdd
+export default DialogAdd1

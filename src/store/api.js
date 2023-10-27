@@ -185,6 +185,23 @@ export const GetAPI_mail_port = createApi({
     getSmtpData: builder.query({
       query: () => `smtp`
     }),
+
+    createSmtpData: builder.mutation({
+      query: body => ({
+        url: `smtp`,
+        method: 'POST',
+        body
+      })
+    }),
+
+    updateSmtpData: builder.mutation({
+      query: body => ({
+        url: `smtp/${body.id}`,
+        method: 'PUT',
+        body
+      })
+    }),
+
     deleteSmtpData: builder.mutation({
       query: id => ({
         url: `smtp/${id}`,
@@ -227,4 +244,5 @@ export const {
   useCreateEmailTemplateMutation
 } = GetAPI_template_port
 
-export const { useGetSmtpDataQuery, useDeleteSmtpDataMutation } = GetAPI_mail_port
+export const { useGetSmtpDataQuery, useDeleteSmtpDataMutation, useCreateSmtpDataMutation, useUpdateSmtpDataMutation } =
+  GetAPI_mail_port

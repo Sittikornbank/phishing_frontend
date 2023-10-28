@@ -15,7 +15,7 @@ import CardContent from '@mui/material/CardContent'
 import Fade from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import { Tooltip } from '@mui/material'
+import { DialogTitle, Tooltip } from '@mui/material'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -75,180 +75,174 @@ const DialogAdd = props => {
   }
 
   return (
-    <Card>
-      <Dialog
-        fullWidth
-        open={show}
-        maxWidth='md'
-        scroll='body'
-        onClose={() => setShow(false)}
-        TransitionComponent={Transition}
-        onBackdropClick={() => setShow(false)}
-      >
-        <form onSubmit={handleSubmit(SubmitEmailTemplate)}>
-          <DialogContent
-            sx={{
-              position: 'relative',
-              pb: theme => `${theme.spacing(8)} !important`,
-              px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-              pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-            }}
-          >
-            <IconButton
-              size='small'
-              onClick={() => setShow(false)}
-              sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
-            >
-              <Icon icon='mdi:close' />
-            </IconButton>
-            <Box sx={{ mb: 8, textAlign: 'center' }}>
-              <Typography variant='h5' sx={{ mb: 3 }}>
-                New Email Template
-              </Typography>
-            </Box>
-            <CardContent>
-              <Grid container spacing={5}>
-                <Grid item xs={12} sm={12}>
-                  <Typography>Name:</Typography>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Controller
-                    name='name'
-                    control={control}
-                    defaultValue=''
-                    rules={{ required: 'Template Name is required' }}
-                    render={({ field }) => (
-                      <TextField
-                        autoFocus
-                        fullWidth
-                        placeholder='Template Name'
-                        {...field}
-                        error={!!errors.name}
-                        helperText={errors.name ? errors.name.message : ''}
-                      />
-                    )}
+    <Dialog
+      fullWidth
+      open={show}
+      maxWidth='md'
+      scroll='body'
+      onClose={() => setShow(false)}
+      TransitionComponent={Transition}
+      onBackdropClick={() => setShow(false)}
+    >
+      <DialogTitle textAlign={'center'} fontSize={'30px'}>
+        <Typography variant='h5'>Create Email Template</Typography>
+        <IconButton
+          size='small'
+          onClick={() => setShow(false)}
+          sx={{ position: 'absolute', right: '1rem', top: '1rem' }}
+        >
+          <Icon icon='mdi:close' />
+        </IconButton>
+      </DialogTitle>
+      <form onSubmit={handleSubmit(SubmitEmailTemplate)}>
+        <DialogContent
+          sx={{
+            position: 'relative',
+            pb: theme => `${theme.spacing(8)} !important`,
+            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+            pt: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+          }}
+        >
+          <Grid container spacing={5}>
+            <Grid item xs={12} sm={12}>
+              <Typography>Name:</Typography>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Controller
+                name='name'
+                control={control}
+                defaultValue=''
+                rules={{ required: 'Template Name is required' }}
+                render={({ field }) => (
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    placeholder='Template Name'
+                    {...field}
+                    error={!!errors.name}
+                    helperText={errors.name ? errors.name.message : ''}
                   />
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Button variant='contained' sx={{ mr: 1 }} onClick={() => setOpen(true)}>
-                    import Email
-                  </Button>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Typography>
-                    <Box display='flex'>
-                      <Box>Envelope Sender:</Box>
-                      <Tooltip
-                        title='This sender is shown to the user by most email clients. Defaults to the SMTP From as defined in the Sending Profile.'
-                        placement='right-end'
-                        arrow
-                      >
-                        <Box>
-                          <Icon icon='ph:question-fill' />
-                        </Box>
-                      </Tooltip>
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Button variant='contained' sx={{ mr: 1 }} onClick={() => setOpen(true)}>
+                import Email
+              </Button>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Typography>
+                <Box display='flex'>
+                  <Box>Envelope Sender:</Box>
+                  <Tooltip
+                    title='This sender is shown to the user by most email clients. Defaults to the SMTP From as defined in the Sending Profile.'
+                    placement='right-end'
+                    arrow
+                  >
+                    <Box>
+                      <Icon icon='ph:question-fill' />
                     </Box>
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Controller
-                    name='envelope_sender'
-                    control={control}
-                    defaultValue=''
-                    rules={{ required: 'Envelope Sender is required' }}
-                    render={({ field }) => (
-                      <TextField
-                        autoFocus
-                        fullWidth
-                        placeholder='First Last <test@example.com>'
-                        type='text'
-                        {...field}
-                        error={!!errors.envelope_sender}
-                        helperText={errors.envelope_sender ? errors.envelope_sender.message : ''}
-                      />
-                    )}
+                  </Tooltip>
+                </Box>
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Controller
+                name='envelope_sender'
+                control={control}
+                defaultValue=''
+                rules={{ required: 'Envelope Sender is required' }}
+                render={({ field }) => (
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    placeholder='First Last <test@example.com>'
+                    type='text'
+                    {...field}
+                    error={!!errors.envelope_sender}
+                    helperText={errors.envelope_sender ? errors.envelope_sender.message : ''}
                   />
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Typography>Subject:</Typography>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Controller
-                    name='subject'
-                    control={control}
-                    defaultValue=''
-                    rules={{ required: 'Subject is required' }}
-                    render={({ field }) => (
-                      <TextField
-                        autoFocus
-                        fullWidth
-                        placeholder='Envelope Sender'
-                        {...field}
-                        error={!!errors.subject}
-                        helperText={errors.subject ? errors.subject.message : ''}
-                      />
-                    )}
+                )}
+              />
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Typography>Subject:</Typography>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Controller
+                name='subject'
+                control={control}
+                defaultValue=''
+                rules={{ required: 'Subject is required' }}
+                render={({ field }) => (
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    placeholder='Envelope Sender'
+                    {...field}
+                    error={!!errors.subject}
+                    helperText={errors.subject ? errors.subject.message : ''}
                   />
-                </Grid>
+                )}
+              />
+            </Grid>
 
-                <Grid item xs={12} sm={12}>
-                  <Controller
-                    name='editorContent'
-                    control={control}
-                    defaultValue={convertToRaw(editorState.getCurrentContent())}
-                    render={({ field }) => (
-                      <EditorWrapper>
-                        <ReactDraftWysiwyg editorState={editorState} onEditorStateChange={setEditorState} />
-                      </EditorWrapper>
-                    )}
-                  />
-                </Grid>
+            <Grid item xs={12} sm={12}>
+              <Controller
+                name='editorContent'
+                control={control}
+                defaultValue={convertToRaw(editorState.getCurrentContent())}
+                render={({ field }) => (
+                  <EditorWrapper>
+                    <ReactDraftWysiwyg editorState={editorState} onEditorStateChange={setEditorState} />
+                  </EditorWrapper>
+                )}
+              />
+            </Grid>
 
-                <Grid item xs={12} sm={12}>
-                  <Typography>Attachments :</Typography>
-                </Grid>
-                <Grid item xs={12} sm={12}>
-                  <Controller
-                    name='attachments[0]'
-                    control={control}
-                    defaultValue=''
-                    rules={{ required: 'Attachments is required' }}
-                    render={({ field }) => (
-                      <TextField
-                        autoFocus
-                        fullWidth
-                        placeholder='Attachments'
-                        {...field}
-                        error={!!errors['attachments[0]']}
-                        helperText={errors['attachments[0]'] ? errors['attachments[0]'].message : ''}
-                      />
-                    )}
+            <Grid item xs={12} sm={12}>
+              <Typography>Attachments :</Typography>
+            </Grid>
+            <Grid item xs={12} sm={12}>
+              <Controller
+                name='attachments[0]'
+                control={control}
+                defaultValue=''
+                rules={{ required: 'Attachments is required' }}
+                render={({ field }) => (
+                  <TextField
+                    autoFocus
+                    fullWidth
+                    placeholder='Attachments'
+                    {...field}
+                    error={!!errors['attachments[0]']}
+                    helperText={errors['attachments[0]'] ? errors['attachments[0]'].message : ''}
                   />
-                </Grid>
+                )}
+              />
+            </Grid>
 
-                <Grid item xs={12}>
-                  <FileUploaderEmailTemplate setData={setDatacurrent} data={dataCurrent} />
-                </Grid>
-              </Grid>
-            </CardContent>
-          </DialogContent>
-          <DialogActions
-            sx={{
-              px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
-              pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
-            }}
-          >
-            <Button variant='outlined' color='secondary' onClick={() => setShow(false)}>
-              Cancel
-            </Button>
-            <Button variant='contained' type='submit' sx={{ mr: 1 }}>
-              Save Profile
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
+            <Grid item xs={12}>
+              <FileUploaderEmailTemplate setData={setDatacurrent} data={dataCurrent} />
+            </Grid>
+          </Grid>
+        </DialogContent>
+        <DialogActions
+          sx={{
+            px: theme => [`${theme.spacing(5)} !important`, `${theme.spacing(15)} !important`],
+            pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
+          }}
+        >
+          <Button variant='outlined' color='secondary' onClick={() => setShow(false)}>
+            Cancel
+          </Button>
+          <Button variant='contained' type='submit' sx={{ mr: 1 }}>
+            Save Profile
+          </Button>
+        </DialogActions>
+      </form>
       <DialogImportEmail show={open} setShow={setOpen} />
-    </Card>
+    </Dialog>
   )
 }
 

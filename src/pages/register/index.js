@@ -94,6 +94,13 @@ const LinkStyled = styled(Link)(({ theme }) => ({
 
 const url = `${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_USERAUTH_PORT}/register`
 
+const LoginIllustration = styled('img')(({ theme }) => ({
+  maxWidth: '60rem',
+  [theme.breakpoints.down('lg')]: {
+    maxWidth: '60rem'
+  }
+}))
+
 const Register = () => {
   // ** States
   const [showPassword, setShowPassword] = useState(false)
@@ -135,13 +142,17 @@ const Register = () => {
       <Box className='content-right'>
         {!hidden ? (
           <Box sx={{ flex: 1, display: 'flex', position: 'relative', alignItems: 'center', justifyContent: 'center' }}>
-            <RegisterIllustrationWrapper>
-              <RegisterIllustration
-                alt='register-illustration'
-                src={`/images/pages/${imageSource}-${theme.palette.mode}.png`}
-              />
-            </RegisterIllustrationWrapper>
-            <FooterIllustrationsV2 image={<TreeIllustration alt='tree' src='/images/pages/tree-2.png' />} />
+            <LoginIllustration
+              sx={{
+                width: '30%',
+                margin: 'auto',
+                display: 'block',
+                animation: 'beat .7s infinite alternate',
+                '@keyframes beat': { to: { transform: 'scale(1.4)' } }
+              }}
+              alt='login-illustration'
+              src={`/images/pages/Logo.png`}
+            />
           </Box>
         ) : null}
         <RightWrapper sx={skin === 'bordered' && !hidden ? { borderLeft: `1px solid ${theme.palette.divider}` } : {}}>
@@ -181,8 +192,9 @@ const Register = () => {
                 </Typography>
               </Box>
               <Box sx={{ mb: 6 }}>
-                <TypographyStyled variant='h5'>Adventure starts here 🚀</TypographyStyled>
-                <Typography variant='body2'>Make your app management easy and fun!</Typography>
+                <TypographyStyled variant='h5' textAlign={'center'}>
+                  Register
+                </TypographyStyled>
               </Box>
               <form autoComplete='off' onSubmit={e => SubmitData(e)}>
                 <Grid container spacing={4} justifyContent={'space-between'} sx={{ mb: 6 }}>

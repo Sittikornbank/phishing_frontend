@@ -63,6 +63,7 @@ export default function DialogAdd({ handleClose, open }) {
 
   const SubmitData = async () => {
     console.log(dataCurrent)
+    console.log('Hey Hey!!')
     const cb = await CreateLandingPage(dataCurrent)
     console.log(cb)
   }
@@ -75,7 +76,7 @@ export default function DialogAdd({ handleClose, open }) {
       aria-describedby='alert-dialog-description'
       maxWidth={'lg'}
     >
-      <DialogTitle id='alert-dialog-title'>Create new Langingpage</DialogTitle>
+      <DialogTitle id='alert-dialog-title'>Create new Landingpage</DialogTitle>
       <DialogContent>
         <Grid container spacing={4} alignItems={'center'} sx={{ mb: 4, mt: 1 }}>
           <Grid item xs={12}>

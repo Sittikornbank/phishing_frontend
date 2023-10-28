@@ -56,4 +56,9 @@ const UserGroupDetail = () => {
   )
 }
 
+UserGroupDetail.acl = {
+  action: 'read',
+  subject: 'guest-page'
+}
+
 export default UserGroupDetail

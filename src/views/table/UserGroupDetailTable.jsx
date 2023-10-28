@@ -21,9 +21,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 import CancelIcon from '@mui/icons-material/Cancel'
 import Link from 'next/link'
 
-const url = process.env.NEXT_PUBLIC_BASE_URL + ":" + process.env.NEXT_PUBLIC_USER_PORT
-
-
+const url = process.env.NEXT_PUBLIC_BASE_URL + ':' + process.env.NEXT_PUBLIC_USER_PORT
 
 const statusObj = {
   create_campaign: { title: 'Create Campaign', color: 'error' },
@@ -45,8 +43,24 @@ const UserGroupDetailTable = props => {
     return (
       <GridToolbarExportContainer {...props}>
         {/* <Button sx={{width: "100%"}} component={GridCsvExportMenuItem} options={csvOptions} /> */}
-        <Button sx={{width: "100%"}} component={Link} rel="noopener noreferrer" target="_blank" href={`${url}/campaigns/${pageID}/results/export.xlsx`}>Export to EXCEL</Button>
-        <Button sx={{width: "100%"}} component={Link} rel="noopener noreferrer" target="_blank" href={`${url}/campaigns/${pageID}/results/export_pdf`}>Export to PDF</Button>
+        <Button
+          sx={{ width: '100%' }}
+          component={Link}
+          rel='noopener noreferrer'
+          target='_blank'
+          href={`${url}/campaigns/${pageID}/results/export.xlsx`}
+        >
+          Export to EXCEL
+        </Button>
+        <Button
+          sx={{ width: '100%' }}
+          component={Link}
+          rel='noopener noreferrer'
+          target='_blank'
+          href={`${url}/campaigns/${pageID}/results/export_pdf`}
+        >
+          Export to PDF
+        </Button>
       </GridToolbarExportContainer>
     )
   }
@@ -83,6 +97,12 @@ const UserGroupDetailTable = props => {
       field: 'position',
       minWidth: 80,
       headerName: 'Position'
+    },
+    {
+      flex: 0.1,
+      field: 'department',
+      minWidth: 80,
+      headerName: 'Department'
     },
     {
       flex: 0.275,
@@ -129,7 +149,7 @@ const UserGroupDetailTable = props => {
       columns={columns}
       getRowId={row => row.r_id}
       slots={{ toolbar: CustomToolbar }}
-      rows={data}
+      rows={data || []}
       autoHeight
       loading={isLoading}
     />

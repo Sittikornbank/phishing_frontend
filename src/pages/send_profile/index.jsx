@@ -1,14 +1,10 @@
 // ** Next Import
-import Link from 'next/link'
+import { useState } from 'react'
 
 // ** MUI Imports
-import Grid from '@mui/material/Grid'
 import Card from '@mui/material/Card'
-import { styled } from '@mui/material/styles'
 import Typography from '@mui/material/Typography'
 import { Button } from '@mui/material'
-import Icon from 'src/@core/components/icon'
-import { useState } from 'react'
 
 import TableSendProfile from 'src/views/pages/send-profile/TableSendProfile'
 
@@ -27,16 +23,21 @@ const SendProfile = () => {
 
   return (
     <>
-      <Typography variant='h3'>Send Profile</Typography>
+      <Typography variant='h3'>Sending Profile</Typography>
       <hr />
       <Button variant='contained' sx={{ my: 4 }} onClick={handleSetShow} startIcon={<AddCircleIcon fontSize='large' />}>
         New Page
       </Button>
       <Card sx={{ my: 4, p: 6 }}>
-        <TableSendProfile />
+        <TableSendProfile showCreate={{ show, setShow }} />
       </Card>
     </>
   )
+}
+
+SendProfile.acl = {
+  action: 'read',
+  subject: 'guest-page'
 }
 
 export default SendProfile

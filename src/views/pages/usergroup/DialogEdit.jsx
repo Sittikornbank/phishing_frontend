@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, forwardRef, useCallback, useRef } from 'react'
+import { useState, forwardRef, useCallback, useRef, useEffect } from 'react'
 import { useForm, Controller, get } from 'react-hook-form'
 
 import { v4 as uuidv4 } from 'uuid'
@@ -19,9 +19,8 @@ import Icon from 'src/@core/components/icon'
 import TargetGroupTable from 'src/views/table/TargetGroupTable'
 
 import { styled } from '@mui/material/styles'
-import { useCreateGroupMutation } from 'src/store/api'
+import { useUpdateGroupMutation } from 'src/store/api'
 import { useAuth } from 'src/hooks/useAuth'
-import { de } from 'date-fns/locale'
 
 const VisuallyHiddenInput = styled('input')`
   clip: rect(0 0 0 0);
@@ -39,7 +38,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />
 })
 
-export default function DialogAdd({ setShow, show, refetch }) {
+export default function DialogEdit({ setShow, show, refetch, data }) {
   const {
     handleSubmit,
     control,
@@ -50,8 +49,16 @@ export default function DialogAdd({ setShow, show, refetch }) {
   } = useForm()
 
   const [userDataTarget, setUserDataTarget] = useState([])
-  const [CreateGroup] = useCreateGroupMutation()
+  const [UpdateGroup] = useUpdateGroupMutation()
   const auth = useAuth()
+
+  useEffect(() => {
+    if (data) {
+      setValue('id', data.id)
+      setValue('name', data.name)
+      setUserDataTarget(() => data.targets)
+    }
+  }, [data, setValue])
 
   const fileChange = e => {
     console.log(e.target.value)
@@ -73,21 +80,16 @@ export default function DialogAdd({ setShow, show, refetch }) {
     setValue('position', '')
   }
 
-  const onSubmit = async data => {
-    const dataTarget = userDataTarget.map(item => {
-      item = delete item.id
+  const onSubmit = async data_new => {
+    data_new.targets = userDataTarget
 
-      return item
-    })
-    data.targets = dataTarget
-
-    const data_cb = await CreateGroup(data)
-    console.log(data)
+    const data_cb = await UpdateGroup(data_new)
+    console.log(data_new)
     if (data_cb.error) {
-      auth.addMessage('Create Failed', 'error')
+      auth.addMessage('Update Failed', 'error')
     } else {
-      auth.addMessage('Create Successful', 'success')
-      setShow(false)
+      auth.addMessage('Update Successful', 'success')
+      setShow(() => false)
       reset()
       refetch()
     }
@@ -99,9 +101,9 @@ export default function DialogAdd({ setShow, show, refetch }) {
       open={show}
       maxWidth='md'
       scroll='body'
-      onClose={setShow}
+      onClose={() => setShow(false)}
       TransitionComponent={Transition}
-      onBackdropClick={setShow}
+      onBackdropClick={() => setShow(false)}
     >
       <DialogContent
         sx={{
@@ -134,7 +136,7 @@ export default function DialogAdd({ setShow, show, refetch }) {
                 />
               </Grid>
 
-              <Grid item xs={12}>
+              {/* <Grid item xs={12}>
                 <Button
                   variant='contained'
                   sx={{ mr: 4 }}
@@ -148,11 +150,11 @@ export default function DialogAdd({ setShow, show, refetch }) {
                     onChange={fileChange}
                   />
                 </Button>
-              </Grid>
+              </Grid> */}
             </Grid>
             <hr />
             <Grid container spacing={4} alignItems={'center'}>
-              <Grid item xs={6}>
+              {/* <Grid item xs={6}>
                 <Typography variant='subtitle1' component='p'>
                   Firstname:
                 </Typography>
@@ -202,13 +204,13 @@ export default function DialogAdd({ setShow, show, refetch }) {
                 >
                   Add
                 </Button>
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <TargetGroupTable data={userDataTarget} setUserDataTarget={setUserDataTarget} />
               </Grid>
 
               <Grid item xs={12} sx={{ display: 'flex', justifyContent: 'end' }}>
-                <Button variant='contained' onClick={setShow} sx={{ mr: 4 }}>
+                <Button variant='contained' onClick={() => setShow(false)} sx={{ mr: 4 }}>
                   Close
                 </Button>
                 <Button

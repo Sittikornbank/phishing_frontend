@@ -108,7 +108,7 @@ const Email_template_Table = () => {
   // ** States
   const [searchText, setSearchText] = useState('')
   const [filteredData, setFilteredData] = useState([])
-  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 7 })
+  const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
   const handleCopyRow = rowData => {
     const textToCopy = `Name: ${rowData.name}, Modified Date: ${ConvertDate(rowData.modified_date)}`
@@ -126,10 +126,10 @@ const Email_template_Table = () => {
     setSearchText(searchValue)
     const searchRegex = new RegExp(escapeRegExp(searchValue), 'i')
 
-    const filteredRows = data.filter(row => {
+    const filteredRows = templateData.filter(row => {
       return Object.keys(row).some(field => {
         // @ts-ignore
-        return searchRegex.test(row[field].toString())
+        return searchRegex.test(row[field])
       })
     })
     if (searchValue.length) {
@@ -144,11 +144,11 @@ const Email_template_Table = () => {
       autoHeight
       columns={columns}
       loading={template.isLoading}
-      pageSizeOptions={[7, 10, 25, 50]}
+      pageSizeOptions={[10, 15, 20, 25, 50]}
       paginationModel={paginationModel}
       slots={{ toolbar: QuickSearchToolbar }}
       onPaginationModelChange={setPaginationModel}
-      rows={templateData}
+      rows={filteredData.length > 0 ? filteredData : (templateData || [])}
       slotProps={{
         baseButton: {
           variant: 'outlined'

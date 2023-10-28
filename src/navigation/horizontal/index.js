@@ -11,20 +11,32 @@ const navigation = () => {
       title: 'Campaigns',
       icon: 'mdi:megaphone',
       action: 'read',
-      subject: 'test-page',
+      subject: 'guest-page',
       path: '/campaigns'
     },
     {
       title: 'Phishing Material',
       icon: 'mdi:email',
+      action: 'read',
+      subject: 'guest-page',
       badgeColor: 'error',
       children: [
         {
+          title: 'Template',
+          action: 'read',
+          subject: 'test-page',
+          path: '/template'
+        },
+        {
           title: 'Email Template',
+          action: 'read',
+          subject: 'test-page',
           path: '/email_templeate'
         },
         {
           title: 'Landing Page',
+          action: 'read',
+          subject: 'test-page',
           path: '/landingpage'
         },
         {
@@ -57,6 +69,8 @@ const navigation = () => {
     // },
     {
       title: 'Sending Profile',
+      action: 'read',
+      subject: 'guest-page',
       icon: 'mdi:cube-send',
       path: '/send_profile'
     },

@@ -33,6 +33,7 @@ function User_group() {
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const refrech = () => Group.refetch()
 
   const [userData, setUserData] = useState(initialUserData)
 
@@ -53,12 +54,17 @@ function User_group() {
         New Group
       </Button>
       <Card sx={{ my: 4, p: 6 }}>
-        <GroupTable data={groupsData} />
+        <GroupTable data={groupsData} refetch={refrech} />
       </Card>
 
-      <DialogAdd setShow={handleClose} show={open} />
+      <DialogAdd setShow={handleClose} show={open} refetch={refrech} />
     </>
   )
+}
+
+User_group.acl = {
+  action: 'read',
+  subject: 'guest-page'
 }
 
 export default User_group

@@ -21,6 +21,7 @@ import TargetGroupTable from 'src/views/table/TargetGroupTable'
 import { styled } from '@mui/material/styles'
 import { useUpdateGroupMutation } from 'src/store/api'
 import { useAuth } from 'src/hooks/useAuth'
+import { set } from 'nprogress'
 
 const VisuallyHiddenInput = styled('input')`
   clip: rect(0 0 0 0);
@@ -49,6 +50,7 @@ export default function DialogEdit({ setShow, show, refetch, data }) {
   } = useForm()
 
   const [userDataTarget, setUserDataTarget] = useState([])
+  const [Newtarget, setNewTarget] = useState([])
   const [UpdateGroup] = useUpdateGroupMutation()
   const auth = useAuth()
 
@@ -64,14 +66,27 @@ export default function DialogEdit({ setShow, show, refetch, data }) {
     console.log(e.target.value)
   }
 
+  function getRandomInt(min, max) {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+
+    return Math.floor(Math.random() * (max - min) + min) // The maximum is exclusive and the minimum is inclusive
+  }
+
   const insertData = () => {
     const fName = getValues('Firstname')
     const lName = getValues('Lastname')
     const email = getValues('email')
     const position = getValues('position')
 
+    setNewTarget([...Newtarget, { firstname: fName, lastname: lName, email, position }])
+    console.log(Newtarget)
+
     // Seta data to table
-    setUserDataTarget([...userDataTarget, { id: uuidv4(), firstname: fName, lastname: lName, email, position }])
+    setUserDataTarget([
+      ...userDataTarget,
+      { id: getRandomInt(0, 100), firstname: fName, lastname: lName, email, position }
+    ])
 
     // Clear form
     setValue('Firstname', '')
@@ -81,7 +96,7 @@ export default function DialogEdit({ setShow, show, refetch, data }) {
   }
 
   const onSubmit = async data_new => {
-    data_new.targets = userDataTarget
+    data_new.targets_to_add = Newtarget
 
     const data_cb = await UpdateGroup(data_new)
     console.log(data_new)
@@ -92,6 +107,7 @@ export default function DialogEdit({ setShow, show, refetch, data }) {
       setShow(() => false)
       reset()
       refetch()
+      setNewTarget(() => [])
     }
   }
 
@@ -136,7 +152,7 @@ export default function DialogEdit({ setShow, show, refetch, data }) {
                 />
               </Grid>
 
-              {/* <Grid item xs={12}>
+              <Grid item xs={12}>
                 <Button
                   variant='contained'
                   sx={{ mr: 4 }}
@@ -150,11 +166,11 @@ export default function DialogEdit({ setShow, show, refetch, data }) {
                     onChange={fileChange}
                   />
                 </Button>
-              </Grid> */}
+              </Grid>
             </Grid>
             <hr />
             <Grid container spacing={4} alignItems={'center'}>
-              {/* <Grid item xs={6}>
+              <Grid item xs={6}>
                 <Typography variant='subtitle1' component='p'>
                   Firstname:
                 </Typography>
@@ -204,7 +220,7 @@ export default function DialogEdit({ setShow, show, refetch, data }) {
                 >
                   Add
                 </Button>
-              </Grid> */}
+              </Grid>
               <Grid item xs={12}>
                 <TargetGroupTable data={userDataTarget} setUserDataTarget={setUserDataTarget} />
               </Grid>

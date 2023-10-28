@@ -59,6 +59,31 @@ export const GetAPI_summary_port = createApi({
         method: 'POST'
       }),
       invalidatesTags: ['LuachCampaign']
+    }),
+
+    createGroup: builder.mutation({
+      query: body => ({
+        url: `groups`,
+        method: 'POST',
+        body
+      }),
+      invalidatesTags: ['CreateGroup']
+    }),
+
+    deleteGroup: builder.mutation({
+      query: id => ({
+        url: `groups/${id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['DeleteGroup']
+    }),
+
+    updateGroup: builder.mutation({
+      query: body => ({
+        url: `groups/${body.id}`,
+        method: 'PUT',
+        body
+      })
     })
   })
 })
@@ -221,7 +246,10 @@ export const {
   useGetCampaignGraphQuery,
   useCreateCampaignMutation,
   useDeleteCampaignMutation,
-  useLuachCampaineMutation
+  useLuachCampaineMutation,
+  useCreateGroupMutation,
+  useDeleteGroupMutation,
+  useUpdateGroupMutation
 } = GetAPI_summary_port
 
 export const {

@@ -82,7 +82,7 @@ const Email_template_Table = () => {
         return (
           <>
             <Tooltip title='Edit' placement='top' arrow>
-              <IconButton color='primary'>
+              <IconButton color='primary'  >
                 <EditIcon sx={{ fontSize: 26 }} />
               </IconButton>
             </Tooltip>
@@ -148,7 +148,7 @@ const Email_template_Table = () => {
       paginationModel={paginationModel}
       slots={{ toolbar: QuickSearchToolbar }}
       onPaginationModelChange={setPaginationModel}
-      rows={filteredData.length > 0 ? filteredData : (templateData || [])}
+      rows={filteredData.length > 0 ? filteredData : templateData || []}
       slotProps={{
         baseButton: {
           variant: 'outlined'

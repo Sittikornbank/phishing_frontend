@@ -28,6 +28,7 @@ const UserManagement = () => {
   return (
     <>
       <PageHeader title={<Typography variant='h3'>User Management</Typography>} />
+      <hr />
       <Button variant='contained' sx={{ my: 4 }} startIcon={<AddCircleIcon fontSize='large' />} onClick={openDialog}>
         New Users
       </Button>

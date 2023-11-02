@@ -95,7 +95,7 @@ const LandingpageTable = () => {
 
   useEffect(() => {
     if (!landingpage.isLoading) {
-      setData(landingpage.data.site_templates)
+      setData(landingpage.data?.site_templates)
     }
   }, [landingpage])
 

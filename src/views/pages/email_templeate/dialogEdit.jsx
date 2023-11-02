@@ -286,7 +286,7 @@ const DialogEdit = ({ show, handleClose, data, refrechedData }) => {
               pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
             }}
           >
-            <Button variant='outlined' color='secondary' onClick={() => setShow(false)}>
+            <Button variant='outlined' color='secondary' onClick={() => handleClose()}>
               Cancel
             </Button>
             <Button variant='contained' type='submit' sx={{ mr: 1 }}>

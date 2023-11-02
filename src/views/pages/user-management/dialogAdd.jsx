@@ -26,7 +26,7 @@ import { useAuth } from 'src/hooks/useAuth'
 
 const DialogAdd = props => {
   // ** States
-  const { show, setShow } = props
+  const { show, setShow, refetch } = props
   const [CreateUser] = useCreateUserMutation()
   const auth = useAuth()
 
@@ -46,6 +46,7 @@ const DialogAdd = props => {
       setShow(() => false)
       reset()
       auth.addMessage('Create Users Successful', 'success')
+      refetch()
     } else {
       auth.addMessage(data_cb.error.data.detail, 'error')
     }

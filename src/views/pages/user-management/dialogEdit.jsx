@@ -26,7 +26,7 @@ import { useEffect } from 'react'
 
 const DialogEdit = props => {
   // ** States
-  const { show, setShow, data } = props
+  const { show, setShow, data, refetch } = props
 
   const [updateUser] = useUpdateUserMutation()
   const auth = useAuth()
@@ -63,6 +63,7 @@ const DialogEdit = props => {
 
     if (!data_cb?.error) {
       auth.addMessage('Update User Success', 'success')
+      refetch()
     } else {
       auth.addMessage(data_cb?.error.data.detail, 'error')
     }

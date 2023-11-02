@@ -5,6 +5,8 @@ import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import { ButtonBase, CardActionArea } from '@mui/material'
 
+import { id } from 'date-fns/locale'
+
 function ConvertDate(date) {
   var created_date = new Date(date)
   var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
@@ -29,9 +31,22 @@ export default function CardTemplate({ data, setData, setShow }) {
   return (
     <Grid item xs={12} md={6}>
       <Card>
-        <CardActionArea onClick={(e) => ClickShow(e)}>
-          <CardMedia sx={{ height: '14.5625rem' }} image={`${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/images/${data.image_site}`} />
+        <CardActionArea onClick={e => ClickShow(e)}>
+          <CardMedia
+            sx={{ height: '14.5625rem' }}
+            image={`${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/images/${data.email_templates.image_email}`}
+          />
+
+          {/* <CardMedia
+            sx={{ height: '14.5625rem' }}
+            image={`${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/images/${data.site_templates.image_site}`}
+          /> */}
           <CardContent>
+            <Typography variant='h6' sx={{ mb: 2 }}>
+              ID: {''}
+              {data.id}
+            </Typography>
+            <hr />
             <Typography variant='h6' sx={{ mb: 2 }}>
               {data.name}
             </Typography>

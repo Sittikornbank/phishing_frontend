@@ -58,7 +58,12 @@ export default function DialogEdit({ setShow, show, refetch, data }) {
     if (data) {
       setValue('id', data.id)
       setValue('name', data.name)
-      setUserDataTarget(() => data.targets)
+
+      const Targets_AddID = data.targets?.map(item => {
+        return { _id: uuidv4(), ...item }
+      })
+
+      setUserDataTarget(() => Targets_AddID)
     }
   }, [data, setValue])
 

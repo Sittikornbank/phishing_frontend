@@ -160,6 +160,14 @@ export const GetAPI_template_port = createApi({
       query: () => `templates`
     }),
 
+    createTemplate: builder.mutation({
+      query: body => ({
+        url: `templates`,
+        method: 'POST',
+        body
+      })
+    }),
+
     getEmailTemplates: builder.query({
       query: () => `email_templates`
     }),
@@ -284,6 +292,7 @@ export const {
 
 export const {
   useGetTemplateQuery,
+  useCreateTemplateMutation,
   useGetEmailTemplatesQuery,
   useUpdateEmailTemplateMutation,
   useDeleteEmailTemplateMutation,

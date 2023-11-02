@@ -87,10 +87,10 @@ export default function DialogAdd({ setShow, show, refetch }) {
       auth.addMessage('Create Failed', 'error')
     } else {
       auth.addMessage('Create Successful', 'success')
-      setShow(false)
-      reset()
-      refetch()
     }
+    setShow(() => false)
+    reset()
+    refetch()
   }
 
   return (

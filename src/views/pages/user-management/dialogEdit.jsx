@@ -35,30 +35,36 @@ const DialogEdit = props => {
     handleSubmit,
     control,
     formState: { errors },
-    getValues,
     setValue
   } = useForm()
 
   useEffect(() => {
-    setValue('id', data.id)
-    setValue('username', data.username)
-    setValue('email', data.email)
-    setValue('firstname', data.firstname)
-    setValue('lastname', data.lastname)
-    setValue('phonenumber', data.phonenumber)
-    setValue('organization', data.organization)
-    setValue('role', data.role)
-    setValue('lastname', data.lastname)
+    setValue('id', data?.id)
+    setValue('username', data?.username)
+    setValue('email', data?.email)
+    setValue('firstname', data?.firstname)
+    setValue('lastname', data?.lastname)
+    setValue('phonenumber', data?.phonenumber)
+    setValue('organization', data?.organization)
+    setValue('role', data?.role)
+    setValue('lastname', data?.lastname)
   }, [setValue, data])
 
   const SubmitUpdateUser = async data_form => {
-    const data_cb = await updateUser(data)
+    if (data_form.email === '') delete data_form.email
+    if (data_form.firstname === '') delete data_form.firstname
+    if (data_form.lastname === '') delete data_form.lastname
+    if (data_form.phonenumber === '') delete data_form.phonenumber
+    if (data_form.organization === '') delete data_form.organization
+    if (data_form.role === '') delete data_form.role
+
+    const data_cb = await updateUser(data_form)
     console.log(data_cb)
 
     if (!data_cb?.error) {
       auth.addMessage('Update User Success', 'success')
     } else {
-      // auth.addMessage(data_cb?.error.data.detail, 'error')
+      auth.addMessage(data_cb?.error.data.detail, 'error')
     }
   }
 

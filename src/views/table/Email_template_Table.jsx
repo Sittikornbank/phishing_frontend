@@ -9,18 +9,19 @@ import CardHeader from '@mui/material/CardHeader'
 import { DataGrid } from '@mui/x-data-grid'
 
 // ** Custom Components
-import CustomChip from 'src/@core/components/mui/chip'
-import CustomAvatar from 'src/@core/components/mui/avatar'
 import QuickSearchToolbar from 'src/views/table/data-grid/QuickSearchToolbar'
 
 // ** Data Import
-import { useGetEmailTemplatesQuery } from 'src/store/api'
+import { useDeleteEmailTemplateMutation, useGetEmailTemplatesQuery } from 'src/store/api'
 import { IconButton, Tooltip } from '@mui/material'
 
 // ** Icon Import
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever'
 import { ContentCopy } from '@mui/icons-material'
+import DialogDelete from '../pages/email_templeate/DialogDelete'
+import { useAuth } from 'src/hooks/useAuth'
+import DialogEdit from '../pages/email_templeate/dialogEdit'
 
 const statusObj = {
   1: { title: 'current', color: 'primary' },
@@ -47,7 +48,7 @@ const escapeRegExp = value => {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
 }
 
-const Email_template_Table = () => {
+const Email_template_Table = ({ template }) => {
   const columns = [
     {
       flex: 0.2,
@@ -82,8 +83,8 @@ const Email_template_Table = () => {
         return (
           <>
             <Tooltip title='Edit' placement='top' arrow>
-              <IconButton color='primary'  >
-                <EditIcon sx={{ fontSize: 26 }} />
+              <IconButton color='primary'>
+                <EditIcon sx={{ fontSize: 26 }} onClick={() => handleEditOpen(row)} />
               </IconButton>
             </Tooltip>
             <Tooltip title='Copy' placement='top' arrow>
@@ -93,7 +94,7 @@ const Email_template_Table = () => {
             </Tooltip>
             <Tooltip title='Delete' placement='top' arrow>
               <IconButton color='error'>
-                <DeleteForeverIcon sx={{ fontSize: 26 }} />
+                <DeleteForeverIcon sx={{ fontSize: 26 }} onClick={() => deleteDialog(row)} />
               </IconButton>
             </Tooltip>
           </>
@@ -102,8 +103,15 @@ const Email_template_Table = () => {
     }
   ]
 
-  const template = useGetEmailTemplatesQuery()
   let templateData = !template.isLoading ? template.data?.email_templates : []
+
+  const auth = useAuth()
+  const [DelEmailtemplate] = useDeleteEmailTemplateMutation() // Delete Email Template
+  const [dataCurrent, setDataCurrent] = useState({})
+
+  // ** Handle Dialog
+  const [editDialog, setEditDialog] = useState(false)
+  const [open_Delete, setOpenDelete] = useState(false)
 
   // ** States
   const [searchText, setSearchText] = useState('')
@@ -139,27 +147,53 @@ const Email_template_Table = () => {
     }
   }
 
+  const refrechedData = () => template.refetch()
+
+  const handleEditClose = () => (setEditDialog(false), setDataCurrent(() => {}))
+  const handleDelClose = () => (setOpenDelete(false), setDataCurrent(() => {}))
+
+  const handleEditOpen = (row = {}) => {
+    setDataCurrent(() => row)
+    setEditDialog(() => true)
+  }
+
+  const deleteDialog = data_select => {
+    setOpenDelete(true)
+    setDataCurrent(() => data_select)
+  }
+
+  const DeleteData = async id => {
+    await DelEmailtemplate(id)
+    setOpenDelete(false)
+    auth.addMessage('Delete Success', 'success')
+    refrechedData()
+  }
+
   return (
-    <DataGrid
-      autoHeight
-      columns={columns}
-      loading={template.isLoading}
-      pageSizeOptions={[10, 15, 20, 25, 50]}
-      paginationModel={paginationModel}
-      slots={{ toolbar: QuickSearchToolbar }}
-      onPaginationModelChange={setPaginationModel}
-      rows={filteredData.length > 0 ? filteredData : templateData || []}
-      slotProps={{
-        baseButton: {
-          variant: 'outlined'
-        },
-        toolbar: {
-          value: searchText,
-          clearSearch: () => handleSearch(''),
-          onChange: event => handleSearch(event.target.value)
-        }
-      }}
-    />
+    <>
+      <DataGrid
+        autoHeight
+        columns={columns}
+        loading={template.isLoading}
+        pageSizeOptions={[10, 15, 20, 25, 50]}
+        paginationModel={paginationModel}
+        slots={{ toolbar: QuickSearchToolbar }}
+        onPaginationModelChange={setPaginationModel}
+        rows={filteredData.length > 0 ? filteredData : templateData || []}
+        slotProps={{
+          baseButton: {
+            variant: 'outlined'
+          },
+          toolbar: {
+            value: searchText,
+            clearSearch: () => handleSearch(''),
+            onChange: event => handleSearch(event.target.value)
+          }
+        }}
+      />
+      <DialogEdit handleClose={handleEditClose} show={editDialog} data={dataCurrent} refrechedData={refrechedData} />
+      <DialogDelete handleClose={handleDelClose} open={open_Delete} data={dataCurrent} DeleteData={DeleteData} />
+    </>
   )
 }
 

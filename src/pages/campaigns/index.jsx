@@ -86,7 +86,7 @@ function Campaigns() {
         <DashboardTable rows={campainsData} isLoading={campains.isLoading} Refetch={Refetch} />
       </Card>
 
-      <DialogCreateCampains show={open} handleClose={handleClose} />
+      <DialogCreateCampains show={open} handleClose={handleClose} Refetch={Refetch} />
     </>
   )
 }

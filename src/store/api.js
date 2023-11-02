@@ -189,6 +189,15 @@ export const GetAPI_template_port = createApi({
     getLandingPage: builder.query({
       query: () => `site_templates`
     }),
+
+    updateLandingPage: builder.mutation({
+      query: body => ({
+        url: `site_templates/${body.id}`,
+        method: 'PUT',
+        body
+      })
+    }),
+
     deleteLandingPage: builder.mutation({
       query: id => ({
         url: `site_templates/${id}`,
@@ -199,13 +208,6 @@ export const GetAPI_template_port = createApi({
       query: body => ({
         url: `site_templates`,
         method: 'POST',
-        body
-      })
-    }),
-    updateLandingPage: builder.mutation({
-      query: body => ({
-        url: `site_templates/${id}`,
-        method: 'PUT',
         body
       })
     })
@@ -285,10 +287,10 @@ export const {
   useUpdateEmailTemplateMutation,
   useDeleteEmailTemplateMutation,
   useGetLandingPageQuery,
+  useCreateEmailTemplateMutation,
   useDeleteLandingPageMutation,
   useCreateLandingPageMutation,
-  useUpdateLandingPageMutation,
-  useCreateEmailTemplateMutation
+  useUpdateLandingPageMutation
 } = GetAPI_template_port
 
 export const { useGetSmtpDataQuery, useDeleteSmtpDataMutation, useCreateSmtpDataMutation, useUpdateSmtpDataMutation } =

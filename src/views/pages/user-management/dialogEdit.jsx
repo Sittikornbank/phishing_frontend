@@ -47,16 +47,16 @@ const DialogEdit = props => {
     setValue('phonenumber', data?.phonenumber)
     setValue('organization', data?.organization)
     setValue('role', data?.role)
-    setValue('lastname', data?.lastname)
   }, [setValue, data])
 
   const SubmitUpdateUser = async data_form => {
-    if (data_form.email === '') delete data_form.email
-    if (data_form.firstname === '') delete data_form.firstname
-    if (data_form.lastname === '') delete data_form.lastname
-    if (data_form.phonenumber === '') delete data_form.phonenumber
-    if (data_form.organization === '') delete data_form.organization
-    if (data_form.role === '') delete data_form.role
+    if (data_form.username === data?.username) delete data_form.username
+    if (data_form.email === data?.email) delete data_form.email
+    if (data_form.firstname === data?.firstname) delete data_form.firstname
+    if (data_form.lastname === data?.lastname) delete data_form.lastname
+    if (data_form.phonenumber === data?.phonenumber) delete data_form.phonenumber
+    if (data_form.organization === data?.organization) delete data_form.organization
+    if (data_form.role === data?.role) delete data_form.role
 
     const data_cb = await updateUser(data_form)
     console.log(data_cb)

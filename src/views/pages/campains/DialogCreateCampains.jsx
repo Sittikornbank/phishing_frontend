@@ -27,7 +27,7 @@ const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />
 })
 
-export default function DialogCreateCampains({ show, handleClose }) {
+export default function DialogCreateCampains({ show, handleClose, Refetch }) {
   const {
     handleSubmit,
     control,
@@ -51,6 +51,7 @@ export default function DialogCreateCampains({ show, handleClose }) {
     }
     handleClose()
     auth.addMessage('Create Successful', 'success')
+    Refetch()
     reset()
   }
 

@@ -143,7 +143,7 @@ export default function DialogCreateCampains({ show, handleClose, Refetch }) {
                       <MenuItem value=''>
                         <em>Select Mail Template</em>
                       </MenuItem>
-                      {!templatesData.isLoading
+                      {!templatesData.isLoading && templates.length > 0
                         ? templates.map(data => {
                             return (
                               <MenuItem key={data.id} value={data.id}>
@@ -183,7 +183,7 @@ export default function DialogCreateCampains({ show, handleClose, Refetch }) {
                       <MenuItem value=''>
                         <em>Select Group</em>
                       </MenuItem>
-                      {!groupsData.isLoading
+                      {!groupsData.isLoading && groups.length > 0
                         ? groups.map(data => {
                             return (
                               <MenuItem key={data.id} value={data.id}>
@@ -223,7 +223,7 @@ export default function DialogCreateCampains({ show, handleClose, Refetch }) {
                       <MenuItem value=''>
                         <em>Select Sending Profile</em>
                       </MenuItem>
-                      {!smtpData.isLoading
+                      {!smtpData.isLoading && smtps.length > 0
                         ? smtps.map(data => {
                             return (
                               <MenuItem key={data.id} value={data.id}>

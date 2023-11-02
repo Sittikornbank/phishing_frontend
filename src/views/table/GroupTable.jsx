@@ -106,7 +106,7 @@ const GroupTable = ({ data, refetch }) => {
             <IconButton color='primary' onClick={() => openDialog(row)}>
               <EditIcon sx={{ fontSize: 26 }} />
             </IconButton>
-            {auth.user.role === 'admin' && (
+            {auth.user.role === 'superadmin' && (
               <IconButton color='error' onClick={() => deleteDialog(row)}>
                 <DeleteForeverIcon sx={{ fontSize: 26 }} />
               </IconButton>

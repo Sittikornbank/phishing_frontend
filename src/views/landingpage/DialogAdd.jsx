@@ -29,7 +29,7 @@ const defaultData = {
   image_site: ''
 }
 
-export default function DialogAdd({ handleClose, open }) {
+export default function DialogAdd({ handleClose, open, refrech }) {
   const [dataCurrent, setDatacurrent] = useState(defaultData)
   const auth = useAuth()
 
@@ -67,6 +67,7 @@ export default function DialogAdd({ handleClose, open }) {
     const cb = await CreateLandingPage(dataCurrent)
     if (!cb?.error) {
       auth.addMessage('Create Landing Page Success', 'success')
+      refrech()
       handleClose()
     } else {
       auth.addMessage(cb?.error.data.detail, 'error')

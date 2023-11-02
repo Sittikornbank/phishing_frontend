@@ -55,7 +55,7 @@ const columns = (handleDelOpen, handleEditOpen) => [
   }
 ]
 
-const LandingpageTable = () => {
+const LandingpageTable = ({ landingpage }) => {
   // ** States
   const [data, setData] = useState([])
   const [searchText, setSearchText] = useState('')
@@ -63,7 +63,6 @@ const LandingpageTable = () => {
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 10 })
 
   // ** Redux
-  const landingpage = useGetLandingPageQuery()
   const [deleteLangingPage] = useDeleteLandingPageMutation()
 
   const [currentData, setCurrentData] = useState({})

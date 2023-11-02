@@ -19,6 +19,7 @@ import ReactDraftWysiwyg from 'src/@core/components/react-draft-wysiwyg'
 import { ContentState, EditorState } from 'draft-js'
 import { useCreateLandingPageMutation } from 'src/store/api'
 import FileUploaderLandingPage from './FileUpload'
+import { useAuth } from 'src/hooks/useAuth'
 
 const defaultData = {
   name: '',
@@ -30,6 +31,7 @@ const defaultData = {
 
 export default function DialogAdd({ handleClose, open }) {
   const [dataCurrent, setDatacurrent] = useState(defaultData)
+  const auth = useAuth()
 
   const [editorState, setEditorState] = useState(() => {
     const contentState = ContentState.createFromText(defaultData.html)
@@ -62,10 +64,13 @@ export default function DialogAdd({ handleClose, open }) {
   }
 
   const SubmitData = async () => {
-    console.log(dataCurrent)
-    console.log('Hey Hey!!')
     const cb = await CreateLandingPage(dataCurrent)
-    console.log(cb)
+    if (!cb?.error) {
+      auth.addMessage('Create Landing Page Success', 'success')
+      handleClose()
+    } else {
+      auth.addMessage(cb?.error.data.detail, 'error')
+    }
   }
 
   return (

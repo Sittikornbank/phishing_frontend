@@ -83,6 +83,8 @@ const LandingpageTable = () => {
     landingpage.refetch()
   }
 
+  const refrechedData = () => landingpage.refetch()
+
   // ** Handle Edit Dialog
   const [editDialog, setEditDialog] = useState(false)
 
@@ -137,7 +139,7 @@ const LandingpageTable = () => {
           }
         }}
       />
-      <DialogEdit handleClose={handleEditClose} open={editDialog} data={currentData} />
+      <DialogEdit handleClose={handleEditClose} open={editDialog} data={currentData} refrechedData={refrechedData} />
       <DialogDelete handleClose={handleDelClose} open={delDialog} data={currentData} DeleteData={DeleteData} />
     </>
   )

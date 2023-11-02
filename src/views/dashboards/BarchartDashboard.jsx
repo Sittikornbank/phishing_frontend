@@ -93,7 +93,6 @@ const BarChartDashboard = forwardRef(({ dataGrap, isLoading }) => {
       <Card>
         <CardHeader
           title='Event '
-          subheader='Commercial networks & enterprises'
           action={
             <Select defaultValue='send' onChange={ChangeData}>
               <MenuItem value={'send'}>Send</MenuItem>

@@ -14,7 +14,7 @@ import CardContent from '@mui/material/CardContent'
 import Fade from '@mui/material/Fade'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import { DialogTitle, Tooltip } from '@mui/material'
+import { DialogTitle, FormControl, FormHelperText, InputLabel, MenuItem, Tooltip } from '@mui/material'
 
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
@@ -22,6 +22,7 @@ import Icon from 'src/@core/components/icon'
 import { useForm, Controller } from 'react-hook-form'
 import { useCreateCampaignMutation } from 'src/store/api'
 import { useAuth } from 'src/hooks/useAuth'
+import Select from 'src/@core/theme/overrides/select'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />
@@ -37,6 +38,8 @@ export default function DialogCreateCampains({ show, handleClose, Refetch }) {
   } = useForm()
   const auth = useAuth()
   const [CreateCampains] = useCreateCampaignMutation()
+
+  const [templates, setTemplates] = useState([])
 
   useEffect(() => {
     setValue('send_by_date', null)
@@ -98,24 +101,42 @@ export default function DialogCreateCampains({ show, handleClose, Refetch }) {
             <Grid item xs={12} sm={12}>
               <Typography>Template: </Typography>
             </Grid>
+
             <Grid item xs={12} sm={12}>
-              <Controller
-                name='templates_id'
-                control={control}
-                defaultValue=''
-                rules={{ required: 'Template is required' }}
-                render={({ field }) => (
-                  <TextField
-                    autoFocus
-                    fullWidth
-                    placeholder='Templete'
-                    type='number'
-                    {...field}
-                    error={!!errors.templates_id}
-                    helperText={errors.templates_id ? errors.templates_id.message : ''}
-                  />
-                )}
-              />
+              <FormControl fullWidth>
+                <InputLabel id='mail_template-label'>Template</InputLabel>
+                <Controller
+                  name='template' // The name should match your form data structure
+                  control={control}
+                  defaultValue=''
+                  rules={{ required: 'Mail Template is required' }}
+                  render={({ field }) => (
+                    <Select
+                      labelId='template-label'
+                      id='template-select'
+                      label='Template'
+                      name='template'
+                      {...field}
+                      error={!!errors.template}
+                      helperText={errors.template ? errors.template.message : ''}
+                    >
+                      <MenuItem value=''>
+                        <em>Select Mail Template</em>
+                      </MenuItem>
+                      {!templates.isLoading
+                        ? EmailTemplate.map(data => {
+                            return (
+                              <MenuItem key={data.id} value={data.id}>
+                                {data.name}
+                              </MenuItem>
+                            )
+                          })
+                        : null}
+                    </Select>
+                  )}
+                />
+                {errors.role && <FormHelperText error>{errors.mail_template.message}</FormHelperText>}
+              </FormControl>
             </Grid>
 
             <Grid item xs={12} sm={12}>

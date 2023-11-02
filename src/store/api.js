@@ -52,6 +52,39 @@ export const GetAPI_summary_port = createApi({
         method: 'DELETE'
       }),
       invalidatesTags: ['DeleteCampaign']
+    }),
+
+    luachCampaine: builder.mutation({
+      query: id => ({
+        url: `campaigns/${id}/launch`,
+        method: 'POST'
+      }),
+      invalidatesTags: ['LuachCampaign']
+    }),
+
+    createGroup: builder.mutation({
+      query: body => ({
+        url: `groups`,
+        method: 'POST',
+        body
+      }),
+      invalidatesTags: ['CreateGroup']
+    }),
+
+    deleteGroup: builder.mutation({
+      query: id => ({
+        url: `groups/${id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['DeleteGroup']
+    }),
+
+    updateGroup: builder.mutation({
+      query: body => ({
+        url: `groups/${body.id}`,
+        method: 'PUT',
+        body
+      })
     })
   })
 })
@@ -123,6 +156,10 @@ export const GetAPI_template_port = createApi({
     }
   }),
   endpoints: builder => ({
+    getTemplate: builder.query({
+      query: () => `templates`
+    }),
+
     getEmailTemplates: builder.query({
       query: () => `email_templates`
     }),
@@ -174,6 +211,23 @@ export const GetAPI_mail_port = createApi({
     getSmtpData: builder.query({
       query: () => `smtp`
     }),
+
+    createSmtpData: builder.mutation({
+      query: body => ({
+        url: `smtp`,
+        method: 'POST',
+        body
+      })
+    }),
+
+    updateSmtpData: builder.mutation({
+      query: body => ({
+        url: `smtp/${body.id}`,
+        method: 'PUT',
+        body
+      })
+    }),
+
     deleteSmtpData: builder.mutation({
       query: id => ({
         url: `smtp/${id}`,
@@ -192,7 +246,11 @@ export const {
   useGetGroupQuery,
   useGetCampaignGraphQuery,
   useCreateCampaignMutation,
-  useDeleteCampaignMutation
+  useDeleteCampaignMutation,
+  useLuachCampaineMutation,
+  useCreateGroupMutation,
+  useDeleteGroupMutation,
+  useUpdateGroupMutation
 } = GetAPI_summary_port
 
 export const {
@@ -206,6 +264,7 @@ export const {
 } = GetAPI_users_port
 
 export const {
+  useGetTemplateQuery,
   useGetEmailTemplatesQuery,
   useGetLandingPageQuery,
   useDeleteLandingPageMutation,
@@ -214,4 +273,5 @@ export const {
   useCreateEmailTemplateMutation
 } = GetAPI_template_port
 
-export const { useGetSmtpDataQuery, useDeleteSmtpDataMutation } = GetAPI_mail_port
+export const { useGetSmtpDataQuery, useDeleteSmtpDataMutation, useCreateSmtpDataMutation, useUpdateSmtpDataMutation } =
+  GetAPI_mail_port

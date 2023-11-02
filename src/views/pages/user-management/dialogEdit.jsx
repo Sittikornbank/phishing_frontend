@@ -82,7 +82,7 @@ const DialogEdit = props => {
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
             <Typography variant='h5' sx={{ mb: 3 }}>
-              Craete New User
+              Edit user
             </Typography>
           </Box>
           <form onSubmit={handleSubmit(SubmitUpdateUser)}>

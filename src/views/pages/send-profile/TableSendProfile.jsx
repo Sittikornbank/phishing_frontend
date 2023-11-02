@@ -17,6 +17,8 @@ import { useDeleteSmtpDataMutation, useGetSmtpDataQuery } from 'src/store/api'
 import { IconButton } from '@mui/material'
 import { useAuth } from 'src/hooks/useAuth'
 import DialogDelete from './DialogDelete'
+import DialogAdd from 'src/views/pages/send-profile/DialogAdd'
+import DialogEdit from './DialogEdit'
 
 const escapeRegExp = value => {
   return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
@@ -35,7 +37,7 @@ function ConvertDate(date) {
   return time
 }
 
-export default function TableSendProfile() {
+export default function TableSendProfile({ showCreate }) {
   const columns = [
     {
       flex: 0.275,
@@ -107,6 +109,8 @@ export default function TableSendProfile() {
     }
   }
 
+  const Refetch = () => smtpData.refetch()
+
   const handleDelClose = () => (setOpenDelete(false), setDataCurrent(() => {}))
 
   const deleteDialog = data_select => {
@@ -163,6 +167,8 @@ export default function TableSendProfile() {
           }
         }}
       />
+      <DialogAdd show={showCreate.show} setShow={showCreate.setShow} refetch={Refetch} />
+      <DialogEdit show={open_Dialog} setShow={setOpenDialog} refetch={Refetch} data={dataCurrent} />
       <DialogDelete handleClose={handleDelClose} open={open_Delete} data={dataCurrent} DeleteData={DeleteData} />
     </>
   )

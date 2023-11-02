@@ -1,16 +1,10 @@
 // ** Next Import
-import Link from 'next/link'
-
-// ** MUI Imports
-import Grid from '@mui/material/Grid'
-import Card from '@mui/material/Card'
-import { styled } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
-import { Button } from '@mui/material'
-import Icon from 'src/@core/components/icon'
 import { useState } from 'react'
 
-import DialogAdd from 'src/views/pages/send-profile/dialogAdd'
+// ** MUI Imports
+import Card from '@mui/material/Card'
+import Typography from '@mui/material/Typography'
+import { Button } from '@mui/material'
 
 import TableSendProfile from 'src/views/pages/send-profile/TableSendProfile'
 
@@ -35,9 +29,8 @@ const SendProfile = () => {
         New Page
       </Button>
       <Card sx={{ my: 4, p: 6 }}>
-        <TableSendProfile />
+        <TableSendProfile showCreate={{ show, setShow }} />
       </Card>
-      <DialogAdd show={show} setShow={setShow} />
     </>
   )
 }

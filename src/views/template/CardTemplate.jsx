@@ -4,6 +4,7 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import { ButtonBase, CardActionArea } from '@mui/material'
+import { blueGrey } from '@mui/material/colors'
 
 import { id } from 'date-fns/locale'
 
@@ -21,11 +22,10 @@ function ConvertDate(date) {
 }
 
 export default function CardTemplate({ data, setData, setShow }) {
-
   function ClickShow(e) {
-    e.preventDefault();
-    setData(data);
-    setShow(true);
+    e.preventDefault()
+    setData(data)
+    setShow(true)
   }
 
   return (
@@ -50,12 +50,11 @@ export default function CardTemplate({ data, setData, setShow }) {
             <Typography variant='h6' sx={{ mb: 2 }}>
               {data.name}
             </Typography>
+
             <Typography variant='subtitle1' sx={{ mb: 2 }}>
               Modified Date : {ConvertDate(data.modified_date)}
             </Typography>
-            <Typography variant='body2'>
-              {}
-            </Typography>
+            <Typography variant='body2'>{}</Typography>
           </CardContent>
         </CardActionArea>
       </Card>

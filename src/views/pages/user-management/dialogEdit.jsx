@@ -63,7 +63,7 @@ const DialogEdit = props => {
 
     if (!data_cb?.error) {
       auth.addMessage('Update User Success', 'success')
-      setOpenDialog(false)
+      setShow(false)
       refetch()
     } else {
       auth.addMessage(data_cb?.error.data.detail, 'error')

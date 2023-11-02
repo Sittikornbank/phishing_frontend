@@ -147,7 +147,7 @@ const DialogEdit = ({ show, handleClose, data, refrechedData }) => {
             </IconButton>
             <Box sx={{ mb: 8, textAlign: 'center' }}>
               <Typography variant='h5' sx={{ mb: 3 }}>
-                New Email Template
+                Edit Email Template
               </Typography>
             </Box>
             <CardContent>

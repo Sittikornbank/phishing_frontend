@@ -48,7 +48,7 @@ function ConvertDate(date) {
   return time
 }
 
-const DataGridUserMangement = () => {
+const DataGridUserMangement = ({ usersAPI }) => {
   const columns = [
     {
       flex: 0.275,
@@ -115,7 +115,6 @@ const DataGridUserMangement = () => {
     }
   ]
 
-  const usersAPI = useGetUsersAPIQuery()
   const [deleteUsers] = useDeleteUserMutation()
   let usersData = useMemo(() => (!usersAPI.isLoading ? usersAPI.data?.users : []), [usersAPI])
 
@@ -200,7 +199,7 @@ const DataGridUserMangement = () => {
           }
         }}
       />
-      <DialogEdit show={open_Dialog} setShow={setOpenDialog} data={dataCurrent} />
+      <DialogEdit show={open_Dialog} setShow={setOpenDialog} data={dataCurrent} refetch={() => usersAPI.refetch()} />
       <DialogDelete handleClose={handleDelClose} open={open_Delete} data={dataCurrent} DeleteData={DeleteData} />
     </>
   )

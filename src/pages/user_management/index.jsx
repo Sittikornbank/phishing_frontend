@@ -13,9 +13,11 @@ import DataGridUserMangement from 'src/views/pages/user-management/DataGridUserM
 import { Card } from '@mui/material'
 
 import DialogAdd from 'src/views/pages/user-management/dialogAdd'
+import { useGetUsersAPIQuery } from 'src/store/api'
 
 const UserManagement = () => {
   const [open_Dialog, setOpenDialog] = useState(false)
+  const usersAPI = useGetUsersAPIQuery()
 
   const openDialog = () => {
     if (!open_Dialog) {
@@ -33,9 +35,9 @@ const UserManagement = () => {
         New Users
       </Button>
       <Card sx={{ my: 4, p: 4 }}>
-        <DataGridUserMangement />
+        <DataGridUserMangement usersAPI={usersAPI} />
       </Card>
-      <DialogAdd show={open_Dialog} setShow={setOpenDialog} />
+      <DialogAdd show={open_Dialog} setShow={setOpenDialog} refetch={() => usersAPI.refetch()} />
     </>
   )
 }

@@ -7,7 +7,7 @@ import Email_template_Table from 'src/views/table/Email_template_Table'
 import Typography from '@mui/material/Typography'
 import { Card, Grid } from '@mui/material'
 import Button from '@mui/material/Button'
-import { useGetLandingPageQuery } from 'src/store/api'
+import { useGetEmailTemplatesQuery } from 'src/store/api'
 import CardTemplate from 'src/views/template/CardTemplate'
 
 // ** Icon Imports
@@ -20,11 +20,14 @@ function EmailTemplates() {
   // ** State
   const [show, setShow] = useState(false)
   const [data, setData] = useState()
+  const template = useGetEmailTemplatesQuery()
 
   const handleSetShow = (field, value) => {
     setData(false)
     setShow(true)
   }
+
+  const refrechedData = () => template.refetch()
 
   return (
     <>
@@ -41,9 +44,9 @@ function EmailTemplates() {
         New Template
       </Button>
       <Card sx={{ my: 4, p: 6 }}>
-        <Email_template_Table />
+        <Email_template_Table template={template} />
       </Card>
-      <DialogAdd show={show} setShow={setShow} data={data} />
+      <DialogAdd show={show} setShow={setShow} data={data} refetch={refrechedData} />
     </>
   )
 }

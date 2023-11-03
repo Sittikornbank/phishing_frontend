@@ -45,7 +45,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const DialogAdd = props => {
   // ** States
-  const { show, setShow, data } = props
+  const { show, setShow, data, refetch } = props
   const [open, setOpen] = useState(false)
   const [dataCurrent, setDatacurrent] = useState('')
   const [editorState, setEditorState] = useState(EditorState.createEmpty())
@@ -72,6 +72,7 @@ const DialogAdd = props => {
     console.log(data_cb)
     auth.addMessage('Create Successful', 'success')
     setShow(() => false)
+    refetch()
   }
 
   return (

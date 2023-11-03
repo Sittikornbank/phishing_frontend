@@ -76,7 +76,7 @@ export default function DialogEdit({ show, setShow, refetch, data }) {
       onBackdropClick={() => setShow(false)}
     >
       <DialogTitle textAlign={'center'} fontSize={'30px'}>
-        <Typography variant='h5'>Create Sending Profile</Typography>
+        <Typography variant='h5'>Edit Sending Profile</Typography>
         <IconButton
           size='small'
           onClick={() => setShow(false)}

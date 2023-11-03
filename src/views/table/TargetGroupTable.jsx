@@ -116,6 +116,7 @@ const TargetGroupTable = ({ data, setUserDataTarget }) => {
   return (
     <DataGrid
       sx={{ height: 400 }}
+      getRowId={row => row._id}
       columns={columns}
       pageSizeOptions={[10, 15, 20, 25, 50]}
       paginationModel={paginationModel}

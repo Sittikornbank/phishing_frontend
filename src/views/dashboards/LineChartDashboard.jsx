@@ -82,7 +82,7 @@ const LineChartDashboard = ({ dataGrap, isLoading }) => {
         <Box mt={4} mx={4} display='flex'>
           <Box>
             <Typography variant='h4'> Event-Timeline</Typography>
-            <Typography>Commercial networks & enterprises</Typography>
+            {/* <Typography>Commercial networks & enterprises</Typography> */}
           </Box>
           <Box flexGrow={1} />
           <Box mr={8}>

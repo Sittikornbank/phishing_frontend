@@ -1,6 +1,6 @@
 //* eslint-disable react-hooks/rules-of-hooks */
 // ** React Imports
-import { useState, forwardRef } from 'react'
+import { useState, forwardRef, useEffect } from 'react'
 
 // ** MUI Imports
 import Box from '@mui/material/Box'
@@ -20,13 +20,8 @@ import { Tooltip } from '@mui/material'
 // ** Icon Imports
 import Icon from 'src/@core/components/icon'
 
-// ** Demo Components Import
-import { EditorState, convertToRaw } from 'draft-js'
-
 import { EditorWrapper } from 'src/@core/styles/libs/react-draft-wysiwyg'
 import DialogImportEmail from './DialogImportEmail'
-
-// import { EditorState } from 'draft-js'
 
 // ** Styles
 import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
@@ -34,10 +29,14 @@ import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css'
 // ** Component Import
 import ReactDraftWysiwyg from 'src/@core/components/react-draft-wysiwyg'
 
+// ** Third Party Imports
+import { ContentState, EditorState, convertToRaw } from 'draft-js'
+
 import { useForm, Controller } from 'react-hook-form'
 import FileUploaderEmailTemplate from './FileUpload'
-import { useCreateEmailTemplateMutation } from 'src/store/api'
+import { useUpdateEmailTemplateMutation } from 'src/store/api'
 import { useAuth } from 'src/hooks/useAuth'
+import { set } from 'nprogress'
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Fade ref={ref} {...props} />
@@ -53,35 +52,70 @@ function descendingComparator(a, b, orderBy) {
   return 0
 }
 
-const DialogAdd = props => {
+const escapeRegExp = value => {
+  return value.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')
+}
+
+const DialogEdit = ({ show, handleClose, data, refrechedData }) => {
   // ** States
-  const { show, setShow, data } = props
-  const [open, setOpen] = useState(false)
-  const [dataCurrent, setDatacurrent] = useState('')
-  const [editorState, setEditorState] = useState(EditorState.createEmpty())
-  const [createEmailTemplate] = useCreateEmailTemplateMutation()
-  const auth = useAuth()
+  console.log(show)
 
   const {
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
     reset
   } = useForm()
-  if (!show) {
-    return null
-  }
 
-  const SubmitEmailTemplate = async data => {
-    const contentState = editorState.getCurrentContent()
-    data.html = contentState.getPlainText()
-    data.image_email = dataCurrent
+  useEffect(() => {
     console.log(data)
-    reset()
-    const data_cb = await createEmailTemplate(data)
+    if (!data) return
+    setValue('id', data?.id)
+    setValue('name', data?.name)
+    setValue('envelope_sender', data?.envelope_sender)
+    setValue('subject', data?.subject)
+    setValue('attachments[0]', data?.attachments ? data.attachments[0] : '')
+    setValue('image_email', data?.image_email)
+
+    setEditorState(() => {
+      const contentState = ContentState.createFromText(data?.html ? data.html : '')
+
+      return EditorState.createWithContent(contentState)
+    })
+    setDatacurrent(data?.image_email)
+  }, [data, setValue])
+
+  const [open, setOpen] = useState(false)
+  const [dataCurrent, setDatacurrent] = useState('')
+  const [editorState, setEditorState] = useState(EditorState.createEmpty())
+  const [updateEmailTemplate] = useUpdateEmailTemplateMutation()
+  const auth = useAuth()
+
+  const SubmitEmailTemplate = async data_form => {
+    if (data.name === data_form.name) delete data_form.name
+    if (data.envelope_sender === data_form.envelope_sender) delete data_form.envelope_sender
+    if (data.subject === data_form.subject) delete data_form.subject
+    if (data.attachments[0] === data_form.attachments[0]) delete data_form.attachments[0]
+    if (data.image_email === data_form.image_email) {
+      delete data_form.image_email
+    } else {
+      data_form.image_email = dataCurrent
+    }
+    delete data_form.editorContent
+    delete data_form.attachments
+    const contentState = editorState.getCurrentContent()
+    data_form.html = contentState.getPlainText()
+    const data_cb = await updateEmailTemplate(data_form)
     console.log(data_cb)
-    auth.addMessage('Create Successful', 'success')
-    setShow(() => false)
+    if (data_cb?.data) {
+      auth.addMessage('Create Successful', 'success')
+      handleClose()
+      refrechedData()
+      reset()
+    } else {
+      auth.addMessage(data_cb?.error.data.detail, 'error')
+    }
   }
 
   return (
@@ -113,7 +147,7 @@ const DialogAdd = props => {
             </IconButton>
             <Box sx={{ mb: 8, textAlign: 'center' }}>
               <Typography variant='h5' sx={{ mb: 3 }}>
-                New Email Template
+                Edit Email Template
               </Typography>
             </Box>
             <CardContent>
@@ -208,7 +242,11 @@ const DialogAdd = props => {
                     defaultValue={convertToRaw(editorState.getCurrentContent())}
                     render={({ field }) => (
                       <EditorWrapper>
-                        <ReactDraftWysiwyg editorState={editorState} onEditorStateChange={setEditorState} />
+                        <ReactDraftWysiwyg
+                          editorState={editorState}
+                          onEditorStateChange={setEditorState}
+                          editorStyle={{ height: '200px' }}
+                        />
                       </EditorWrapper>
                     )}
                   />
@@ -248,7 +286,7 @@ const DialogAdd = props => {
               pb: theme => [`${theme.spacing(8)} !important`, `${theme.spacing(12.5)} !important`]
             }}
           >
-            <Button variant='outlined' color='secondary' onClick={() => setShow(false)}>
+            <Button variant='outlined' color='secondary' onClick={() => handleClose()}>
               Cancel
             </Button>
             <Button variant='contained' type='submit' sx={{ mr: 1 }}>
@@ -262,4 +300,4 @@ const DialogAdd = props => {
   )
 }
 
-export default DialogAdd
+export default DialogEdit

@@ -26,7 +26,7 @@ import { useEffect } from 'react'
 
 const DialogEdit = props => {
   // ** States
-  const { show, setShow, data } = props
+  const { show, setShow, data, refetch } = props
 
   const [updateUser] = useUpdateUserMutation()
   const auth = useAuth()
@@ -35,30 +35,38 @@ const DialogEdit = props => {
     handleSubmit,
     control,
     formState: { errors },
-    getValues,
     setValue
   } = useForm()
 
   useEffect(() => {
-    setValue('id', data.id)
-    setValue('username', data.username)
-    setValue('email', data.email)
-    setValue('firstname', data.firstname)
-    setValue('lastname', data.lastname)
-    setValue('phonenumber', data.phonenumber)
-    setValue('organization', data.organization)
-    setValue('role', data.role)
-    setValue('lastname', data.lastname)
+    setValue('id', data?.id)
+    setValue('username', data?.username)
+    setValue('email', data?.email)
+    setValue('firstname', data?.firstname)
+    setValue('lastname', data?.lastname)
+    setValue('phonenumber', data?.phonenumber)
+    setValue('organization', data?.organization)
+    setValue('role', data?.role)
   }, [setValue, data])
 
   const SubmitUpdateUser = async data_form => {
-    const data_cb = await updateUser(data)
+    if (data_form.username === data?.username) delete data_form.username
+    if (data_form.email === data?.email) delete data_form.email
+    if (data_form.firstname === data?.firstname) delete data_form.firstname
+    if (data_form.lastname === data?.lastname) delete data_form.lastname
+    if (data_form.phonenumber === data?.phonenumber) delete data_form.phonenumber
+    if (data_form.organization === data?.organization) delete data_form.organization
+    if (data_form.role === data?.role) delete data_form.role
+
+    const data_cb = await updateUser(data_form)
     console.log(data_cb)
 
     if (!data_cb?.error) {
       auth.addMessage('Update User Success', 'success')
+      setShow(false)
+      refetch()
     } else {
-      // auth.addMessage(data_cb?.error.data.detail, 'error')
+      auth.addMessage(data_cb?.error.data.detail, 'error')
     }
   }
 
@@ -82,7 +90,7 @@ const DialogEdit = props => {
           </IconButton>
           <Box sx={{ mb: 8, textAlign: 'center' }}>
             <Typography variant='h5' sx={{ mb: 3 }}>
-              Craete New User
+              Edit user
             </Typography>
           </Box>
           <form onSubmit={handleSubmit(SubmitUpdateUser)}>

@@ -17,11 +17,14 @@ import ReactDraftWysiwyg from 'src/@core/components/react-draft-wysiwyg'
 
 // ** Third Party Imports
 import { ContentState, EditorState } from 'draft-js'
+import { useUpdateLandingPageMutation } from 'src/store/api'
+import { useAuth } from 'src/hooks/useAuth'
 
-function DialogEdit({ handleClose, open, data }) {
+function DialogEdit({ handleClose, open, data, refrechedData }) {
+  const [updateSiteTemplate] = useUpdateLandingPageMutation()
   const [dataCurrent, setDatacurrent] = useState(() => data)
   const [editorState, setEditorState] = useState()
-
+  const auth = useAuth()
   useEffect(() => {
     setDatacurrent(() => data)
     setEditorState(() => {
@@ -30,8 +33,6 @@ function DialogEdit({ handleClose, open, data }) {
       return EditorState.createWithContent(contentState)
     })
   }, [data])
-
-  console.log(dataCurrent)
 
   const updateData = event => {
     const target = event.currentTarget
@@ -49,6 +50,28 @@ function DialogEdit({ handleClose, open, data }) {
       html: text
     })
     setEditorState(data)
+  }
+
+  const SubmitData = async () => {
+    const data = dataCurrent
+
+    const data_cb = await updateSiteTemplate({
+      id: data.id,
+      name: data.name,
+      html: data.html,
+      redirect_url: data.redirect_url,
+      capture_credentials: data.capture_credentials,
+      capture_passwords: data.capture_passwords
+    })
+
+    if (data_cb?.data) {
+      auth.addMessage('Update Successful', 'success')
+      handleClose()
+      refrechedData()
+    } else {
+      auth.addMessage(data_cb?.error.data.detail, 'error')
+    }
+    handleClose()
   }
 
   return (
@@ -115,7 +138,12 @@ function DialogEdit({ handleClose, open, data }) {
             <Button variant='contained' onClick={handleClose} sx={{ mr: 4 }}>
               Close
             </Button>
-            <Button variant='contained' sx={{ mr: 4 }} startIcon={<Icon icon='material-symbols:save' />}>
+            <Button
+              variant='contained'
+              sx={{ mr: 4 }}
+              onClick={() => SubmitData()}
+              startIcon={<Icon icon='material-symbols:save' />}
+            >
               Create Group
             </Button>
           </Grid>

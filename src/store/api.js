@@ -160,12 +160,53 @@ export const GetAPI_template_port = createApi({
       query: () => `templates`
     }),
 
+    createTemplate: builder.mutation({
+      query: body => ({
+        url: `templates`,
+        method: 'POST',
+        body
+      })
+    }),
+
     getEmailTemplates: builder.query({
       query: () => `email_templates`
     }),
+
+    createEmailTemplate: builder.mutation({
+      query: body => ({
+        url: `email_templates`,
+        method: 'POST',
+        body
+      })
+    }),
+
+    updateEmailTemplate: builder.mutation({
+      query: body => ({
+        url: `email_templates/${body.id}`,
+        method: 'PUT',
+        body
+      })
+    }),
+
+    deleteEmailTemplate: builder.mutation({
+      query: id => ({
+        url: `email_templates/${id}`,
+        method: 'DELETE'
+      })
+    }),
+
     getLandingPage: builder.query({
       query: () => `site_templates`
     }),
+
+    updateLandingPage: builder.mutation({
+      query: body => ({
+        url: `site_templates/${body.id}`,
+        method: 'PUT',
+        body
+      })
+    }),
+
     deleteLandingPage: builder.mutation({
       query: id => ({
         url: `site_templates/${id}`,
@@ -175,20 +216,6 @@ export const GetAPI_template_port = createApi({
     createLandingPage: builder.mutation({
       query: body => ({
         url: `site_templates`,
-        method: 'POST',
-        body
-      })
-    }),
-    updateLandingPage: builder.mutation({
-      query: body => ({
-        url: `site_templates/${id}`,
-        method: 'PUT',
-        body
-      })
-    }),
-    createEmailTemplate: builder.mutation({
-      query: body => ({
-        url: `email_templates`,
         method: 'POST',
         body
       })
@@ -265,12 +292,15 @@ export const {
 
 export const {
   useGetTemplateQuery,
+  useCreateTemplateMutation,
   useGetEmailTemplatesQuery,
+  useUpdateEmailTemplateMutation,
+  useDeleteEmailTemplateMutation,
   useGetLandingPageQuery,
+  useCreateEmailTemplateMutation,
   useDeleteLandingPageMutation,
   useCreateLandingPageMutation,
-  useUpdateLandingPageMutation,
-  useCreateEmailTemplateMutation
+  useUpdateLandingPageMutation
 } = GetAPI_template_port
 
 export const { useGetSmtpDataQuery, useDeleteSmtpDataMutation, useCreateSmtpDataMutation, useUpdateSmtpDataMutation } =

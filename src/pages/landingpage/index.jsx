@@ -11,6 +11,7 @@ import Button from '@mui/material/Button'
 // ** Icon Imports
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import DialogAdd from 'src/views/landingpage/DialogAdd'
+import { useGetLandingPageQuery } from 'src/store/api'
 
 const initialUserData = {
   groupName: '',
@@ -21,6 +22,7 @@ const initialUserData = {
 
 function Campaigns() {
   // ** Handle Create Dialog
+  const landingpage = useGetLandingPageQuery()
   const [createDialog, setCreateDialog] = useState(false)
   const handleCreateOpen = () => setCreateDialog(true)
   const handleCreateClose = () => setCreateDialog(false)
@@ -40,9 +42,9 @@ function Campaigns() {
         New Page
       </Button>
       <Card sx={{ my: 4, p: 6 }}>
-        <LandingpageTable />
+        <LandingpageTable landingpage={landingpage} />
       </Card>
-      <DialogAdd handleClose={handleCreateClose} open={createDialog} />
+      <DialogAdd handleClose={handleCreateClose} open={createDialog} refrech={() => landingpage.refetch()} />
     </>
   )
 }

@@ -221,7 +221,7 @@ const LoginPage = () => {
                       onBlur={onBlur}
                       onChange={onChange}
                       error={Boolean(errors.email)}
-                      placeholder='admin@gmail.com'
+                      placeholder='Email'
                     />
                   )}
                 />

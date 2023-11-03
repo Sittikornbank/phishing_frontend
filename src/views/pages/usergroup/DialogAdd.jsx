@@ -1,5 +1,5 @@
 // ** React Imports
-import { useState, forwardRef, useCallback, useRef } from 'react'
+import { useState, forwardRef, useCallback, useRef, useEffect } from 'react'
 import { useForm, Controller, get } from 'react-hook-form'
 
 import { v4 as uuidv4 } from 'uuid'
@@ -57,6 +57,11 @@ export default function DialogAdd({ setShow, show, refetch }) {
     console.log(e.target.value)
   }
 
+  useEffect(() => {
+    reset()
+    setUserDataTarget([])
+  }, [show, reset])
+
   const insertData = () => {
     const fName = getValues('Firstname')
     const lName = getValues('Lastname')
@@ -64,7 +69,7 @@ export default function DialogAdd({ setShow, show, refetch }) {
     const position = getValues('position')
 
     // Seta data to table
-    setUserDataTarget([...userDataTarget, { id: uuidv4(), firstname: fName, lastname: lName, email, position }])
+    setUserDataTarget([...userDataTarget, { _id: uuidv4(), firstname: fName, lastname: lName, email, position }])
 
     // Clear form
     setValue('Firstname', '')
@@ -74,12 +79,12 @@ export default function DialogAdd({ setShow, show, refetch }) {
   }
 
   const onSubmit = async data => {
-    const dataTarget = userDataTarget.map(item => {
-      item = delete item.id
+    delete data.Firstname
+    delete data.Lastname
+    delete data.email
+    delete data.position
 
-      return item
-    })
-    data.targets = dataTarget
+    data.targets = userDataTarget
 
     const data_cb = await CreateGroup(data)
     console.log(data)
@@ -87,10 +92,10 @@ export default function DialogAdd({ setShow, show, refetch }) {
       auth.addMessage('Create Failed', 'error')
     } else {
       auth.addMessage('Create Successful', 'success')
-      setShow(false)
-      reset()
-      refetch()
     }
+    setShow(() => false)
+    reset()
+    refetch()
   }
 
   return (

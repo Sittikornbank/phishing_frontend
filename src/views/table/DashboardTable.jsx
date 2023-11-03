@@ -156,7 +156,13 @@ const DashboardTable = ({ rows, isLoading, Refetch }) => {
         const dataActive = params.row.status
         const status = statusObj[dataActive]
 
-        return <Switch label='Lunch Campaign' onChange={() => StartLunchCampaign(params.row.id)} />
+        return (
+          <Switch
+            label='Lunch Campaign'
+            defaultChecked={params.row.status === 'running'}
+            onChange={() => StartLunchCampaign(params.row.id)}
+          />
+        )
       }
     },
 

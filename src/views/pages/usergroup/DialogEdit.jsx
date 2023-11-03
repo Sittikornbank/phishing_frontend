@@ -58,7 +58,12 @@ export default function DialogEdit({ setShow, show, refetch, data }) {
     if (data) {
       setValue('id', data.id)
       setValue('name', data.name)
-      setUserDataTarget(() => data.targets)
+
+      const Targets_AddID = data.targets?.map(item => {
+        return { _id: uuidv4(), ...item }
+      })
+
+      setUserDataTarget(() => Targets_AddID)
     }
   }, [data, setValue])
 
@@ -85,7 +90,7 @@ export default function DialogEdit({ setShow, show, refetch, data }) {
     // Seta data to table
     setUserDataTarget([
       ...userDataTarget,
-      { id: getRandomInt(0, 100), firstname: fName, lastname: lName, email, position }
+      { id: getRandomInt(0, 100), _id: uuidv4(), firstname: fName, lastname: lName, email, position }
     ])
 
     // Clear form

@@ -4,6 +4,9 @@ import Typography from '@mui/material/Typography'
 import CardContent from '@mui/material/CardContent'
 import Grid from '@mui/material/Grid'
 import { ButtonBase, CardActionArea } from '@mui/material'
+import { blueGrey } from '@mui/material/colors'
+
+import { id } from 'date-fns/locale'
 
 function ConvertDate(date) {
   var created_date = new Date(date)
@@ -31,12 +34,18 @@ export default function CardTemplate({ data, setData, setShow }) {
         <CardActionArea onClick={e => ClickShow(e)}>
           <CardMedia
             sx={{ height: '14.5625rem' }}
-            image={`${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/images/${data.email_templates.image_site}`}
+            image={`${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/images/${data.email_templates.image_email}`}
           />
+
+          {/* <CardMedia
+            sx={{ height: '14.5625rem' }}
+            image={`${process.env.NEXT_PUBLIC_BASE_URL}:${process.env.NEXT_PUBLIC_TEMPLATE_PORT}/images/${data.site_templates.image_site}`}
+          /> */}
           <CardContent>
             <Typography variant='h6' sx={{ mb: 2 }}>
               {data.name}
             </Typography>
+
             <Typography variant='subtitle1' sx={{ mb: 2 }}>
               Modified Date : {ConvertDate(data.modified_date)}
             </Typography>

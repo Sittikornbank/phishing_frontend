@@ -46,6 +46,8 @@ const escapeRegExp = value => {
 }
 
 const GroupTable = ({ data, refetch }) => {
+  const auth = useAuth()
+
   const columns = [
     {
       flex: 0.2,
@@ -70,7 +72,6 @@ const GroupTable = ({ data, refetch }) => {
         </Typography>
       )
     },
-
     {
       flex: 0.125,
       field: 'target_count',
@@ -93,9 +94,11 @@ const GroupTable = ({ data, refetch }) => {
             <IconButton color='primary' onClick={() => openDialog(row)}>
               <EditIcon sx={{ fontSize: 26 }} />
             </IconButton>
-            <IconButton color='error' onClick={() => deleteDialog(row)}>
-              <DeleteForeverIcon sx={{ fontSize: 26 }} />
-            </IconButton>
+            {auth.user.role === 'superadmin' && (
+              <IconButton color='error' onClick={() => deleteDialog(row)}>
+                <DeleteForeverIcon sx={{ fontSize: 26 }} />
+              </IconButton>
+            )}
           </>
         )
       }
@@ -111,8 +114,6 @@ const GroupTable = ({ data, refetch }) => {
   const [open_Delete, setOpenDelete] = useState(false)
 
   const [DeleteGroup] = useDeleteGroupMutation()
-
-  const auth = useAuth()
 
   const handleSearch = searchValue => {
     setSearchText(searchValue)

@@ -150,42 +150,6 @@ export default function DialogCreate({ show, setShow, refetch }) {
             <Grid item xs={12} sm={12}>
               <Typography>Email Template: </Typography>
             </Grid>
-            <Grid item xs={12} sm={12}>
-              <FormControl fullWidth>
-                <InputLabel id='mail_template-label'>Email Template</InputLabel>
-                <Controller
-                  name='mail_template' // The name should match your form data structure
-                  control={control}
-                  defaultValue=''
-                  rules={{ required: 'Mail Template is required' }}
-                  render={({ field }) => (
-                    <Select
-                      labelId='mail_template-label'
-                      id='mail_template-select'
-                      label='Email Template'
-                      name='mail_template'
-                      {...field}
-                      error={!!errors.mail_template}
-                      helperText={errors.mail_template ? errors.mail_template.message : ''}
-                    >
-                      <MenuItem value=''>
-                        <em>Select Mail Template</em>
-                      </MenuItem>
-                      {!emailTemplates.isLoading && EmailTemplate.length > 0
-                        ? EmailTemplate.map(data => {
-                            return (
-                              <MenuItem key={data.id} value={data.id}>
-                                {data.name}
-                              </MenuItem>
-                            )
-                          })
-                        : null}
-                    </Select>
-                  )}
-                />
-                {errors.role && <FormHelperText error>{errors.mail_template.message}</FormHelperText>}
-              </FormControl>
-            </Grid>
 
             <Grid item xs={12} sm={12}>
               <Typography>Site Template: </Typography>

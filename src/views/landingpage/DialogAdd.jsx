@@ -3,7 +3,17 @@ import Dialog from '@mui/material/Dialog'
 import DialogTitle from '@mui/material/DialogTitle'
 import DialogContent from '@mui/material/DialogContent'
 import DialogActions from '@mui/material/DialogActions'
-import { Box, Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material'
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  InputLabel,
+  MenuItem,
+  TextField,
+  Typography
+} from '@mui/material'
 import Icon from 'src/@core/components/icon'
 import { styled } from '@mui/material/styles'
 
@@ -20,13 +30,15 @@ import { ContentState, EditorState } from 'draft-js'
 import { useCreateLandingPageMutation } from 'src/store/api'
 import FileUploaderLandingPage from './FileUpload'
 import { useAuth } from 'src/hooks/useAuth'
+import Select from 'src/@core/theme/overrides/select'
 
 const defaultData = {
   name: '',
   html: '',
   capture_credentials: false,
   capture_passwords: false,
-  image_site: ''
+  image_site: '',
+  phishsite_id: 1
 }
 
 export default function DialogAdd({ handleClose, open, refrech }) {
@@ -119,6 +131,33 @@ export default function DialogAdd({ handleClose, open, refrech }) {
               value={dataCurrent?.redirect_url}
               onChange={updateData}
             />
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl fullWidth>
+              <InputLabel id='mail_template-label'>Email Template</InputLabel>
+              <Select
+                labelId='mail_template-label'
+                id='mail_template-select'
+                label='Email Template'
+                name='mail_template'
+                {...field}
+                error={!!errors.mail_template}
+                helperText={errors.mail_template ? errors.mail_template.message : ''}
+              >
+                <MenuItem value=''>
+                  <em>Select Mail Template</em>
+                </MenuItem>
+                {!emailTemplates.isLoading && EmailTemplate.length > 0
+                  ? EmailTemplate.map(data => {
+                      return (
+                        <MenuItem key={data.id} value={data.id}>
+                          {data.name}
+                        </MenuItem>
+                      )
+                    })
+                  : null}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
             <FormControlLabel

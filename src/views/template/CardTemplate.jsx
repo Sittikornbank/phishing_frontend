@@ -43,11 +43,6 @@ export default function CardTemplate({ data, setData, setShow }) {
           /> */}
           <CardContent>
             <Typography variant='h6' sx={{ mb: 2 }}>
-              ID: {''}
-              {data.id}
-            </Typography>
-            <hr />
-            <Typography variant='h6' sx={{ mb: 2 }}>
               {data.name}
             </Typography>
 

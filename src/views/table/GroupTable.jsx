@@ -51,18 +51,6 @@ const GroupTable = ({ data, refetch }) => {
   const columns = [
     {
       flex: 0.2,
-      minWidth: 100,
-      headerName: 'id',
-      field: 'id',
-      valueGetter: params => new Date(params.value),
-      renderCell: params => (
-        <Typography variant='body2' sx={{ color: 'text.primary' }}>
-          {params.row.id}
-        </Typography>
-      )
-    },
-    {
-      flex: 0.2,
       minWidth: 120,
       headerName: 'Name',
       field: 'name',

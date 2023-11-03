@@ -171,7 +171,7 @@ export default function DialogCreate({ show, setShow, refetch }) {
                       <MenuItem value=''>
                         <em>Select Mail Template</em>
                       </MenuItem>
-                      {!emailTemplates.isLoading
+                      {!emailTemplates.isLoading && EmailTemplate.length > 0
                         ? EmailTemplate.map(data => {
                             return (
                               <MenuItem key={data.id} value={data.id}>
@@ -211,7 +211,7 @@ export default function DialogCreate({ show, setShow, refetch }) {
                       <MenuItem value=''>
                         <em>Select Mail Template</em>
                       </MenuItem>
-                      {!siteTemplates.isLoading
+                      {!siteTemplates.isLoading && SiteTemplate.length > 0
                         ? SiteTemplate.map(data => {
                             return (
                               <MenuItem key={data.id} value={data.id}>
